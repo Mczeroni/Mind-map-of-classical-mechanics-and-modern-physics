@@ -1,0 +1,3084 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYSICS MAP — Cơ học cổ điển & Vật lý hiện đại</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   1. BIẾN & CƠ SỞ
+   ============================================================ */
+:root{
+  --hh:64px;
+  --bg:#060b17; --bg2:#0a1222; --panel:#0d1728; --panel2:#111d33;
+  --ink:#e9eef7; --mut:#8fa3c2; --faint:#5b6d8c;
+  --line:rgba(143,167,208,.15); --line2:rgba(143,167,208,.08);
+  --node-bg:#0d1830; --node-bg-h:#12203c;
+  --c1:#43d5f5; --c1-70:rgba(67,213,245,.7); --c1-45:rgba(67,213,245,.45); --c1-14:rgba(67,213,245,.14); --c1-08:rgba(67,213,245,.08);
+  --c2:#f0b43c; --c2-70:rgba(240,180,60,.75); --c2-45:rgba(240,180,60,.45); --c2-14:rgba(240,180,60,.14); --c2-08:rgba(240,180,60,.08);
+  --c3:#b78bff; --c3-70:rgba(183,139,255,.75); --c3-45:rgba(183,139,255,.45); --c3-14:rgba(183,139,255,.15); --c3-08:rgba(183,139,255,.08);
+  --shadow:0 16px 44px rgba(2,6,18,.55);
+  --f-body:"Be Vietnam Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Space Grotesk","Segoe UI","Be Vietnam Pro",sans-serif;
+  --f-serif:"IBM Plex Serif","Times New Roman",Georgia,serif;
+}
+html[data-theme="light"]{
+  --bg:#f4f2ea; --bg2:#ecead f;
+  --bg2:#edeade; --panel:#ffffff; --panel2:#f6f4ec;
+  --ink:#1b2946; --mut:#57678a; --faint:#93a0b8;
+  --line:rgba(27,41,70,.14); --line2:rgba(27,41,70,.08);
+  --node-bg:#ffffff; --node-bg-h:#f7f9fd;
+  --c1:#0b8fb5; --c1-70:rgba(11,143,181,.7); --c1-45:rgba(11,143,181,.45); --c1-14:rgba(11,143,181,.12); --c1-08:rgba(11,143,181,.07);
+  --c2:#a06a03; --c2-70:rgba(160,106,3,.7); --c2-45:rgba(160,106,3,.4); --c2-14:rgba(160,106,3,.12); --c2-08:rgba(160,106,3,.07);
+  --c3:#7a53d6; --c3-70:rgba(122,83,214,.7); --c3-45:rgba(122,83,214,.42); --c3-14:rgba(122,83,214,.12); --c3-08:rgba(122,83,214,.07);
+  --shadow:0 14px 36px rgba(27,41,70,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:dark}
+html[data-theme="light"]{color-scheme:light}
+body{font-family:var(--f-body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body.noscroll{overflow:hidden}
+::selection{background:var(--c1-45);color:var(--ink)}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+section{scroll-margin-top:calc(var(--hh) + 12px)}
+.mono{font-family:var(--f-mono)}
+::-webkit-scrollbar{height:8px;width:8px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+
+/* Màu nhánh dùng chung (đặt qua class br1/br2/br3 ở mọi nơi) */
+.br1{--bc:var(--c1);--bc-70:var(--c1-70);--bc-45:var(--c1-45);--bc-14:var(--c1-14);--bc-08:var(--c1-08)}
+.br2{--bc:var(--c2);--bc-70:var(--c2-70);--bc-45:var(--c2-45);--bc-14:var(--c2-14);--bc-08:var(--c2-08)}
+.br3{--bc:var(--c3);--bc-70:var(--c3-70);--bc-45:var(--c3-45);--bc-14:var(--c3-14);--bc-08:var(--c3-08)}
+
+/* Reveal khi cuộn */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}
+.rv.on{opacity:1;transform:none}
+
+/* ============================================================
+   2. HEADER
+   ============================================================ */
+header.top{position:sticky;top:0;z-index:50;height:var(--hh);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;background:color-mix(in srgb,var(--bg) 82%,transparent);background:rgba(6,11,23,.82);border-bottom:1px solid var(--line2);backdrop-filter:blur(10px)}
+html[data-theme="light"] header.top{background:rgba(244,242,234,.85)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .mark{width:34px;height:34px;flex:none;border:1.5px solid var(--c1-45);border-radius:10px;display:grid;place-items:center;color:var(--c1)}
+.brand b{font-family:var(--f-mono);letter-spacing:.22em;font-size:12.5px;color:var(--ink)}
+.brand .sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+.brand small{font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav{display:flex;align-items:center;gap:4px}
+nav a,.navbtn{font-size:13.5px;font-weight:500;color:var(--mut);padding:8px 12px;border-radius:9px;transition:color .2s,background .2s;white-space:nowrap}
+nav a:hover,.navbtn:hover{color:var(--ink);background:var(--line2)}
+#themeBtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--mut);transition:.2s}
+#themeBtn:hover{color:var(--c1);border-color:var(--c1-45)}
+html[data-theme="dark"] .ic-sun{display:none}
+html[data-theme="light"] .ic-moon{display:none}
+#menuBtn{display:none;width:38px;height:38px;border:1px solid var(--line);border-radius:10px;place-items:center;color:var(--ink)}
+@media(max-width:1060px){
+  #menuBtn{display:grid}
+  nav{position:absolute;top:var(--hh);right:12px;left:12px;flex-direction:column;align-items:stretch;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);display:none}
+  header.menu-open nav{display:flex}
+  .brand small{display:none}
+}
+
+/* ============================================================
+   3. SƠ ĐỒ TƯ DUY (STAGE)
+   ============================================================ */
+.stage{padding:14px 16px 0}
+.mm-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 auto 10px;max-width:1600px}
+.mm-tools{display:flex;gap:8px;flex-wrap:wrap}
+.mb{font-size:12.5px;font-weight:500;color:var(--mut);padding:7px 13px;border:1px solid var(--line);border-radius:999px;transition:.2s;background:var(--panel)}
+.mb:hover{color:var(--ink);border-color:var(--c1-45)}
+.mb-pri{color:var(--bg);background:var(--c1);border-color:var(--c1);font-weight:600}
+.mb-pri:hover{color:var(--bg);filter:brightness(1.08)}
+.mm-leg{display:flex;gap:6px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mut);padding:6px 11px;border-radius:999px;border:1px solid transparent;transition:.2s}
+.lg i{width:9px;height:9px;border-radius:50%;background:var(--bc);box-shadow:0 0 8px var(--bc-70)}
+.lg:hover{color:var(--ink);border-color:var(--bc-45);background:var(--bc-08)}
+
+.mm-vp{position:relative;height:calc(100svh - var(--hh) - 78px);min-height:560px;max-width:1600px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;background:var(--bg)}
+.mm-vp.drag{cursor:grabbing}
+#mmSvg{width:100%;height:100%;display:block}
+.bg-dot{fill:var(--line)}
+.mm-hint{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:14px;font-size:11.5px;color:var(--faint);pointer-events:none;font-family:var(--f-mono);flex-wrap:wrap;padding:0 12px;text-align:center}
+.mm-hint b{color:var(--mut);font-weight:500}
+.mm-zoom{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px}
+.mm-zoom button{width:36px;height:36px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--mut);display:grid;place-items:center;transition:.2s}
+.mm-zoom button:hover{color:var(--ink);border-color:var(--c1-45)}
+.mm-down{position:absolute;left:50%;bottom:38px;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--mut);display:grid;place-items:center;transition:.25s;animation:bob 2.6s ease-in-out infinite}
+.mm-down:hover{color:var(--c1);border-color:var(--c1-45)}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* --- Node --- */
+.ndg{transition:opacity .3s ease,visibility 0s 0s}
+.ndg.off{opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s .28s;pointer-events:none}
+.edg{opacity:.55;transition:opacity .3s ease,visibility 0s 0s}
+.edg.off{opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s .28s;pointer-events:none}
+.edg .ed{fill:none;stroke:var(--bc);stroke-width:1.7;stroke-linecap:round}
+.edg .ds{fill:var(--bc)}
+.edg .de{fill:var(--bc);opacity:.65}
+.edg.lit{opacity:1}
+.edg.lit .ed{stroke-width:2.6}
+#mmSvg.has-sel .ndg:not(.rel){opacity:.13}
+#mmSvg.has-sel .edg:not(.rel){opacity:.05}
+#mmSvg.has-sel .edg.rel{opacity:1}
+#mmSvg.has-sel .edg.rel .ed{stroke-width:2.4}
+.fd{fill:var(--bc);opacity:.95}
+
+foreignObject{overflow:visible}
+.nd{position:relative;box-sizing:border-box;width:100%;height:100%;display:flex;gap:9px;align-items:flex-start;padding:11px 13px;background:var(--node-bg);border:1px solid var(--bc-45);border-radius:13px;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .25s,transform .22s cubic-bezier(.2,.8,.3,1.2);font-family:var(--f-body)}
+.nd:hover{border-color:var(--bc);background:var(--node-bg-h);transform:translateY(-2px)}
+.ndg.rel .nd{transform:scale(1.045);border-color:var(--bc);box-shadow:0 0 0 1px var(--bc-45),0 10px 30px rgba(0,0,0,.35),0 0 26px var(--bc-14)}
+html[data-theme="light"] .ndg.rel .nd{box-shadow:0 0 0 1px var(--bc-45),0 10px 24px rgba(27,41,70,.12),0 0 22px var(--bc-14)}
+.lv0 .nd{flex-direction:row;align-items:center;justify-content:center;padding:16px 22px;border-radius:18px;border:1.5px solid rgba(233,238,247,.4);box-shadow:0 0 0 7px var(--line2),var(--shadow)}
+html[data-theme="light"] .lv0 .nd{border-color:rgba(27,41,70,.45)}
+.lv0 .nd:hover{transform:none}
+.lv0 .ndg.rel .nd{transform:scale(1.05)}
+.nd-ic{flex:none;width:30px;height:30px;border-radius:9px;background:var(--bc-14);color:var(--bc);display:grid;place-items:center}
+.lv1 .nd-ic{width:32px;height:32px}
+.nd-ic svg{display:block}
+.nd-mono{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--bc-45);color:var(--bc);font-family:var(--f-body);font-size:13px;font-weight:700;display:grid;place-items:center}
+.nd-tx{min-width:0}
+.nd-t{font-weight:600;font-size:12.6px;line-height:1.32;letter-spacing:.005em}
+.lv0 .nd-t{font-size:16.5px;font-weight:700;text-align:center;letter-spacing:.015em;line-height:1.35;white-space:nowrap}
+.lv1 .nd-t{font-size:14px;font-weight:700}
+.lv2 .nd-t{font-size:12.8px;font-weight:600}
+.lv3 .nd-t{font-size:12.4px;font-weight:600}
+.lv4 .nd-t{font-size:12.2px;font-weight:600}
+.nd-s{margin-top:4px;font-family:var(--f-body);font-size:11px;color:var(--mut);line-height:1.35;font-weight:400}
+.lv0 .nd-s{font-family:var(--f-body);font-size:12px;color:var(--mut);text-align:center;margin-top:4px;font-weight:400;white-space:nowrap}
+.lv0 .nd-rt{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--c1);width:100%}
+.nd-em .nd{border-width:1.5px;border-color:var(--c2-70);background:linear-gradient(0deg,var(--c2-08),var(--c2-08)),var(--node-bg)}
+.nd-em .nd-t{color:var(--c2)}
+html[data-theme="light"] .nd-em .nd-t{color:#855400}
+/* Nút thu gọn / mở rộng */
+.tg{cursor:pointer}
+.tg circle{fill:var(--panel);stroke:var(--bc);stroke-width:1.5;transition:.2s}
+.tg:hover circle{stroke-width:2.4}
+.tg .mn{stroke:var(--bc);stroke-width:1.8;stroke-linecap:round}
+.tg .pl{display:none;font-family:var(--f-mono);font-size:9.5px;font-weight:600;fill:var(--bc)}
+.ndg.col .tg .mn{display:none}
+.ndg.col .tg .pl{display:block}
+/* Boot animation */
+#mmSvg.pre .nd{opacity:0;transform:scale(.72) translateY(10px)}
+#mmSvg .nd{transition-delay:var(--bd,0s)}
+
+/* --- Panel chi tiết --- */
+#panel{position:absolute;top:14px;right:14px;bottom:52px;width:344px;max-width:calc(100% - 28px);background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;transform:translateX(26px);opacity:0;visibility:hidden;transition:.32s cubic-bezier(.2,.7,.2,1);z-index:5;pointer-events:none;overscroll-behavior:contain}
+#panel.open{transform:none;opacity:1;visibility:visible;pointer-events:auto}
+.pn-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0}
+.pn-k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.18em;color:var(--bc);font-weight:600}
+.pn-x{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--faint);transition:.2s}
+.pn-x:hover{color:var(--ink);background:var(--line2)}
+.pn-t{padding:6px 18px 0;font-size:19px;font-weight:700;line-height:1.3}
+.pn-b{padding:10px 18px 14px;overflow-y:auto;flex:1;min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.pn-b::-webkit-scrollbar{width:6px}
+.pn-b::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.pn-b::-webkit-scrollbar-thumb:hover{background:var(--c1-45)}
+.pn-b::-webkit-scrollbar-track{background:transparent}
+.pn-def{font-size:13.5px;color:var(--mut);border-left:2px solid var(--bc-45);padding-left:12px;margin-bottom:14px}
+.pn-sec{font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--faint);margin:16px 0 8px;font-weight:600}
+.pn-f{background:var(--bc-08);border:1px solid var(--bc-45);border-radius:12px;padding:12px 16px;text-align:center;margin-bottom:10px}
+.pn-fe{font-family:var(--f-serif);font-style:italic;font-size:25px;color:var(--bc)}
+.pn-fn{font-size:11px;color:var(--mut);margin-top:4px}
+.pn-vars{display:grid;gap:6px}
+.pn-vars>div{display:flex;gap:10px;font-size:12.5px;align-items:baseline}
+.pn-vars dt{font-family:var(--f-serif);font-style:italic;font-size:15px;color:var(--bc);flex:none;min-width:26px}
+.pn-vars dd{color:var(--mut)}
+.pn-list{list-style:none;display:grid;gap:6px}
+.pn-list li{font-size:12.8px;color:var(--ink);padding-left:16px;position:relative}
+.pn-list li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:1.5px;background:var(--bc)}
+.pn-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pn-chips span{font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--bc-45);color:var(--ink);background:var(--bc-08)}
+.pn-meta{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:12.5px}
+.pn-meta dt{color:var(--faint)}
+.pn-meta dd{color:var(--ink)}
+.pn-rel{padding:0 16px 14px;border-top:1px solid var(--line2)}
+.pn-rl{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--faint);margin:10px 0 8px}
+#pnR{display:flex;flex-wrap:wrap;gap:6px}
+#pnR button{font-size:11.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--mut);transition:.2s}
+#pnR button:hover{color:var(--ink);border-color:var(--bc-45);background:var(--bc-08)}
+@media(max-width:680px){
+  #panel{top:auto;left:10px;right:10px;bottom:10px;width:auto;max-height:52%;transform:translateY(30px)}
+}
+
+/* --- Khung mô phỏng trong Panel chi tiết --- */
+.pn-sim{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0 14px;position:relative}
+.pn-sim-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pn-sim-title{font-size:12px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px}
+.sim-live-tag{font-family:var(--f-mono);font-size:9px;font-weight:700;color:#10b981;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);padding:1.5px 6px;border-radius:4px;letter-spacing:.08em;display:inline-flex;align-items:center;gap:3px}
+.sim-live-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;animation:simPulse 1.5s infinite}
+@keyframes simPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.sim-cv-wrap{position:relative;width:100%;height:155px;border-radius:10px;overflow:hidden;background:var(--bg);border:1px solid var(--line2)}
+.sim-cv{width:100%;height:100%;display:block}
+.sim-expand-btn{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:6px;background:rgba(13,24,48,.8);border:1px solid var(--line);color:var(--mut);display:grid;place-items:center;transition:.2s;z-index:3;cursor:pointer}
+html[data-theme="light"] .sim-expand-btn{background:rgba(255,255,255,.85)}
+.sim-expand-btn:hover{color:var(--c1);border-color:var(--c1-45);transform:scale(1.08)}
+.sim-ctrls{display:flex;flex-direction:column;gap:7px;margin-top:9px}
+.sim-row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--mut)}
+.sim-row label{flex:none;min-width:65px;font-weight:500;color:var(--ink)}
+.sim-slider{flex:1;accent-color:var(--bc,var(--c1));height:4px;cursor:pointer}
+.sim-val{font-family:var(--f-mono);font-size:11px;color:var(--bc,var(--c1));font-weight:600;min-width:44px;text-align:right}
+.sim-btn-row{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:6px}
+.sim-btn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);transition:.2s;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.sim-btn:hover{border-color:var(--bc,var(--c1-45));background:var(--line2)}
+.sim-btn-pri{background:var(--bc,var(--c1));color:var(--bg);border-color:var(--bc,var(--c1));font-weight:600}
+.sim-btn-pri:hover{filter:brightness(1.1)}
+.sim-stats{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--line2)}
+.sim-pill{font-family:var(--f-mono);font-size:10px;background:var(--line2);padding:2px 7px;border-radius:5px;color:var(--mut)}
+.sim-pill b{color:var(--ink);font-weight:600}
+
+/* ============================================================
+   4. KHUNG SECTION CHUNG
+   ============================================================ */
+.wrap{max-width:1060px;margin:0 auto;padding:96px 22px 0}
+.secs{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.secs .no{font-family:var(--f-mono);font-size:12px;letter-spacing:.24em;color:var(--c1);font-weight:600}
+.secs .rl{flex:1;height:1px;background:var(--line)}
+.secs .tag{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.22em;color:var(--faint)}
+h2.st{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.18;letter-spacing:-.01em;max-width:720px}
+.lead{margin-top:14px;color:var(--mut);font-size:15px;max-width:640px}
+
+/* ============================================================
+   5. TỪ CŨ → MỚI
+   ============================================================ */
+.fw{max-width:640px;margin:44px auto 0;display:flex;flex-direction:column;align-items:center}
+.fw-b{width:100%;text-align:center;padding:20px 24px;border-radius:16px;border:1px solid var(--bc-45);background:var(--node-bg);transition:.25s}
+.fw-b:hover{border-color:var(--bc);transform:translateY(-2px)}
+.fw-b b{display:block;font-size:16.5px;font-weight:800;letter-spacing:.04em}
+.fw-b small{display:block;margin-top:5px;font-family:var(--f-mono);font-size:11.5px;color:var(--mut)}
+.fw-lg b{font-size:21px}
+.fw-prob{border-color:var(--c2-45)}
+.fw-prob>b{color:var(--c2)}
+html[data-theme="light"] .fw-prob>b{color:#855400}
+.fw-ch{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:12px}
+.fw-ch span{font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--c2-45);color:var(--ink);background:var(--c2-08)}
+.fw-l{position:relative;width:120px;height:58px;display:grid;place-items:center}
+.fw-l svg{position:absolute;inset:0;width:100%;height:100%}
+.fw-l path{stroke:var(--faint);stroke-width:1.6;stroke-dasharray:52;stroke-dashoffset:52;transition:stroke-dashoffset .7s ease .15s}
+.fw-l.on path{stroke-dashoffset:0}
+.fw-ah{position:absolute;bottom:2px;width:0;height:0;border:5px solid transparent;border-top:7px solid var(--faint)}
+.fw-l span{position:absolute;top:50%;left:calc(50% + 20px);transform:translateY(-50%);white-space:nowrap;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;color:var(--faint);background:var(--bg);padding:2px 4px}
+.fw-split{width:min(560px,100%);height:70px}
+.fw-split svg{width:100%;height:100%}
+.fw-split path{fill:none;stroke:var(--c3-70);stroke-width:1.8;stroke-dasharray:70;stroke-dashoffset:70;transition:stroke-dashoffset .7s ease .2s}
+.fw-split.on path{stroke-dashoffset:0}
+.fw-two{width:min(560px,100%);display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fw-q{margin-top:46px;text-align:center;font-family:var(--f-serif);font-style:italic;font-size:clamp(17px,2.4vw,21px);line-height:1.7;color:var(--mut);max-width:680px;padding:0 8px}
+.fw-q em{color:var(--c1);font-style:inherit}
+
+/* ============================================================
+   6. TIMELINE
+   ============================================================ */
+.tl-ctl{display:flex;gap:8px;justify-content:flex-end;margin:26px 0 10px}
+.tl-ctl button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);color:var(--mut);display:grid;place-items:center;transition:.2s;background:var(--panel)}
+.tl-ctl button:hover{color:var(--ink);border-color:var(--c1-45)}
+.tl-scroll{overflow-x:auto;overflow-y:hidden;padding:6px 4px 18px;cursor:grab;scrollbar-width:none;-ms-overflow-style:none}
+.tl-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+.tl-scroll.drag{cursor:grabbing}
+.tl-track{position:relative;display:flex;align-items:stretch;gap:0;min-width:max-content;height:352px;padding:0 40px}
+.tl-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line);border-radius:2px}
+#tlFill{position:absolute;left:0;top:50%;height:2px;background:var(--c1);border-radius:2px;width:0;transition:width .2s ease;box-shadow:0 0 10px var(--c1-70)}
+.tl-it{position:relative;width:216px;flex:none;display:grid;grid-template-rows:1fr 44px 1fr}
+.tl-it .dot-cell{grid-row:2;display:grid;place-items:center}
+.tl-dot{width:13px;height:13px;border-radius:50%;background:var(--panel);border:2.5px solid var(--bc,var(--faint));position:relative;z-index:2;transition:.3s}
+.tl-it.on .tl-dot{transform:scale(1.15);box-shadow:0 0 0 5px var(--bc-14)}
+.tl-card{align-self:end;justify-self:center;width:190px;margin-bottom:8px}
+.tl-it.under .tl-card{align-self:start;margin-top:8px}
+.tl-y{font-family:var(--f-mono);font-size:23px;font-weight:600;color:var(--bc,var(--ink));letter-spacing:.02em}
+.tl-it .tl-card{--bc:var(--faint)}
+.tl-it.e2 .tl-card{--bc:var(--c2)}
+.tl-it.e1 .tl-card{--bc:var(--c1)}
+.tl-it.e3 .tl-card{--bc:var(--c3)}
+.tl-n{font-weight:700;font-size:13px;margin-top:2px}
+.tl-card p{font-size:11.5px;color:var(--mut);line-height:1.5;margin-top:4px}
+.tl-it{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.tl-track.on .tl-it{opacity:1;transform:none}
+
+/* ============================================================
+   7. CÔNG THỨC
+   ============================================================ */
+.fm{border-top:1px solid var(--line)}
+.fm:last-child{border-bottom:1px solid var(--line)}
+.fm-h{width:100%;display:grid;grid-template-columns:36px minmax(280px,46%) minmax(220px,1fr) auto;align-items:center;gap:18px;padding:18px 10px;text-align:left;border-radius:10px;transition:background .2s}
+.fm-h:hover{background:var(--line2)}
+.fm-i{font-family:var(--f-mono);font-size:13px;color:var(--faint);flex-shrink:0}
+.fm-f{font-family:var(--f-serif);font-style:italic;font-size:19px;line-height:1.35;color:var(--c1);min-width:0;overflow-wrap:break-word;word-break:normal}
+.fm-n{min-width:0}
+.fm-n b{display:block;font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.35}
+.fm-n small{display:block;font-size:12px;color:var(--mut);margin-top:3px;line-height:1.45}
+.fm-c{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--faint);font-weight:500;white-space:nowrap;transition:color .2s;justify-self:end}
+.fm-h:hover .fm-c{color:var(--c1)}
+.fm-c svg{transition:transform .3s}
+.fm.open .fm-c svg{transform:rotate(180deg)}
+.fm-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.7,.2,1)}
+.fm.open .fm-b{grid-template-rows:1fr}
+.fm-bi{overflow:hidden}
+.fm-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:8px 8px 14px 62px}
+.fm-box{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;line-height:1.55}
+.fm-box-h{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;font-weight:700;color:var(--c1);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.fm-box-p{font-size:12.5px;color:var(--mut)}
+.fm-vars-title{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;color:var(--faint);font-weight:700;margin:6px 8px 4px 62px}
+.fm-bi dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 28px;padding:4px 8px 22px 62px}
+.fm-bi>dl>div{display:flex;gap:12px;align-items:baseline}
+.fm-bi dt{font-family:var(--f-serif);font-style:italic;font-size:18px;color:var(--c1);flex:none;min-width:34px}
+.fm-bi dd{font-size:13px;color:var(--mut)}
+.pn-card-box{background:var(--bg2);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;margin:6px 0 10px}
+@media(max-width:920px){
+  .fm-h{grid-template-columns:32px 1fr auto;grid-template-areas:"i n c" ". f .";row-gap:8px;column-gap:12px;padding:16px 8px}
+  .fm-i{grid-area:i;align-self:start;margin-top:2px}
+  .fm-n{grid-area:n;min-width:0}
+  .fm-c{grid-area:c;align-self:start}
+  .fm-f{grid-area:f;font-size:18px;margin-top:2px;color:var(--c1)}
+  .fm-meta-grid{grid-template-columns:1fr;padding-left:8px}
+  .fm-vars-title{margin-left:8px}
+  .fm-bi dl{padding-left:8px}
+}
+
+/* ============================================================
+   8. WHY IT MATTERS
+   ============================================================ */
+.wh{margin-top:40px}
+.wh-i{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:26px 4px;border-top:1px solid var(--line);align-items:start}
+.wh-i:last-child{border-bottom:1px solid var(--line)}
+.wh-n{font-family:var(--f-mono);font-size:42px;font-weight:600;color:var(--line);line-height:1;transition:color .3s}
+.wh-i:hover .wh-n{color:var(--c1)}
+.wh-i h3{font-size:17px;font-weight:700}
+.wh-i p{margin-top:6px;font-size:14px;color:var(--mut);max-width:560px}
+@media(max-width:640px){.wh-i{grid-template-columns:64px 1fr}.wh-n{font-size:28px}}
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+footer{margin-top:96px;border-top:1px solid var(--line);padding:34px 22px 44px;text-align:center}
+footer .fmk{font-family:var(--f-mono);letter-spacing:.24em;font-size:11.5px;color:var(--c1);font-weight:600}
+footer .f1{margin-top:10px;font-size:13.5px;color:var(--mut)}
+footer .f2{margin-top:4px;font-family:var(--f-mono);font-size:12px;color:var(--faint)}
+footer .f3{margin-top:14px;font-size:11px;color:var(--faint);letter-spacing:.14em}
+
+/* ============================================================
+   10. PRESENTATION MODE
+   ============================================================ */
+#pres{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;flex-direction:column;font-family:var(--f-body)}
+#pres.open{display:flex}
+.pr-bar{height:3px;background:var(--line2)}
+#prBar{height:100%;width:0;background:var(--c1);box-shadow:0 0 12px var(--c1-70);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.pr-h{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 26px;border-bottom:1px solid var(--line2)}
+.pr-brand{font-family:var(--f-body);font-size:11px;letter-spacing:.18em;font-weight:600;color:var(--faint);text-transform:uppercase}
+.pr-ct{font-family:var(--f-body);font-size:12.5px;font-weight:500;color:var(--mut)}
+#prExit{font-size:12.5px;color:var(--mut);border:1px solid var(--line);padding:7px 14px;border-radius:999px;transition:.2s}
+#prExit:hover{color:var(--ink);border-color:var(--c1-45)}
+.pr-stage{flex:1;overflow:hidden;display:grid;place-items:center;padding:28px clamp(18px,5vw,64px)}
+.ps{width:min(1060px,100%);max-height:100%;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.ps::-webkit-scrollbar{display:none;width:0;height:0}
+.ps [data-st]{opacity:0;transform:translateY(26px);animation:prIn .6s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0s)}
+@keyframes prIn{to{opacity:1;transform:none}}
+.ps-k{font-family:var(--f-body);font-size:11.5px;letter-spacing:.16em;color:var(--c1);font-weight:700;text-transform:uppercase}
+.ps h2{margin-top:10px;font-size:clamp(24px,4vw,42px);font-weight:800;line-height:1.18;letter-spacing:-.01em}
+.ps-l{margin-top:12px;color:var(--mut);font-size:clamp(13.5px,1.6vw,15.5px);max-width:660px;line-height:1.6}
+.ps-title{display:flex;flex-direction:column;gap:0}
+.ps-title h1{font-size:clamp(28px,5.2vw,58px);font-weight:800;line-height:1.15;letter-spacing:-.015em}
+.ps-title h1 .ar{color:var(--c1);font-weight:600;padding:0 .1em}
+.ps-title p{margin-top:18px;font-family:var(--f-serif);font-style:italic;font-size:clamp(16px,2.4vw,22px);color:var(--mut)}
+.ps-hint{margin-top:44px;font-family:var(--f-body);font-size:12.5px;color:var(--faint);font-weight:400}
+.ps-nine{margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:0 44px}
+.ps-nine li{list-style:none;display:flex;gap:14px;padding:13px 4px;border-bottom:1px solid var(--line2);align-items:baseline}
+.ps-nine i{font-family:var(--f-body);font-style:normal;font-size:12px;color:var(--c1);flex:none;width:24px;font-weight:700}
+.ps-nine b{font-size:14.5px;display:block;font-weight:600}
+.ps-nine small{font-size:12px;color:var(--mut);font-family:var(--f-body)}
+.ps-grid{display:grid;grid-template-columns:300px 1fr;gap:40px;margin-top:30px;align-items:start}
+.ps-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.ps-card .who{font-family:var(--f-body);font-size:11.5px;letter-spacing:.12em;font-weight:600;color:var(--faint);text-transform:uppercase}
+.ps-card h3{font-size:26px;font-weight:800;margin:4px 0 2px}
+.ps-card .yr{font-family:var(--f-body);color:var(--c2);font-size:13.5px;font-weight:600}
+.ps-card p{font-size:13px;color:var(--mut);margin-top:12px}
+.ps-em{margin-top:16px;border:1.5px solid var(--c2-70);background:var(--c2-08);border-radius:12px;padding:13px 15px;font-size:13px;font-weight:700;color:var(--c2)}
+html[data-theme="light"] .ps-em{color:#855400}
+.ps-law{display:grid;gap:12px}
+.ps-law>div{display:grid;grid-template-columns:34px 150px 1fr;gap:14px;padding:13px 16px;background:var(--panel);border:1px solid var(--line);border-radius:13px;align-items:center}
+.ps-law i{font-family:var(--f-serif);font-style:italic;font-size:19px;color:var(--c2)}
+.ps-law b{font-size:13.5px;font-weight:600}
+.ps-law small{font-size:12px;color:var(--mut);display:block;margin-top:2px;font-family:var(--f-body);line-height:1.45}
+.ps-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.ps-chips span{font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--c2-45);color:var(--ink);background:var(--c2-08)}
+.ps-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.ps-two>div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.ps-two .yr{font-family:var(--f-body);font-size:13.5px;color:var(--c3);font-weight:600}
+.ps-two h4{font-size:16px;margin:6px 0 10px;font-weight:700}
+.ps-two ul{list-style:none;display:grid;gap:6px}
+.ps-two li{font-size:12.5px;color:var(--mut);padding-left:14px;position:relative}
+.ps-two li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:1.5px;background:var(--c3)}
+.ps-bigf{font-family:var(--f-serif);font-style:italic;font-size:clamp(34px,5vw,54px);color:var(--c3);margin-top:26px;text-align:center}
+.ps-people{margin-top:30px;display:grid;gap:10px}
+.ps-people>div{display:grid;grid-template-columns:66px 200px 1fr;gap:16px;padding:13px 16px;background:var(--panel);border:1px solid var(--line);border-radius:13px;align-items:center}
+.ps-people .yr{font-family:var(--f-body);font-size:14px;color:var(--c3);font-weight:600}
+.ps-people b{font-size:14.5px;font-weight:600}
+.ps-people small{font-size:12.5px;color:var(--mut);font-family:var(--f-body)}
+.ps-quote{font-family:var(--f-serif);font-style:italic;font-size:clamp(22px,3.6vw,36px);line-height:1.6;max-width:840px}
+.ps-quote em{color:var(--c1);font-style:inherit}
+.pr-f{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 26px;border-top:1px solid var(--line2)}
+.pr-btn{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--mut);border:1px solid var(--line);padding:11px 20px;border-radius:999px;transition:.2s}
+.pr-btn:hover{color:var(--ink);border-color:var(--c1-45)}
+.pr-pri{color:var(--bg);background:var(--c1);border-color:var(--c1);font-weight:600}
+.pr-pri:hover{color:var(--bg);filter:brightness(1.08)}
+.ps-map{width:100%;margin-top:22px}
+.ps-map svg{width:100%;height:auto;max-height:52vh;display:block}
+.mn rect{fill:var(--node-bg);stroke:var(--bc-45);stroke-width:2}
+.mn text{fill:var(--ink);font-size:16.5px;font-weight:600;letter-spacing:.01em;text-anchor:middle;font-family:var(--f-body)}
+.mn text.sub{fill:var(--mut);font-size:13px;font-weight:400;text-anchor:middle;font-family:var(--f-body)}
+.mn path,.mn .me{fill:none;stroke:var(--bc-70);stroke-width:2.4}
+.mn .me{stroke-dasharray:1;stroke-dashoffset:1;animation:drawE .8s ease forwards;animation-delay:var(--d,0s);animation-fill-mode:both}
+@keyframes drawE{to{stroke-dashoffset:0}}
+.mn{opacity:0;animation:prIn .5s ease forwards;animation-delay:var(--d,0s)}
+.ps-legend{display:flex;gap:18px;justify-content:center;margin-top:20px;flex-wrap:wrap;font-family:var(--f-body)}
+.ps-legend span{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mut)}
+.ps-legend i{width:10px;height:10px;border-radius:50%;background:var(--bc)}
+@media(max-width:860px){
+  .ps-grid,.ps-two{grid-template-columns:1fr}
+  .ps-nine{grid-template-columns:1fr}
+  .ps-people>div{grid-template-columns:56px 1fr;grid-template-rows:auto auto}
+  .ps-people small{grid-column:1/-1}
+}
+
+/* ============================================================
+   11. TOAST
+   ============================================================ */
+#toasts{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--panel);border:1px solid var(--line);color:var(--ink);font-size:13px;padding:10px 18px;border-radius:999px;box-shadow:var(--shadow);opacity:0;transform:translateY(12px);transition:.35s cubic-bezier(.2,.7,.2,1)}
+.toast.show{opacity:1;transform:none}
+
+@media(max-width:680px){
+  .mm-hint span:nth-child(n+3){display:none}
+  .fw-two{grid-template-columns:1fr}
+  .fw-split{display:none}
+  .fw-l span{display:none}
+  .tl-track{height:300px}
+}
+/* --- Modal Rạp chiếu mô phỏng toàn màn hình --- */
+#simModal{position:fixed;inset:0;z-index:110;background:rgba(4,8,18,.86);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:16px;font-family:var(--f-body)}
+#simModal.open{display:flex}
+.sm-wrap{width:min(1100px,96vw);max-height:92vh;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.sm-header{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line2);background:var(--bg2)}
+.sm-title-group{display:flex;align-items:center;gap:10px}
+.sm-badge{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;font-weight:700;color:var(--c1);background:var(--c1-14);padding:3px 8px;border-radius:6px;border:1px solid var(--c1-45)}
+.sm-title{font-size:18px;font-weight:800;color:var(--ink)}
+.sm-x{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:var(--mut);border:1px solid var(--line);transition:.2s;cursor:pointer}
+.sm-x:hover{color:var(--ink);border-color:var(--c1-45);background:var(--line2)}
+.sm-tabs-bar{position:relative;display:flex;align-items:center;background:var(--bg);border-bottom:1px solid var(--line2);padding:0 10px;gap:6px}
+.sm-tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 4px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-x;-webkit-overflow-scrolling:touch;flex:1;scroll-behavior:auto}
+.sm-tabs::-webkit-scrollbar{display:none;width:0;height:0}
+.sm-tabs.drag{cursor:grabbing}
+.sm-tab{font-size:12px;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel);white-space:nowrap;transition:color .2s,border-color .2s,background .2s;cursor:pointer;flex-shrink:0;user-select:none;-webkit-user-select:none}
+.sm-tab:hover{color:var(--ink);border-color:var(--c1-45)}
+.sm-tab.active{background:var(--c1);color:var(--bg);border-color:var(--c1);font-weight:600}
+.sm-tabs.drag .sm-tab{cursor:grabbing}
+.sm-nav-btn{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--mut);background:var(--panel);border:1px solid var(--line);transition:.2s;cursor:pointer;flex-shrink:0;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.sm-nav-btn:hover{color:var(--ink);border-color:var(--c1-45);background:var(--line2);transform:scale(1.08)}
+.sm-nav-btn:active{transform:scale(0.95)}
+.sm-nav-btn:disabled{opacity:.2;cursor:not-allowed;transform:none}
+.sm-body{display:grid;grid-template-columns:1fr 330px;gap:20px;padding:20px 22px;overflow-y:auto;flex:1}
+.sm-stage{position:relative;width:100%;height:380px;border-radius:14px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.sm-cv{width:100%;height:100%;display:block}
+.sm-info{display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:380px;padding-right:4px}
+.sm-desc{font-size:13px;color:var(--mut);line-height:1.55}
+.sm-theory{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:12px 14px}
+.sm-theory-h{font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;font-weight:700;color:var(--faint);margin-bottom:6px}
+.sm-theory-f{font-family:var(--f-serif);font-style:italic;font-size:20px;color:var(--c1);text-align:center;margin:6px 0}
+.sm-theory-p{font-size:12px;color:var(--mut);line-height:1.45}
+@media(max-width:880px){
+  .sm-body{grid-template-columns:1fr;gap:14px}
+  .sm-stage{height:280px}
+  .sm-info{max-height:none}
+}
+#msr{position:fixed;left:-9999px;top:0;visibility:hidden}
+
+/* ============================================================
+   CORNER WATERMARK (CREDIT HỌC SINH)
+   ============================================================ */
+.corner-watermark{
+  position:fixed;
+  bottom:14px;
+  left:18px;
+  z-index:105;
+  font-family:var(--f-body);
+  font-size:12px;
+  font-weight:500;
+  color:var(--mut);
+  opacity:.48;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  letter-spacing:.02em;
+  padding:5px 12px;
+  border-radius:8px;
+  background:rgba(6,11,23,.62);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(143,167,208,.14);
+  display:flex;
+  align-items:center;
+  gap:7px;
+  transition:bottom .3s ease,left .3s ease,opacity .25s ease;
+}
+.corner-watermark .wm-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--c1);
+  box-shadow:0 0 6px var(--c1-70);
+  flex-shrink:0;
+}
+#pres.open ~ .corner-watermark{
+  bottom:72px;
+  left:22px;
+  opacity:.55;
+}
+footer .f-group{
+  margin-top:10px;
+  font-size:12.5px;
+  color:var(--mut);
+  opacity:.8;
+}
+footer .f-group b{
+  color:var(--ink);
+  font-weight:600;
+}
+@media(max-width:600px){
+  .corner-watermark{font-size:10.5px;padding:4px 9px;bottom:10px;left:10px}
+  #pres.open ~ .corner-watermark{bottom:64px;left:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="top" id="top">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="2.1"/><ellipse cx="12" cy="12" rx="9.2" ry="3.8" transform="rotate(52 12 12)"/><ellipse cx="12" cy="12" rx="9.2" ry="3.8" transform="rotate(-52 12 12)"/></svg>
+    </span>
+    <b>PHYSICS MAP</b>
+    <span class="sep"></span>
+    <small>Cơ học cổ điển &amp; Vật lý hiện đại</small>
+  </div>
+  <nav id="nav">
+    <a href="#mindmap">Mind Map</a>
+    <a href="#timeline">Timeline</a>
+    <button class="navbtn" data-act="newton">Newton</button>
+    <button class="navbtn" data-act="modern">Modern Physics</button>
+    <a href="#formulas">Formulas</a>
+    <button class="navbtn" data-act="sims">Mô phỏng</button>
+    <button class="navbtn" data-act="pres">Presentation</button>
+    <button id="themeBtn" aria-label="Chuyển giao diện sáng / tối">
+      <svg class="ic-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 13.5A8.5 8.5 0 0 1 10.5 4 7.5 7.5 0 1 0 20 13.5z"/></svg>
+      <svg class="ic-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>
+    </button>
+  </nav>
+  <button id="menuBtn" aria-label="Mở menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</header>
+
+<main>
+<!-- ================= SƠ ĐỒ TƯ DUY ================= -->
+<section id="mindmap" class="stage">
+  <div class="mm-bar">
+    <div class="mm-tools">
+      <button id="tAll" class="mb">Hiện toàn bộ</button>
+      <button id="tCol" class="mb">Thu gọn tất cả</button>
+      <button id="tRst" class="mb">Reset sơ đồ</button>
+      <button id="tPres" class="mb mb-pri">Trình chiếu</button>
+    </div>
+    <div class="mm-leg">
+      <button class="lg br1" data-f="b1"><i></i>Cơ học cổ điển</button>
+      <button class="lg br2" data-f="nw"><i></i>Newton</button>
+      <button class="lg br3" data-f="b3"><i></i>Vật lý hiện đại</button>
+    </div>
+  </div>
+  <div class="mm-vp" id="mmVp">
+    <svg id="mmSvg" class="pre" role="application" aria-label="Sơ đồ tư duy vật lý tương tác">
+      <defs>
+        <pattern id="pDots" width="34" height="34" patternUnits="userSpaceOnUse"><circle class="bg-dot" cx="1.4" cy="1.4" r="1.2"/></pattern>
+      </defs>
+      <g id="mmBg"><rect id="mmBgR" x="-80" y="-80" width="1000" height="1000" fill="url(#pDots)"/><g id="mmDeco"></g></g>
+      <g id="mmWorld"><g id="edgeG"></g><g id="nodeG"></g></g>
+    </svg>
+    <div class="mm-hint"><span><b>Kéo</b> để di chuyển</span><span><b>Cuộn</b> để thu phóng</span><span><b>Nhấp</b> node để xem chi tiết</span><span><b>Nhấp đúp</b> để tập trung</span></div>
+    <div class="mm-zoom">
+      <button id="zIn" aria-label="Phóng to"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button id="zOut" aria-label="Thu nhỏ"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+      <button id="zFit" aria-label="Xem toàn bộ sơ đồ"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+    <button id="mmDown" aria-label="Cuộn xuống nội dung"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <!-- Panel chi tiết -->
+    <aside id="panel" aria-hidden="true">
+      <div class="pn-top"><span class="pn-k" id="pnK"></span><button class="pn-x" id="pnX" aria-label="Đóng bảng chi tiết"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <h3 class="pn-t" id="pnT"></h3>
+      <div class="pn-b" id="pnB"></div>
+      <div class="pn-rel"><span class="pn-rl">LIÊN QUAN</span><div id="pnR"></div></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= TỪ CŨ → MỚI ================= -->
+<section id="flow" class="wrap">
+  <div class="secs rv"><span class="no">02</span><span class="rl"></span><span class="tag">TỪ CỤ ĐẾN MỚI</span></div>
+  <h2 class="st rv">Từ cơ học cổ điển đến vật lý hiện đại</h2>
+  <p class="lead rv">Mối quan hệ nhân quả và lịch sử: cơ học Newton là nền tảng quan trọng; chính các giới hạn của vật lý cổ điển đã thúc đẩy sự ra đời của hai lý thuyết hiện đại.</p>
+  <div class="fw">
+    <div class="fw-b fw-lg br1 rv" data-st><b>CƠ HỌC CỔ ĐIỂN</b><small>9 nhánh nghiên cứu · tĩnh học → nhiệt động lực học</small></div>
+    <div class="fw-l" data-draw><svg viewBox="0 0 120 58" preserveAspectRatio="none"><path d="M60 0v46"/></svg><i class="fw-ah"></i><span>NEWTON ĐẶT NỀN MÓNG · 1687</span></div>
+    <div class="fw-b br2 rv" data-st><b>NEWTON</b><small>F = ma · F = G·m₁m₂ / r²</small></div>
+    <div class="fw-l" data-draw><svg viewBox="0 0 120 58" preserveAspectRatio="none"><path d="M60 0v46"/></svg><i class="fw-ah"></i><span>VA CHẠM VỚI THỰC NGHIỆM</span></div>
+    <div class="fw-b fw-prob rv" data-st><b>CÁC VẤN ĐỀ CHƯA GIẢI QUYẾT</b>
+      <div class="fw-ch"><span>Tốc độ rất lớn · v ≈ c</span><span>Thế giới vi mô</span><span>Bức xạ vật đen</span><span>Cấu trúc nguyên tử</span></div>
+    </div>
+    <div class="fw-l" data-draw><svg viewBox="0 0 120 58" preserveAspectRatio="none"><path d="M60 0v46"/></svg><i class="fw-ah"></i><span>CẦN LÝ THUYẾT MỚI</span></div>
+    <div class="fw-b fw-lg br3 rv" data-st><b>VẬT LÝ HIỆN ĐẠI</b><small>Hai lý thuyết nền tảng của thế kỷ XX</small></div>
+    <div class="fw-split" data-draw><svg viewBox="0 0 100 70" preserveAspectRatio="none"><path d="M50 0C50 26 26 32 26 62"/><path d="M50 0C50 26 74 32 74 62"/></svg></div>
+    <div class="fw-two">
+      <div class="fw-b br3 rv" data-st><b>THUYẾT TƯƠNG ĐỐI</b><small>Einstein · E = mc²</small></div>
+      <div class="fw-b br3 rv" data-st style="transition-delay:.12s"><b>CƠ HỌC LƯỢNG TỬ</b><small>Planck, Schrödinger · E = hν</small></div>
+    </div>
+    <blockquote class="fw-q rv">“Vật lý hiện đại không xóa bỏ cơ học cổ điển mà <em>mở rộng</em> nó trong những điều kiện mà cơ học cổ điển không còn đủ chính xác.”</blockquote>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="timeline" class="wrap">
+  <div class="secs rv"><span class="no">03</span><span class="rl"></span><span class="tag">DÒNG THỜI GIAN 1687 – 1913</span></div>
+  <h2 class="st rv">Hai thế kỷ định hình vật lý</h2>
+  <p class="lead rv">Từ <i>Principia</i> của Newton đến mô hình nguyên tử của Bohr — kéo thanh thời gian sang ngang để khám phá.</p>
+  <div class="tl-ctl rv">
+    <button id="tlPrev" aria-label="Lùi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button id="tlNext" aria-label="Tiến"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+  <div class="tl-scroll rv" id="tlScroll"><div class="tl-track" id="tlTrack"><i id="tlFill"></i></div></div>
+</section>
+
+<!-- ================= CÔNG THỨC ================= -->
+<section id="formulas" class="wrap">
+  <div class="secs rv"><span class="no">04</span><span class="rl"></span><span class="tag">FORMULA PANEL</span></div>
+  <h2 class="st rv">Sáu công thức trụ cột</h2>
+  <p class="lead rv">Nhấp vào từng công thức để xem ý nghĩa của các đại lượng.</p>
+  <div id="fmList" style="margin-top:34px"></div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section id="why" class="wrap">
+  <div class="secs rv"><span class="no">05</span><span class="rl"></span><span class="tag">WHY IT MATTERS</span></div>
+  <h2 class="st rv">Tại sao chủ đề này quan trọng?</h2>
+  <div class="wh">
+    <div class="wh-i rv"><span class="wh-n">01</span><div><h3>Mô tả chuyển động bằng toán học</h3><p>Newton giúp con người mô tả và dự đoán chuyển động bằng ngôn ngữ toán học chính xác — nền tảng của mọi kỹ thuật sau này.</p></div></div>
+    <div class="wh-i rv" style="transition-delay:.08s"><span class="wh-n">02</span><div><h3>Phương pháp mô tả mạnh hơn</h3><p>Lagrange và Hamilton phát triển các phương pháp biểu diễn cơ học sâu sắc và hiệu quả hơn với hệ phức tạp.</p></div></div>
+    <div class="wh-i rv" style="transition-delay:.16s"><span class="wh-n">03</span><div><h3>Giới hạn dẫn tới đột phá</h3><p>Các giới hạn của vật lý cổ điển — tốc độ rất lớn và thế giới vi mô — chính là động lực dẫn tới vật lý hiện đại.</p></div></div>
+    <div class="wh-i rv" style="transition-delay:.24s"><span class="wh-n">04</span><div><h3>Nền tảng công nghệ hiện đại</h3><p>Từ đó hình thành nền tảng cho nhiều công nghệ hiện đại: GPS, điện tử, viễn thông và vật liệu mới.</p></div></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="fmk">INTERACTIVE PHYSICS MIND MAP</div>
+  <div class="f1">Classical Mechanics → Newton → Modern Physics</div>
+  <div class="f2">“Từ Newton đến Einstein và Cơ học lượng tử”</div>
+  <div class="f-group">Dự án học tập Vật lý: <b>Lớp 10A10</b> · Nhóm <b>Nguyễn Tiến Dũng</b> &amp; <b>Lê Thị Thu Nguyệt</b></div>
+  <div class="f3">EDUCATIONAL PROJECT · PHYSICS MAP</div>
+</footer>
+
+<!-- ================= PRESENTATION ================= -->
+<div id="pres" aria-hidden="true">
+  <div class="pr-bar"><i id="prBar"></i></div>
+  <header class="pr-h">
+    <span class="pr-brand">PHYSICS MAP · PRESENTATION MODE</span>
+    <span class="pr-ct" id="prCount">1 / 7</span>
+    <button id="prExit">Thoát · Esc</button>
+  </header>
+  <div class="pr-stage" id="prStage"></div>
+  <footer class="pr-f">
+    <button class="pr-btn" id="prPrev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>Trước</button>
+    <span class="ps-hint" style="margin:0">← → để chuyển slide · Esc để thoát</span>
+    <button class="pr-btn pr-pri" id="prNext">Tiếp theo<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+  </footer>
+</div>
+
+
+<!-- ================= CORNER WATERMARK ================= -->
+<div class="corner-watermark" id="cornerWatermark">
+  <span class="wm-dot"></span>
+  <span>Lớp 10A10 · Nhóm Nguyễn Tiến Dũng &amp; Lê Thị Thu Nguyệt</span>
+</div>
+
+<!-- ================= MODAL MÔ PHỎNG ================= -->
+<div id="simModal" aria-hidden="true">
+  <div class="sm-wrap">
+    <header class="sm-header">
+      <div class="sm-title-group">
+        <span class="sm-badge">PHYSICS LAB</span>
+        <h3 class="sm-title" id="smTitle">Mô phỏng vật lý tương tác</h3>
+      </div>
+      <button class="sm-x" id="smExit" aria-label="Đóng mô phỏng">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="sm-tabs-bar">
+      <button class="sm-nav-btn sm-nav-prev" id="smTabsPrev" aria-label="Cuộn sang trái" title="Cuộn sang trái">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <nav class="sm-tabs" id="smTabs"></nav>
+      <button class="sm-nav-btn sm-nav-next" id="smTabsNext" aria-label="Cuộn sang phải" title="Cuộn sang phải">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="sm-body">
+      <div class="sm-stage">
+        <canvas id="modalSimCanvas" class="sm-cv"></canvas>
+      </div>
+      <div class="sm-info">
+        <div class="sm-theory">
+          <div class="sm-theory-h">NGUYÊN LÝ VẬT LÝ</div>
+          <div class="sm-theory-f" id="smFormula">F = ma</div>
+          <p class="sm-theory-p" id="smTheory">Giải thích nguyên lý...</p>
+        </div>
+        <div class="sm-theory" id="smOriginCard">
+          <div class="sm-theory-h">💡 LÝ DO RA ĐỜI CÔNG THỨC</div>
+          <p class="sm-theory-p" id="smOrigin">Lý do hình thành và bối cảnh lịch sử...</p>
+        </div>
+        <div class="sm-theory" id="smExampleCard">
+          <div class="sm-theory-h">📌 VÍ DỤ MINH HỌA THỰC TIỄN</div>
+          <p class="sm-theory-p" id="smExample">Ví dụ ứng dụng thực tế...</p>
+        </div>
+        <div class="sim-ctrls" id="smCtrls"></div>
+        <div class="sim-stats" id="smStats"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<div id="msr" aria-hidden="true"></div>
+
+<script>
+'use strict';
+/* ============================================================
+   TIỆN ÍCH
+   ============================================================ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+const XL='http://www.w3.org/1999/xlink';
+const svgEl=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  $('#toasts').appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},2400);
+}
+
+/* ============================================================
+   ICON (SVG stroke, 24×24)
+   ============================================================ */
+const ICONS={
+  atom:'<circle cx="12" cy="12" r="2.1"/><ellipse cx="12" cy="12" rx="9.2" ry="3.8" transform="rotate(52 12 12)"/><ellipse cx="12" cy="12" rx="9.2" ry="3.8" transform="rotate(-52 12 12)"/>',
+  grid:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  statics:'<path d="M3 20h18"/><path d="M5 20l7-13 7 13"/><path d="M8 14.6h8"/>',
+  kin:'<path d="M3 18C7 18 9.5 6 20.5 6"/><path d="M20.5 6l-4-.6"/><path d="M20.5 6l-1.1 3.9"/>',
+  dyn:'<path d="M4 12h13"/><path d="M13 7l5 5-5 5"/>',
+  lag:'<path d="M5 19h14"/><path d="M5 19V5"/><path d="M5 19l9-9"/><circle cx="16.2" cy="7" r="1.6"/>',
+  ham:'<circle cx="12" cy="12" r="3.1"/><path d="M2.6 12c0-2.6 4.2-4.7 9.4-4.7s9.4 2.1 9.4 4.7-4.2 4.7-9.4 4.7S2.6 14.6 2.6 12z"/>',
+  fluid:'<path d="M2.5 9.5c2-2.3 4-2.3 6 0s4 2.3 6 0 4-2.3 6 0"/><path d="M2.5 15.5c2-2.3 4-2.3 6 0s4 2.3 6 0 4-2.3 6 0"/>',
+  solid:'<path d="M12 3l8 4.6v8.8L12 21l-8-4.6V7.6z"/><path d="M4 7.6l8 4.7 8-4.7"/><path d="M12 12.3V21"/>',
+  wave:'<path d="M1.6 12c1.9-6 3.6-6 5.2 0s3.4 6 5.2 0 3.4-6 5.2 0 3.4 6 5.2 0"/>',
+  thermo:'<circle cx="6" cy="7.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="11" cy="4.8" r="1.2" fill="currentColor" stroke="none"/><circle cx="16.5" cy="7" r="1.2" fill="currentColor" stroke="none"/><circle cx="8" cy="12.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="13.5" cy="11.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="18.5" cy="13" r="1.2" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.2" fill="currentColor" stroke="none"/><circle cx="10" cy="17.8" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="17.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="19.5" cy="18.5" r="1.2" fill="currentColor" stroke="none"/>',
+  newton:'<path d="M12 7.6c-3.7 0-5.7 2.5-5.7 6 0 3.2 2.5 5.8 5.7 5.8s5.7-2.6 5.7-5.8c0-3.5-2-6-5.7-6z"/><path d="M12.2 7.6c.2-2.3 1.5-3.7 3.5-4.1.3 2.1-1 3.9-3.5 4.1z"/>',
+  inertia:'<circle cx="6.2" cy="12" r="2.5"/><path d="M10.5 12H21"/><path d="M17.6 8.6L21 12l-3.4 3.4"/>',
+  fma:'<path d="M3.5 18.5C4.5 11 8.5 6.2 18.5 5.5"/><path d="M18.5 5.5l-3.6-.8"/><path d="M18.5 5.5l-.9 3.7"/>',
+  pair:'<path d="M8.5 7.5H3"/><path d="M6 4.5L3 7.5l3 3"/><path d="M15.5 16.5H21"/><path d="M18 13.5l3 3-3 3"/>',
+  gravity:'<circle cx="12" cy="12" r="3.4"/><ellipse cx="12" cy="12" rx="9.3" ry="4.1" transform="rotate(-26 12 12)"/><circle cx="18.9" cy="7.9" r="1.3" fill="currentColor" stroke="none"/>',
+  influence:'<circle cx="6" cy="6" r="1.9"/><circle cx="18" cy="6" r="1.9"/><circle cx="6" cy="18" r="1.9"/><circle cx="18" cy="18" r="1.9"/><circle cx="12" cy="12" r="1.9"/><path d="M7.8 6.9l2.9 3M16.2 6.9l-2.9 3M7.8 17.1l2.9-3M16.2 17.1l-2.9-3"/>',
+  foundation:'<path d="M4 21h16"/><path d="M6 21v-9.5"/><path d="M12 21v-9.5"/><path d="M18 21v-9.5"/><path d="M4 11.5h16"/><path d="M5.5 8.5h13L12 3.5z"/>',
+  limit:'<path d="M12 3.6L22 20.4H2z"/><path d="M12 9.8v4.6"/><path d="M12 17.3v.2"/>',
+  speed:'<path d="M13 2.6L5 13.4h5.4L10 21.4l8-11h-5.4z"/>',
+  clock:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7v5l3.4 2"/>',
+  quantum:'<circle cx="12" cy="12" r="8.6" stroke-dasharray="3 4"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/>'
+};
+const icon=(n,s=17)=>n&&ICONS[n]?`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`:'';
+
+/* ============================================================
+   DỮ LIỆU SƠ ĐỒ TƯ DUY
+   tọa độ (x,y) = tâm node; w = bề rộng; h đo runtime
+   ============================================================ */
+const MIND={
+  id:'root',br:0,level:0,x:0,y:0,w:390,icon:'atom',
+  title:'CƠ HỌC CỔ ĐIỂN &amp; VẬT LÝ HIỆN ĐẠI',
+  sub:'Từ Newton đến Einstein và Cơ học lượng tử',
+  detail:{
+    def:'Bản đồ kiến thức từ cơ học cổ điển đến vật lý hiện đại. Nhấp vào từng node để xem định nghĩa, công thức, ứng dụng và mối liên hệ lịch sử.',
+    origin:'Sự phát triển của vật lý học qua hơn 300 năm, từ cuộc cách mạng khoa học thế kỷ XVII với Newton đến bước nhảy vọt của Einstein và cơ học lượng tử thế kỷ XX.',
+    examples:['Vũ trụ học và thám hiểm không gian', 'Công nghệ bán dẫn, vi mạch điện tử và lượng tử', 'Kỹ thuật cơ khí chính xác và tự động hóa']
+  },
+  children:[
+  { /* ---------- NHÁNH 1 ---------- */
+    id:'b1',br:1,level:1,x:-520,y:0,w:270,icon:'grid',
+    title:'CÁC NHÁNH NGHIÊN CỨU CỦA CƠ HỌC CỔ ĐIỂN',sub:'9 hướng nghiên cứu chính',
+    detail:{def:'Cơ học cổ điển phát triển thành nhiều hướng nghiên cứu chuyên sâu, từ tĩnh học của kết cầu đến nhiệt động lực học và cơ học thống kê.',year:'1687 → thế kỷ XIX'},
+    children:[
+      {id:'st',x:-1010,y:-760,w:230,icon:'statics',title:'Tĩnh học',sub:'ΣF = 0 · ΣM = 0',
+        detail:{
+          def:'Nghiên cứu lực và mômen lực trong các hệ cân bằng.',
+          formula:'ΣF = 0 ;  ΣM = 0',
+          fvars:[['ΣF','Tổng hợp lực tác dụng lên hệ'],['ΣM','Tổng mômen lực đối với một trục bất kỳ']],
+          apps:['Cầu','Nhà','Kết cấu'],
+          origin:'Thế kỷ III TCN, Archimedes nghiên cứu máy cơ đơn giản và quy tắc đòn bẩy để xây dựng công trình và máy móc quốc phòng bảo vệ thành Syracuse.',
+          examples:['Cần cẩu tháp nâng vật nặng bằng cánh tay đòn và đối trọng','Kéo cắt kim loại khuếch đại lực tay người lên gấp nhiều lần','Cầu treo dây văng chịu tải hàng nghìn tấn']
+        }
+      },
+      {id:'km',x:-1010,y:-570,w:230,icon:'kin',title:'Động học',sub:'vị trí · vận tốc · gia tốc',
+        detail:{
+          def:'Mô tả chuyển động mà chưa xét đến nguyên nhân gây ra chuyển động.',
+          items:['Vị trí','Vận tốc','Gia tốc','Quỹ đạo'],
+          origin:'Galileo Galilei (1638) dùng máng nghiêng làm chậm rơi tự do, chứng minh chuyển động ném xiên có quỹ đạo parabol hoàn hảo.',
+          examples:['Cú ném bóng rổ 3 điểm hình cầu vồng chính xác vào rổ','Hệ thống định vị GPS trên ô tô tính toán vận tốc và độ dời','Quỹ đạo tên lửa đưa tàu thăm dò bay vào quỹ đạo Sao Hỏa']
+        }
+      },
+      {id:'dy',x:-1010,y:-380,w:230,icon:'dyn',title:'Động lực học',sub:'F = ma',
+        detail:{
+          def:'Nghiên cứu mối quan hệ giữa lực và chuyển động — nền tảng quan trọng của cơ học Newton.',
+          formula:'F = ma',
+          fvars:[['F','Hợp lực tác dụng lên vật (N)'],['m','Khối lượng của vật (kg)'],['a','Gia tốc của vật (m/s²)']],
+          people:'Isaac Newton',
+          origin:'Newton (1687) bác bỏ quan niệm Aristotle, chứng minh lực gây ra gia tốc a = F/m chứ không phải duy trì vận tốc.',
+          examples:['Hệ thống phanh ABS điều chỉnh ma sát bánh xe chống trượt','Lực đẩy động cơ phản lực tăng tốc máy bay vượt tường âm thanh','Trọng lực Trái Đất gia tốc vật rơi tự do 9,8 m/s²']
+        }
+      },
+      {id:'lg',x:-1010,y:-190,w:230,icon:'lag',title:'Cơ học Lagrange',sub:'L = T − V · 1788',
+        detail:{
+          def:'Biểu diễn lại cơ học Newton bằng phương pháp giải tích, dùng tọa độ tổng quát — thuận lợi khi hệ có nhiều ràng buộc.',
+          items:['Tọa độ tổng quát','Hàm Lagrange L = T − V','Phương trình Euler–Lagrange'],
+          people:'Joseph-Louis Lagrange',year:1788,
+          origin:'Lagrange (1788) xuất bản "Mécanique Analytique", phát triển cơ học giải tích thuần túy dựa trên năng lượng L = T - V để giải quyết các hệ nhiều ràng buộc phức tạp mà không cần phân tích lực liên kết.',
+          examples:['Điều khiển chuyển động cánh tay robot công nghiệp 6 trục','Mô hình con lắc kép hỗn loạn trong cơ học phi tuyến','Phân tích dao động hệ thống treo ô tô khi qua gờ giảm tốc']
+        }
+      },
+      {id:'hm',x:-1010,y:0,w:230,icon:'ham',title:'Cơ học Hamilton',sub:'H = T + V · 1833',
+        detail:{
+          def:'Mô tả cơ học bằng tọa độ và động lượng trong không gian pha — đóng vai trò quan trọng trong sự phát triển của cơ học lượng tử.',
+          items:['Tọa độ và động lượng','Không gian pha','Hàm Hamilton H = T + V','Phương trình Hamilton'],
+          people:'William Rowan Hamilton',year:1833,
+          origin:'Hamilton (1833) biểu diễn cơ học trong không gian pha 2n chiều (tọa độ và động lượng), tạo tiền đề toán học trực tiếp cho sự ra đời của cơ học lượng tử.',
+          examples:['Tính toán quỹ đạo chùm hạt proton trong máy gia tốc LHC tại CERN','Quang học sóng và quang học hình học','Toán tử năng lượng Hamilton trong phương trình Schrödinger']
+        }
+      },
+      {id:'fl',x:-1010,y:190,w:230,icon:'fluid',title:'Cơ học chất lưu',sub:'Euler · Navier–Stokes',
+        detail:{
+          def:'Nghiên cứu chuyển động của chất lỏng và chất khí.',
+          items:['Phương trình Euler','Phương trình Navier–Stokes'],
+          apps:['Khí động học','Thủy động lực học','Động cơ','Dòng sông','Máy bay'],
+          origin:'Daniel Bernoulli (1738) phát hiện dòng chất lưu tăng tốc qua chỗ thắt hẹp thì áp suất tĩnh giảm dựa trên định luật bảo toàn cơ năng.',
+          examples:['Lực nâng khí động học Bernoulli nâng cánh máy bay hàng trăm tấn','Bình xịt nước hoa và vòi phun sương nguyên lý Venturi','Lưu lượng dòng máu trong động mạch tim người']
+        }
+      },
+      {id:'sd',x:-1010,y:380,w:230,icon:'solid',title:'Cơ học chất rắn',sub:'ứng suất · biến dạng · đàn hồi',
+        detail:{
+          def:'Nghiên cứu ứng suất, biến dạng và tính đàn hồi của vật liệu rắn.',
+          items:['Định luật Hooke','Lý thuyết đàn hồi'],
+          apps:['Xây dựng','Cơ khí','Vật liệu','Chế tạo máy'],
+          origin:'Robert Hooke (1678) khám phá định luật biến dạng đàn hồi: độ dãn tỉ lệ thuận với lực kéo F = k·Δl.',
+          examples:['Lò xo giảm xóc trên xe máy và hệ thống treo ô tô','Tính toán tải trọng chịu uốn của dầm cầu bê tông cốt thép','Vật liệu sợi carbon siêu nhẹ chịu ứng suất lớn trong vỏ máy bay']
+        }
+      },
+      {id:'os',x:-1010,y:570,w:230,icon:'wave',title:'Dao động và sóng',sub:'điều hòa · cộng hưởng',
+        detail:{
+          def:'Nghiên cứu dao động cơ học và sự lan truyền sóng trong môi trường vật chất.',
+          items:['Dao động điều hòa','Con lắc','Lò xo','Cộng hưởng','Sóng cơ học','Phương trình sóng'],
+          apps:['Âm thanh','Rung động','Sóng nước','Địa chấn'],
+          origin:'Galileo (1583) phát hiện tính đẳng thời của con lắc; Huygens phát triển lý thuyết sóng và đồng hồ quả lắc.',
+          examples:['Quả lắc khổng lồ 660 tấn chống rung lắc do bão tại tháp Taipei 101','Cộng hưởng âm thanh trong hộp đàn guitar và vĩ cầm','Sóng địa chấn lan truyền qua các tầng địa chất sau động đất']
+        }
+      },
+      {id:'th',x:-1010,y:760,w:230,icon:'thermo',title:'Nhiệt động lực học & Cơ học thống kê',sub:'entropy · Maxwell–Boltzmann',
+        detail:{
+          def:'Liên hệ giữa chuyển động vi mô của các phân tử với tính chất vĩ mô của vật chất.',
+          items:['Nhiệt độ','Nội năng','Entropy','Năng lượng','Phân bố Maxwell–Boltzmann'],
+          people:'Maxwell, Boltzmann',
+          origin:'Joule, Carnot, Clausius và Boltzmann đặt nền móng nhiệt động lực học để nâng cao hiệu suất động cơ nhiệt và chứng minh entropy luôn tăng.',
+          examples:['Động cơ đốt trong 4 kỳ chuyển nhiệt năng xăng dầu thành công cơ học','Máy lạnh và tủ lạnh bơm nhiệt ngược chiều làm lạnh đồ ăn','Hiện tượng giọt mực tím tự khuếch tán tan đều khắp cốc nước']
+        }
+      }
+    ]},
+  { /* ---------- NHÁNH 2 : NEWTON ---------- */
+    id:'nw',br:2,level:1,x:560,y:-340,w:270,icon:'newton',
+    title:'ISAAC NEWTON',sub:'1642–1727 · Principia 1687',
+    detail:{def:'Nhà vật lý và toán học người Anh. Trong Philosophiæ Naturalis Principia Mathematica (1687), ông trình bày ba định luật chuyển động và định luật vạn vật hấp dẫn — đặt nền móng cho cơ học cổ điển.',people:'Isaac Newton',year:'1642–1727'},
+    children:[
+      {id:'l1',x:950,y:-600,w:225,icon:'inertia',title:'Định luật I Newton',sub:'Quán tính',
+        detail:{
+          def:'Vật giữ nguyên trạng thái đứng yên hoặc chuyển động thẳng đều nếu hợp lực tác dụng lên nó bằng 0.',
+          people:'Isaac Newton',
+          origin:'Newton kế thừa tư tưởng của Galileo, khẳng định mọi vật đều có xu hướng tự bảo toàn trạng thái chuyển động (quán tính).',
+          examples:['Hành khách trên xe bus bị ngả về phía trước khi xe phanh gấp','Đai an toàn và túi khí giữ người lái xe không bị va đập khi xảy ra tai nạn']
+        }
+      },
+      {id:'l2',x:950,y:-450,w:225,icon:'fma',title:'Định luật II Newton',sub:'F = ma',
+        detail:{
+          def:'Lực làm thay đổi chuyển động của vật — là cơ sở của động lực học.',
+          formula:'F = ma',
+          fvars:[['F','Hợp lực tác dụng lên vật (N)'],['m','Khối lượng (kg)'],['a','Gia tốc (m/s²)']],
+          people:'Isaac Newton',
+          origin:'Newton xây dựng mối quan hệ cốt lõi F = ma định lượng hóa sự biến thiên động lượng của vật thể dưới tác dụng của hợp lực.',
+          examples:['Tên lửa Falcon 9 tạo lực đẩy 16 triệu Newton để thắng trọng lực và gia tốc bay lên','Người đẩy xe hàng nặng cần dùng lực lớn hơn nhiều so với xe rỗng']
+        }
+      },
+      {id:'l3',x:950,y:-300,w:225,icon:'pair',title:'Định luật III Newton',sub:'Lực và phản lực',
+        detail:{
+          def:'Hai vật tương tác với nhau bằng hai lực cùng độ lớn, ngược chiều.',
+          people:'Isaac Newton',
+          origin:'Newton phát hiện lực trong tự nhiên luôn xuất hiện theo từng cặp trực đối, là nguồn gốc của định luật bảo toàn động lượng.',
+          examples:['Súng trường bị giật lùi về phía sau khi bắn viên đạn về phía trước','Vận động viên bơi lội đạp mạnh chân vào thành bể để phóng người lao về phía trước']
+        }
+      },
+      {id:'gr',x:950,y:-150,w:225,icon:'gravity',title:'Định luật vạn vật hấp dẫn',sub:'F = G·m₁m₂ / r²',
+        detail:{
+          def:'Giải thích lực hấp dẫn và chuyển động của các hành tinh — đặt nền tảng cho cơ học thiên văn.',
+          formula:'F = G·m₁m₂ / r²',
+          fvars:[['F','Lực hấp dẫn giữa hai vật (N)'],['G','Hằng số hấp dẫn ≈ 6,674×10⁻¹¹ N·m²/kg²'],['m₁, m₂','Khối lượng hai vật (kg)'],['r','Khoảng cách giữa tâm hai vật (m)']],
+          apps:['Cơ học thiên văn','Chuyển động hành tinh'],
+          people:'Isaac Newton',
+          origin:'Newton thống nhất cơ học mặt đất và cơ học thiên văn trong định luật vạn vật hấp dẫn F = G·m₁m₂/r².',
+          examples:['Lực hút giữ Mặt Trăng quay quanh Trái Đất và tạo nên thủy triều','Vệ tinh viễn thông địa tĩnh Vinasat-1 bay đồng bộ với vòng quay Trái Đất ở độ cao 35.786 km']
+        }
+      },
+      {id:'inf',x:950,y:30,w:225,icon:'influence',title:'Ảnh hưởng của Newton',sub:'7 lĩnh vực',
+        detail:{def:'Tư tưởng của Newton lan tỏa vượt ra khỏi cơ học, định hình cả cách làm khoa học của các thế hệ sau.',apps:['Cơ học','Thiên văn học','Kỹ thuật','Cơ khí','Kiến trúc','Khoa học thực nghiệm','Phương pháp tư duy định lượng'],people:'Isaac Newton'}},
+      {id:'fnd',x:950,y:200,w:255,icon:'foundation',emph:true,title:'NEWTON ĐẶT NỀN MÓNG CHO CƠ HỌC CỔ ĐIỂN',
+        detail:{def:'Cơ học Newton là nền tảng quan trọng của vật lý cổ điển. Các mâu thuẫn và giới hạn của vật lý cổ điển về sau góp phần thúc đẩy sự ra đời của các lý thuyết hiện đại.'}}
+    ]},
+  { /* ---------- NHÁNH 3 : HIỆN ĐẠI ---------- */
+    id:'b3',br:3,level:1,x:560,y:520,w:270,icon:'limit',
+    title:'GIỚI HẠN CỦA VẬT LÝ CỔ ĐIỂN',sub:'Sự ra đời của vật lý hiện đại',
+    detail:{def:'Đầu thế kỷ XX, các kết quả thí nghiệm vượt ra ngoài phạm vi mô tả chính xác của cơ học cổ điển, thúc đẩy các lý thuyết hiện đại ra đời.'},
+    children:[
+      {id:'v1',x:930,y:345,w:225,icon:'speed',title:'Vấn đề 1 — Tốc độ rất lớn',sub:'v ≈ c',
+        detail:{def:'Cơ học Newton không còn chính xác khi tốc độ của vật tiến gần tốc độ ánh sáng.'},
+        children:[
+          {id:'rel',x:1320,y:180,w:215,icon:'clock',title:'THUYẾT TƯƠNG ĐỐI',sub:'Albert Einstein',
+            detail:{def:'Lý thuyết về không gian, thời gian và hấp dẫn — mở rộng cơ học Newton ở tốc độ gần tốc độ ánh sáng.',people:'Albert Einstein'},
+            children:[
+              {id:'sr',x:1690,y:80,w:225,icon:'clock',title:'Thuyết tương đối hẹp',sub:'Einstein · 1905',
+                detail:{
+                  def:'Không gian và thời gian không tuyệt đối; tốc độ ánh sáng trong chân không là giới hạn tốc độ tối đa.',
+                  formula:'E = mc²',
+                  fvars:[['E','Năng lượng nghỉ của vật (J)'],['m','Khối lượng nghỉ (kg)'],['c','Tốc độ ánh sáng ≈ 3×10⁸ m/s']],
+                  items:['Không gian và thời gian không tuyệt đối','Tốc độ ánh sáng là giới hạn'],
+                  people:'Albert Einstein',year:1905,
+                  origin:'Einstein (1905) giải quyết mâu thuẫn giữa cơ học cổ điển và điện từ học Maxwell bằng cách từ bỏ khái niệm thời gian tuyệt đối.',
+                  examples:['Đồng hồ nguyên tử trên vệ tinh GPS trôi chậm hơn đồng hồ dưới mặt đất','Hạt muon sống lâu hơn gấp nhiều lần khi bay ở tốc độ 0,995c trong khí quyển']
+                }
+              },
+              {id:'gr2',x:1690,y:310,w:225,icon:'gravity',title:'Thuyết tương đối rộng',sub:'Einstein · 1915',
+                detail:{def:'Hấp dẫn được giải thích thông qua hình học của không-thời gian: khối lượng làm cong không-thời gian.',apps:['Vũ trụ học','Thiên văn học','GPS','Nghiên cứu hố đen'],people:'Albert Einstein',year:1915}}
+            ]}
+        ]},
+      {id:'v2',x:930,y:730,w:225,icon:'atom',title:'Vấn đề 2 — Thế giới vi mô',sub:'cơ học cổ điển không giải thích tốt',
+        detail:{def:'Cơ học cổ điển không giải thích tốt thế giới vi mô — các hiện tượng ở thang nguyên tử nằm ngoài khả năng mô tả của nó.',items:['Bức xạ vật đen','Thảm họa tử ngoại','Hiệu ứng quang điện','Phổ nguyên tử','Cấu trúc nguyên tử']},
+        children:[
+          {id:'qm',x:1320,y:820,w:215,icon:'quantum',title:'CƠ HỌC LƯỢNG TỬ',sub:'Đầu thế kỷ XX',
+            detail:{def:'Lý thuyết mô tả thế giới vi mô, nơi năng lượng tồn tại thành các “lượng” rời rạc và vật chất biểu hiện tính sóng – hạt.'},
+            children:[
+              {id:'pl',x:1690,y:420,w:230,mono:'P',title:'Max Planck',sub:'1900 · E = hν',
+                detail:{def:'Đề xuất lượng tử hóa năng lượng — khai sinh ý tưởng lượng tử.',formula:'E = hν',fvars:[['E','Năng lượng của một lượng tử/photon (J)'],['h','Hằng số Planck ≈ 6,626×10⁻³⁴ J·s'],['ν','Tần số bức xạ (Hz)']],people:'Max Planck',year:1900}},
+              {id:'ei',x:1690,y:540,w:230,mono:'E',title:'Albert Einstein',sub:'1905 · Photon',
+                detail:{
+                  def:'Giải thích hiệu ứng quang điện bằng thuyết ánh sáng gồm các photon.',
+                  people:'Albert Einstein',year:1905,
+                  origin:'Einstein (1905) giải thích hiệu ứng quang điện bằng thuyết photon hạt ánh sáng E = hν, đoạt giải Nobel 1921.',
+                  examples:['Cảm biến hình ảnh máy ảnh số và điện thoại thông minh','Pin quang điện mặt trời biến ánh sáng thành dòng điện']
+                }
+              },
+              {id:'ru',x:1690,y:660,w:230,mono:'R',title:'Ernest Rutherford',sub:'1911 · Hạt nhân',
+                detail:{def:'Khám phá hạt nhân nguyên tử qua thí nghiệm tán xạ alpha.',people:'Ernest Rutherford',year:1911}},
+              {id:'bo',x:1690,y:780,w:230,mono:'B',title:'Niels Bohr',sub:'1913 · Mức năng lượng',
+                detail:{
+                  def:'Mô hình nguyên tử với các mức năng lượng lượng tử — giải thích phổ nguyên tử hydro.',
+                  people:'Niels Bohr',year:1913,
+                  origin:'Bohr (1913) kết hợp mô hình hành tinh nguyên tử với lượng tử Planck, giải quyết sự sụp đổ nguyên tử và giải thích quang phổ vạch hidro.',
+                  examples:['Ánh sáng màu đỏ của biển quảng cáo đèn neon và ánh sáng vàng của đèn đường cao tốc','Xác định thành phần hóa học của khí quyển các ngoại hành tinh cách xa hàng nghìn năm ánh sáng']
+                }
+              },
+              {id:'he',x:1690,y:900,w:230,mono:'H',title:'Werner Heisenberg',sub:'Nguyên lý bất định',
+                detail:{def:'Không thể đồng thời xác định chính xác cả vị trí và động lượng của một hạt.',people:'Werner Heisenberg'}},
+              {id:'sc',x:1690,y:1020,w:230,mono:'S',title:'Erwin Schrödinger',sub:'Phương trình Schrödinger',
+                detail:{def:'Phương trình Schrödinger và hàm sóng mô tả trạng thái lượng tử của hệ.',items:['Phương trình Schrödinger','Hàm sóng'],people:'Erwin Schrödinger'}}
+            ]}
+        ]}
+    ]}
+]};
+
+const BRANCH_LABEL={0:'TỔNG QUAN',1:'CƠ HỌC CỔ ĐIỂN',2:'ẢNH HƯỞNG CỦA CƠ HỌC NEWTON',3:'VẬT LÝ HIỆN ĐẠI'};
+
+/* ============================================================
+   DỮ LIỆU TIMELINE & CÔNG THỨC
+   ============================================================ */
+const TL=[
+  {y:1687,n:'Newton — Principia',d:'Định luật chuyển động và vạn vật hấp dẫn — nền móng cơ học cổ điển.',e:'e2'},
+  {y:1736,n:'Euler — Mechanica',d:'Hệ thống hóa động lực học bằng phân tích toán học.',e:'e1'},
+  {y:1747,n:'d’Alembert — phương trình sóng',d:'Mô tả sự lan truyền của sóng cơ học.',e:'e1'},
+  {y:1757,n:'Euler — phương trình chất lưu',d:'Nền tảng của cơ học chất lưu.',e:'e1'},
+  {y:1788,n:'Lagrange — Mécanique analytique',d:'Cơ học biểu diễn bằng phương pháp giải tích, L = T − V.',e:'e1'},
+  {y:1833,n:'Hamilton — cơ học Hamilton',d:'Không gian pha và hàm H = T + V.',e:'e1'},
+  {y:1865,n:'Maxwell — điện từ học',d:'Thống nhất điện, từ và ánh sáng trong một lý thuyết.',e:'e1'},
+  {y:1887,n:'Michelson–Morley',d:'Thí nghiệm phủ nhận môi trường ether, mở đường cho thuyết tương đối.',e:'e3'},
+  {y:1900,n:'Planck — lượng tử năng lượng',d:'Năng lượng phát xạ thành từng lượng tử, E = hν.',e:'e3'},
+  {y:1905,n:'Einstein — tương đối hẹp',d:'Không gian, thời gian và E = mc²; cũng giải thích hiệu ứng quang điện.',e:'e3'},
+  {y:1911,n:'Rutherford — hạt nhân nguyên tử',d:'Khám phá hạt nhân qua thí nghiệm tán xạ alpha.',e:'e3'},
+  {y:1913,n:'Bohr — nguyên tử lượng tử',d:'Mô hình nguyên tử với các mức năng lượng lượng tử.',e:'e3'}
+];
+const FORMULAS=[
+  {
+    f:'v = v₀ + at  ·  x = v₀t + ½at²',
+    name:'Chuyển động biến đổi đều (Động học)',
+    note:'Mối liên hệ giữa vận tốc, gia tốc, thời gian và quãng đường đi được trong chuyển động thẳng có gia tốc không đổi.',
+    origin:'Galileo Galilei (1638) tiến hành thí nghiệm thả quả cầu lăn trên máng nghiêng để làm chậm chuyển động rơi tự do. Trước đó, trường phái Aristotle tin rằng vật nặng rơi nhanh hơn vật nhẹ. Galileo chứng minh mọi vật đều rơi với cùng một gia tốc không đổi nếu bỏ qua sức cản không khí, sáng lập ra phương trình động học đầu tiên.',
+    example:'Một chiếc xe hơi tăng tốc từ 0 lên 100 km/h (≈ 27,8 m/s) trong 5 giây sẽ có gia tốc trung bình a ≈ 5,56 m/s² và đi được quãng đường x ≈ 69,5 mét.',
+    v:[['v','Vận tốc tức thời tại thời điểm t (m/s)'],['v₀','Vận tốc ban đầu của vật (m/s)'],['a','Gia tốc không đổi của chuyển động (m/s²)'],['t','Thời gian chuyển động (s)'],['x','Độ dời / tọa độ của vật (m)']]
+  },
+  {
+    f:'ΣF = 0  ·  ΣM = 0',
+    name:'Điều kiện cân bằng tĩnh học & Mômen lực',
+    note:'Một vật rắn ở trạng thái cân bằng tĩnh khi và chỉ khi tổng hợp lực bằng không và tổng mômen lực đối với trục quay bất kỳ bằng không.',
+    origin:'Thế kỷ III TCN, Archimedes nghiên cứu máy cơ đơn giản để phục vụ quốc phòng và xây dựng thành Syracuse. Ông tìm ra quy tắc đòn bẩy: mômen lực tỉ lệ với tích của lực và cánh tay đòn. Đây là công thức nền tảng của kỹ thuật xây dựng và kết cấu suốt hàng ngàn năm.',
+    example:'Cần cẩu xây dựng nâng thanh thép 10 tấn ở khoảng cách 20m phải dùng khối đối trọng bê tông 25 tấn đặt ở cánh tay đòn 8m phía sau để triệt tiêu mômen: 10×20 = 25×8 = 200 tấn·m.',
+    v:[['ΣF','Tổng các vectơ lực tác dụng lên vật (N)'],['ΣM','Tổng mômen lực đối với trục quay (N·m)'],['F','Độ lớn của từng lực thành phần (N)'],['d','Cánh tay đòn — khoảng cách từ trục quay đến giá của lực (m)']]
+  },
+  {
+    f:'F = ma',
+    name:'Định luật II Newton',
+    note:'Gia tốc của một vật tỉ lệ thuận với hợp lực tác dụng lên nó và tỉ lệ nghịch với khối lượng của vật.',
+    origin:'Trong cuốn "Principia" (1687), Newton phá vỡ định kiến 2.000 năm của Aristotle (vốn cho rằng lực duy trì vận tốc). Newton nhận ra rằng vật tự nó có xu hướng bảo toàn vận tốc (quán tính), và lực tác dụng là nguyên nhân làm biến thiên vận tốc theo thời gian: F = dp/dt = ma.',
+    example:'Để phóng tên lửa Falcon 9 nặng 549.000 kg tăng tốc bay lên với gia tốc 20 m/s², động cơ Merlin phải tạo ra hợp lực đẩy F = m·(a + g) ≈ 549.000 × (20 + 9,8) ≈ 16,36 triệu Newton.',
+    v:[['F','Hợp lực tác dụng lên vật — đơn vị niuton (N)'],['m','Khối lượng của vật — kilôgam (kg)'],['a','Gia tốc thu được — mét trên giây bình phương (m/s²)']]
+  },
+  {
+    f:'F₁₂ = −F₂₁',
+    name:'Định luật III Newton: Lực và phản lực',
+    note:'Khi vật A tác dụng một lực lên vật B, thì vật B cũng tác dụng trở lại vật A một lực cùng độ lớn nhưng ngược chiều.',
+    origin:'Newton nhận ra rằng không bao giờ có một lực tồn tại đơn độc trong vũ trụ. Mọi tác động đều là tương tác hai chiều hỗ tương giữa hai vật thể. Định luật này giải thích nguyên lý bảo toàn động lượng tổng của một hệ kín.',
+    example:'Động cơ phản lực của máy bay phản lực hút không khí ở phía trước, nén lại rồi phụt luồng khí cực mạnh về phía sau (lực F₁₂); dòng khí đẩy ngược lại thân máy bay về phía trước (phản lực F₂₁) đẩy máy bay bay nhanh hơn âm thanh.',
+    v:[['F₁₂','Lực do vật 1 tác dụng lên vật 2 (N)'],['F₂₁','Phản lực do vật 2 tác dụng ngược lại vật 1 (N)']]
+  },
+  {
+    f:'F = G·m₁m₂ / r²',
+    name:'Định luật vạn vật hấp dẫn',
+    note:'Mọi vật thể trong vũ trụ đều hút nhau bằng một lực tỉ lệ thuận với tích hai khối lượng và tỉ lệ nghịch với bình phương khoảng cách.',
+    origin:'Năm 1666, Newton tự hỏi liệu lực hút giữ quả táo rơi xuống đất có vươn tới tận Mặt Trăng không. Kết hợp định luật Kepler về chuyển động hành tinh với phép tính vi tích phân, ông chứng minh lực giữ Mặt Trăng quay quanh Trái Đất và lực kéo quả táo chính là một lực hấp dẫn duy nhất.',
+    example:'Lực hút giữa Trái Đất và Mặt Trăng (F ≈ 1,98×10²⁰ N) giữ cho Mặt Trăng không bay mất vào không gian sâu, đồng thời tạo nên hiện tượng thủy triều lên xuống đều đặn mỗi ngày ở các đại dương.',
+    v:[['F','Lực hấp dẫn giữa hai vật (N)'],['G','Hằng số hấp dẫn G ≈ 6,674×10⁻¹¹ N·m²/kg²'],['m₁, m₂','Khối lượng của hai vật (kg)'],['r','Khoảng cách giữa tâm hai vật (m)']]
+  },
+  {
+    f:'W = F·s·cosα  ·  ΔK = ½mv₂² − ½mv₁²',
+    name:'Công cơ học & Định lý động năng',
+    note:'Công của ngoại lực tác dụng lên vật bằng độ biến thiên động năng của vật đó.',
+    origin:'Đầu thế kỷ XIX, cuộc cách mạng công nghiệp bùng nổ với động cơ hơi nước. Các kỹ sư như Coriolis, Poncelet và Carnot cần một đại lượng đo lường chính xác hiệu quả làm việc của máy móc, từ đó định nghĩa khái niệm "Công" (Work) và "Động năng" (Kinetic Energy).',
+    example:'Xe chạy ở vận tốc 100 km/h có động năng gấp 4 lần khi chạy ở 50 km/h (do tỉ lệ với v²), nghĩa là khi phanh gấp cần quãng đường phanh dài gấp 4 lần để công của lực ma sát triệt tiêu toàn bộ động năng đó.',
+    v:[['W','Công cơ học sinh ra (Joule - J)'],['F','Độ lớn của lực tác dụng (N)'],['s','Quãng đường dịch chuyển (m)'],['α','Góc hợp bởi hướng của lực và hướng dịch chuyển'],['K','Động năng của vật (J)']]
+  },
+  {
+    f:'T = 2π√(l/g)',
+    name:'Chu kỳ con lắc đơn (Dao động điều hòa)',
+    note:'Chu kỳ dao động nhỏ của con lắc đơn chỉ phụ thuộc vào chiều dài dây treo và gia tốc trọng trường, không phụ thuộc vào khối lượng quả nặng.',
+    origin:'Năm 1583, chàng sinh viên 19 tuổi Galileo Galilei quan sát ngọn đèn treo đung đưa trong giáo đường Pisa, dùng nhịp tim đo thời gian và phát hiện tính đẳng thời. Christian Huygens (1656) hoàn thiện công thức và chế tạo ra chiếc đồng hồ quả lắc chính xác đầu tiên, giúp ngành hàng hải định vị kinh độ trên biển.',
+    example:'Một con lắc có chiều dài l = 0,994 m tại nơi có g = 9,8 m/s² sẽ có chu kỳ đúng bằng T = 2,0 giây (mỗi nửa chu kỳ con lắc gõ một nhịp giây, ứng dụng trong đồng hồ quả lắc kinh điển).',
+    v:[['T','Chu kỳ dao động toàn phần (giây - s)'],['l','Chiều dài dây treo con lắc (m)'],['g','Gia tốc trọng trường tại nơi treo (m/s²)']]
+  },
+  {
+    f:'p + ½ρv² + ρgh = const',
+    name:'Định luật Bernoulli (Chất lưu lý tưởng)',
+    note:'Trong một dòng chảy dừng của chất lưu không nén được, tổng áp suất tĩnh, áp suất động và áp suất thế năng luôn không đổi dọc theo một đường dòng.',
+    origin:'Năm 1738, Daniel Bernoulli nghiên cứu áp suất dòng máu trong mạch và dòng chảy chất lỏng trong đường ống. Dựa trên định luật bảo toàn cơ năng, ông phát hiện ra hiện tượng nghịch lý: dòng chất lưu chảy càng nhanh thì áp suất bên trong lòng nó lại càng giảm.',
+    example:'Cánh máy bay được uốn cong mặt trên khiến luồng khí phía trên di chuyển nhanh hơn luồng khí phía dưới, làm áp suất khí phía trên giảm mạnh, sinh ra lực nâng khí động học nâng bổng máy bay hàng trăm tấn lên không trung.',
+    v:[['p','Áp suất tĩnh của chất lưu tại vị trí khảo sát (Pa)'],['ρ','Khối lượng riêng của chất lưu (kg/m³)'],['v','Tốc độ dòng chảy của chất lưu (m/s)'],['g','Gia tốc trọng trường (m/s²)'],['h','Độ cao so với mặt phẳng mốc (m)']]
+  },
+  {
+    f:'ΔU = Q + A',
+    name:'Nguyên lý I Nhiệt động lực học',
+    note:'Độ biến thiên nội năng của một hệ bằng tổng nhiệt lượng mà hệ nhận được và công mà các lực bên ngoài tác dụng lên hệ (Bảo toàn năng lượng).',
+    origin:'Thế kỷ XIX, các thí nghiệm của James Prescott Joule (thí nghiệm khuấy nước bằng cánh quạt) và Julius Robert von Mayer chứng minh nhiệt năng và cơ năng có thể chuyển hóa qua lại với nhau theo tỉ lệ tương đương. Định luật này chính thức bác bỏ khả năng chế tạo động cơ vĩnh cửu loại 1.',
+    example:'Trong xi lanh động cơ xe máy, hỗn hợp xăng gió bốc cháy cung cấp nhiệt lượng Q lớn, làm khí nóng giãn nở sinh công A đẩy piston di chuyển, truyền lực làm quay bánh xe chuyển động.',
+    v:[['ΔU','Độ biến thiên nội năng của hệ (J)'],['Q','Nhiệt lượng hệ trao đổi — nhận nhiệt Q > 0, tỏa nhiệt Q < 0 (J)'],['A','Công cơ học trao đổi — nhận công A > 0, sinh công A < 0 (J)']]
+  },
+  {
+    f:'ΔS ≥ 0  ·  dS = dQ_rev / T',
+    name:'Nguyên lý II Nhiệt động lực học & Entropy',
+    note:'Trong một hệ cô lập, entropy (độ hỗn loạn) luôn tăng hoặc không đổi theo thời gian; nhiệt không thể tự truyền từ vật lạnh sang vật nóng hơn.',
+    origin:'Sadi Carnot (1824) nghiên cứu hiệu suất tối đa của động cơ hơi nước. Sau đó Rudolf Clausius và Ludwig Boltzmann phát hiện quy luật tự nhiên có tính một chiều không thể đảo ngược (mũi tên thời gian). Khái niệm entropy ra đời để đo lường độ mất mát năng lượng có ích và xu thế tán xạ tự nhiên.',
+    example:'Một viên nước đá bỏ vào cốc trà nóng sẽ tự tan ra làm cốc nước ấm đều, nhưng không bao giờ một cốc nước ấm tự tách thành một viên đá lạnh và một phần nước sôi hơn, dù điều đó không vi phạm nguyên lý I.',
+    v:[['S','Entropy của hệ — thước đo mức độ hỗn loạn (J/K)'],['ΔS','Độ biến thiên entropy của toàn hệ cô lập (J/K)'],['Q_rev','Nhiệt lượng trao đổi trong quá trình thuận nghịch (J)'],['T','Nhiệt độ nhiệt động lực học tuyệt đối (Kelvin - K)']]
+  },
+  {
+    f:'L = T − V  ·  d/dt(∂L/∂q̇ᵢ) − ∂L/∂qᵢ = 0',
+    name:'Hàm Lagrange & Phương trình Euler–Lagrange',
+    note:'Hiệu của động năng và thế năng được sử dụng để thiết lập phương trình chuyển động thông qua nguyên lý tác dụng tối thiểu của Hamilton.',
+    origin:'Năm 1788, Joseph-Louis Lagrange xuất bản kiệt tác "Mécanique Analytique" mà không hề vẽ một hình vẽ nào. Để tránh việc phân tích phức tạp các lực liên kết và phản lực trong hệ có nhiều ràng buộc, Lagrange xây dựng cơ học thuần túy bằng giải tích dựa trên năng lượng và tọa độ suy rộng.',
+    example:'Mô tả chuyển động của cánh tay robot 6 bậc tự do hoặc con lắc kép hỗn loạn — nếu dùng phương pháp Newton thì hệ phương trình lực liên kết cực kỳ rối rắm, nhưng dùng phương trình Lagrange có thể giải quyết thanh lịch trong vài dòng.',
+    v:[['L','Hàm Lagrange của hệ thống (Joule - J)'],['T','Động năng toàn phần biểu diễn theo tọa độ suy rộng (J)'],['V','Thế năng của hệ thống (J)'],['qᵢ','Tọa độ suy rộng thứ i (góc quay, tọa độ cong...)'],['q̇ᵢ','Vận tốc suy rộng (đạo hàm bậc nhất theo thời gian)']]
+  },
+  {
+    f:'H = Σ pᵢq̇ᵢ − L = T + V',
+    name:'Hàm Hamilton & Cơ học Hamilton',
+    note:'Biểu diễn cơ học thông qua tọa độ và động lượng trong không gian pha, là cầu nối trực tiếp chuyển từ vật lý cổ điển sang cơ học lượng tử.',
+    origin:'Năm 1833, William Rowan Hamilton tái cấu trúc lại cơ học giải tích. Bằng cách thay thế vận tốc suy rộng bằng động lượng liên hợp pᵢ = ∂L/∂q̇ᵢ, ông đưa hệ n phương trình vi phân bậc hai thành hệ 2n phương trình vi phân bậc nhất đối xứng hoàn hảo trong không gian pha.',
+    example:'Quỹ đạo của các chùm hạt mang điện trong máy gia tốc hạt lớn LHC tại CERN được tính toán và kiểm soát chính xác thông qua phương trình chính tắc Hamilton.',
+    v:[['H','Hàm Hamilton — năng lượng toàn phần của hệ kín (J)'],['pᵢ','Động lượng suy rộng liên hợp với tọa độ qᵢ'],['qᵢ','Tọa độ vị trí suy rộng trong không gian pha'],['T, V','Động năng và thế năng của hệ (J)']]
+  },
+  {
+    f:'∇×E = −∂B/∂t  ·  ∇×B = μ₀J + μ₀ε₀∂E/∂t',
+    name:'Hệ phương trình Maxwell & Sóng điện từ',
+    note:'Bốn phương trình kinh điển thống nhất hiện tượng điện, từ và chứng minh ánh sáng bản chất là một loại sóng điện từ lan truyền với tốc độ c.',
+    origin:'Năm 1865, James Clerk Maxwell bổ sung dòng điện dịch vào định luật Ampère để đảm bảo tính đối xứng toán học và bảo toàn điện tích. Khi kết hợp các phương trình, ông bất ngờ tìm ra một phương trình sóng truyền đi trong chân không với tốc độ đúng bằng 300.000 km/s — chính là tốc độ ánh sáng mà Fizeau đo được trước đó.',
+    example:'Tất cả sóng vô tuyến, mạng Wi-Fi, sóng điện thoại 5G, tia X trong y tế và ánh sáng nhìn thấy đều là các dạng bức xạ sóng điện từ tuân theo chính xác hệ phương trình Maxwell.',
+    v:[['E','Vectơ cường độ điện trường (V/m)'],['B','Vectơ cảm ứng từ (Tesla - T)'],['J','Mật độ dòng điện dẫn (A/m²)'],['c','Tốc độ ánh sáng c = 1/√(ε₀μ₀) ≈ 3×10⁸ m/s'],['ε₀, μ₀','Hằng số điện và hằng số từ của chân không']]
+  },
+  {
+    f:"t' = t / √(1 − v²/c²)  ·  L' = L√(1 − v²/c²)",
+    name:'Giãn thời gian & Co độ dài (Thuyết tương đối hẹp)',
+    note:'Thời gian trôi chậm hơn và chiều dài bị co ngắn lại dọc theo phương chuyển động đối với một vật chuyển động so với người quan sát đứng yên.',
+    origin:'Thí nghiệm Michelson–Morley (1887) thất bại trong việc tìm kiếm môi trường giả định "ether" và chứng minh tốc độ ánh sáng là bất biến. Einstein năm 1905 tuyên bố không gian và thời gian không phải là tuyệt đối mà phụ thuộc vào hệ quy chiếu của người quan sát.',
+    example:'Các hạt muon sinh ra ở tầng khí quyển cao cách mặt đất 10 km có thời gian sống chỉ 2,2 microgiây. Nhờ hiệu ứng giãn thời gian khi bay ở tốc độ 0,995c, thời gian của muon trôi chậm gấp 10 lần, giúp chúng kịp chạm tới mặt đất trước khi phân rã.',
+    v:[["t'",'Khoảng thời gian đo bởi quan sát viên đứng yên (s)'],['t','Khoảng thời gian riêng của hệ chuyển động (s)'],['v','Vận tốc tương đối giữa hai hệ quy chiếu (m/s)'],['c','Tốc độ ánh sáng trong chân không ≈ 3×10⁸ m/s'],['γ','Hệ số Lorentz γ = 1/√(1 − v²/c²) ≥ 1']]
+  },
+  {
+    f:'E = mc²',
+    name:'Hệ thức tương đương khối lượng — năng lượng',
+    note:'Khối lượng và năng lượng là hai dạng biểu hiện tương đương của cùng một thực thể vật chất; một lượng khối lượng cực nhỏ chứa năng lượng khổng lồ.',
+    origin:'Sau khi công bố thuyết tương đối hẹp năm 1905, Einstein viết một bài báo bổ sung đặt câu hỏi: "Quán tính của một vật có phụ thuộc vào năng lượng của nó không?". Ông tính toán và phát hiện ra rằng khi vật phát ra năng lượng L thì khối lượng của nó giảm đi đúng một lượng L/c².',
+    example:'Trong phản ứng nhiệt hạch trên Mặt Trời, mỗi giây có khoảng 4 triệu tấn vật chất bị hụt khối chuyển hóa thành năng lượng tỏa sáng khắp Thái Dương hệ, nuôi sống toàn bộ sự sống trên Trái Đất.',
+    v:[['E','Năng lượng nghỉ toàn phần chứa trong vật chất (J)'],['m','Khối lượng nghỉ của vật thể (kg)'],['c','Vận tốc ánh sáng trong chân không c ≈ 299.792.458 m/s']]
+  },
+  {
+    f:'E = hν = hc / λ',
+    name:'Lượng tử năng lượng của Max Planck',
+    note:'Năng lượng của bức xạ điện từ không được phát xạ liên tục mà thành từng gói năng lượng rời rạc gọi là các "lượng tử" (quantum).',
+    origin:'Năm 1900, vật lý cổ điển rơi vào khủng hoảng "Tai ương tử ngoại" khi định luật Rayleigh–Jeans dự đoán vật đen bức xạ năng lượng vô hạn ở bước sóng ngắn. Để khớp với đồ thị thực nghiệm, Max Planck buộc phải đưa ra một giả định táo bạo: năng lượng chỉ được hấp thụ và phát xạ theo từng lượng tử rời rạc E = hν. Phát minh này khai sinh ra Cơ học lượng tử.',
+    example:'Tia laser đỏ có bước sóng λ = 650 nm phát ra các photon mang năng lượng E ≈ 1,91 eV, trong khi tia laser xanh dương λ = 450 nm mang photon năng lượng E ≈ 2,76 eV đủ sức kích hoạt các phản ứng huỳnh quang.',
+    v:[['E','Năng lượng của một lượng tử photon (Joule - J)'],['h','Hằng số Planck h ≈ 6,626×10⁻³⁴ J·s'],['ν','Tần số của bức xạ điện từ (Hz)'],['λ','Bước sóng của bức xạ (m)'],['c','Tốc độ ánh sáng (m/s)']]
+  },
+  {
+    f:'hν = A + ½m_e v₀max²',
+    name:'Phương trình hiệu ứng quang điện Einstein',
+    note:'Năng lượng photon hấp thụ dùng để giải phóng electron ra khỏi bề mặt kim loại (công thoát A) và cung cấp động năng ban đầu cực đại cho electron.',
+    origin:'Heinrich Hertz phát hiện hiệu ứng quang điện năm 1887 nhưng vật lý sóng cổ điển không thể giải thích tại sao chiếu ánh sáng đỏ cường độ cực mạnh lại không bứt được electron, trong khi ánh sáng tím yếu lại bứt được ngay. Năm 1905, Einstein áp dụng lượng tử Planck coi ánh sáng là hạt photon va chạm với electron, giải quyết hoàn hảo bí ẩn và đoạt giải Nobel 1921.',
+    example:'Pin mặt trời trên mái nhà hấp thụ các photon từ ánh sáng mặt trời có năng lượng lớn hơn công thoát của silicon để bứt electron, tạo ra dòng điện một chiều thắp sáng các thiết bị gia đình.',
+    v:[['hν','Năng lượng của photon ánh sáng chiếu vào (J)'],['A','Công thoát của electron khỏi bề mặt kim loại (J hoặc eV)'],['m_e','Khối lượng nghỉ của electron m_e ≈ 9,109×10⁻³¹ kg'],['v₀max','Vận tốc ban đầu cực đại của quang electron (m/s)']]
+  },
+  {
+    f:'E_n = −13,6 / n²  (eV)  ·  r_n = n²r₀',
+    name:'Mô hình nguyên tử Bohr & Mức năng lượng',
+    note:'Electron chỉ quay trên những quỹ đạo dừng cố định mà không phát xạ năng lượng; khi nhảy từ mức cao về mức thấp, nguyên tử phát ra một photon có năng lượng đúng bằng hiệu hai mức.',
+    origin:'Mô hình hành tinh nguyên tử của Rutherford gặp bế tắc vì theo điện từ học Maxwell, electron chuyển động có gia tốc sẽ liên tục phát sóng, mất năng lượng và lao sầm vào hạt nhân trong tích tắc (nguyên tử sụp đổ). Năm 1913, Niels Bohr lượng tử hóa mômen động lượng của electron, giải thích chính xác tính bền vững và quang phổ vạch của hidro.',
+    example:'Khi electron trong nguyên tử hidro nhảy từ mức n = 3 về n = 2, nó phát ra một photon có bước sóng đúng 656,3 nm — chính là vạch màu đỏ rực rỡ H-alpha nhìn thấy trong quang phổ của các tinh vân vũ trụ.',
+    v:[['E_n','Năng lượng của electron ở trạng thái dừng thứ n (eV)'],['n','Số lượng tử chính (n = 1, 2, 3, 4...)'],['r_n','Bán kính quỹ đạo dừng thứ n (m)'],['r₀','Bán kính Bohr r₀ ≈ 5,29×10⁻¹¹ m']]
+  },
+  {
+    f:'λ = h / p = h / (mv)',
+    name:'Giả thuyết sóng vật chất của De Broglie',
+    note:'Mọi vi hạt vật chất chuyển động có động lượng p đều mang tính chất sóng với bước sóng tương ứng gọi là bước sóng De Broglie.',
+    origin:'Năm 1924, trong luận án tiến sĩ của mình, Louis de Broglie đặt câu hỏi đối xứng mang tính triết học: "Nếu sóng ánh sáng có thể biểu hiện tính chất như hạt (photon), thì các hạt vật chất như electron liệu có thể biểu hiện tính chất sóng hay không?". Thí nghiệm tán xạ electron qua tinh thể niken của Davisson–Germer (1927) đã xác nhận hoàn toàn dự đoán thiên tài này.',
+    example:'Kính hiển vi điện tử (TEM/SEM) sử dụng chùm electron có bước sóng De Broglie ngắn hơn ánh sáng nhìn thấy 100.000 lần, cho phép con người chụp ảnh phóng đại nhìn thấy rõ từng sợi xoắn kép ADN và cấu trúc nguyên tử.',
+    v:[['λ','Bước sóng De Broglie của hạt vật chất (m)'],['h','Hằng số Planck h ≈ 6,626×10⁻³⁴ J·s'],['p','Động lượng của hạt p = mv (kg·m/s)'],['m','Khối lượng của hạt (kg)'],['v','Vận tốc chuyển động của hạt (m/s)']]
+  },
+  {
+    f:'Δx · Δp ≥ ℏ / 2   (với ℏ = h / 2π)',
+    name:'Nguyên lý bất định Heisenberg',
+    note:'Không thể xác định đồng thời cả vị trí chính xác và động lượng chính xác của một hạt vi mô; độ bất định của hai đại lượng tỉ lệ nghịch với nhau.',
+    origin:'Năm 1927, Werner Heisenberg phân tích quá trình đo đạc lượng tử: để nhìn thấy một electron, ta phải chiếu ít nhất một photon vào nó, nhưng photon va chạm sẽ làm thay đổi ngay lập tức động lượng của electron. Sự bất định không phải do máy đo kém, mà là đặc tính bản chất của cơ học sóng lượng tử.',
+    example:'Hiệu ứng đường hầm lượng tử (Quantum Tunneling): nhờ độ bất định vị trí và năng lượng, electron có thể "xuyên qua" rào thế năng dù năng lượng không đủ — đây là nguyên lý hoạt động của ổ cứng thể rắn SSD, bộ nhớ Flash trong điện thoại và phản ứng nhiệt hạch trong lõi Mặt Trời.',
+    v:[['Δx','Độ bất định (sai số cực tiểu) về vị trí của hạt (m)'],['Δp','Độ bất định về động lượng của hạt (kg·m/s)'],['ℏ','Hằng số Planck rút gọn ℏ = h/(2π) ≈ 1,055×10⁻³⁴ J·s']]
+  }
+];
+
+/* ============================================================
+   MODULE MIND MAP — render, pan/zoom, select, collapse
+   ============================================================ */
+const MM={
+  nodes:[],edges:[],byId:{},
+  vp:null,svg:null,world:null,edgeG:null,nodeG:null,
+  cur:{x:0,y:0,s:.6},tgt:{x:0,y:0,s:.6},vw:0,vh:0,
+  sel:null,flowDots:[],dragged:false,userMoved:false,pointers:new Map(),pinch:null
+};
+
+// Duyệt cây: gán parent, depth và dàn phẳng
+function walk(n,parent,depth,br){
+  n.parent=parent;n.depth=depth;n.br=n.br??br??0;n.collapsed=false;
+  MM.nodes.push(n);MM.byId[n.id]=n;
+  if(n.children)n.children.forEach(c=>walk(c,n,depth+1,n.br));
+}
+function nodeInner(n){
+  if(n.level===0)return `<div class="nd-rt">${icon(n.icon,30)}<div class="nd-t">${n.title}</div><div class="nd-s">${n.sub}</div></div>`;
+  const ic=n.mono?`<span class="nd-mono">${n.mono}</span>`:icon(n.icon,n.level<=1?18:16);
+  return `<div class="nd-ic">${ic}</div><div class="nd-tx"><div class="nd-t">${n.title}</div>${n.sub?`<div class="nd-s">${n.sub}</div>`:''}</div>`;
+}
+// Đo chiều cao node bằng thẻ ẩn (chính xác theo font đã tải)
+function measure(n){
+  const m=$('#msr');
+  m.innerHTML=`<div class="ndg lv${n.level} br${n.br}"><div class="nd ${n.emph?'nd-em':''}" style="width:${n.w}px">${nodeInner(n)}</div></div>`;
+  n.h=Math.ceil(m.querySelector('.nd').offsetHeight)+6;
+}
+function edgeGeom(p,c){
+  const dir=c.x>p.x?1:-1;
+  const x0=p.x+dir*p.w/2,x1=c.x-dir*c.w/2;
+  const y0=clamp(c.y,p.y-p.h/2+14,p.y+p.h/2-14),y1=c.y;
+  const dx=(x1-x0)*.48;
+  const d=`M ${x0.toFixed(1)} ${y0.toFixed(1)} C ${(x0+dx).toFixed(1)} ${y0.toFixed(1)}, ${(x1-dx).toFixed(1)} ${y1.toFixed(1)}, ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+  return{d,x0,y0,x1,y1};
+}
+function countDesc(n){let c=0;(function w(m){m.children&&m.children.forEach(x=>{c++;w(x)})})(n);return c}
+function isVisible(n){let p=n.parent;while(p){if(p.collapsed)return false;p=p.parent}return true}
+function relatedSet(id){
+  const s=new Set();let n=MM.byId[id];
+  while(n){s.add(n.id);n=n.parent}
+  (function down(m){s.add(m.id);m.children&&m.children.forEach(down)})(MM.byId[id]);
+  return s;
+}
+function collectVis(n,out=[]){out.push(n);if(!n.collapsed&&n.children)n.children.forEach(c=>collectVis(c,out));return out}
+function bboxOf(list){
+  let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9;
+  list.forEach(n=>{x1=Math.min(x1,n.x-n.w/2);x2=Math.max(x2,n.x+n.w/2);y1=Math.min(y1,n.y-n.h/2);y2=Math.max(y2,n.y+n.h/2)});
+  return{x:x1,y:y1,w:x2-x1,h:y2-y1};
+}
+
+function buildMap(){
+  MM.svg=$('#mmSvg');MM.world=$('#mmWorld');MM.edgeG=$('#edgeG');MM.nodeG=$('#nodeG');MM.vp=$('#mmVp');
+  walk(MIND,null,0,0);
+  MM.nodes.forEach(measure);
+  MM.nodes.forEach((n,i)=>{
+    const g=svgEl('g',{class:`ndg lv${n.level} br${n.br}${n.emph?' nd-em':''}`,'data-id':n.id});
+    g.setAttribute('transform',`translate(${n.x-n.w/2},${n.y-n.h/2})`);
+    const fo=svgEl('foreignObject',{width:n.w,height:n.h});
+    fo.innerHTML=`<div xmlns="http://www.w3.org/1999/xhtml" class="nd" data-id="${n.id}">${nodeInner(n)}</div>`;
+    g.appendChild(fo);
+    if(n.children && n.level > 0){ // nút thu gọn đặt ở phía các node con (ngoài viền node)
+      const dir=n.children[0].x<n.x?-1:1;
+      const tgX = dir === 1 ? (n.w + 12) : -12;
+      const tg=svgEl('g',{class:'tg','data-id':n.id,transform:`translate(${tgX},${n.h/2})`});
+      tg.innerHTML=`<circle r="10.5"/><path class="mn" d="M-4.2 0h8.4"/><text class="pl" y="3.6" text-anchor="middle">+${countDesc(n)}</text>`;
+      g.appendChild(tg);
+    }
+    g.style.setProperty('--bd',(90+i*45)+'ms');
+    n.g=g;MM.nodeG.appendChild(g);
+  });
+  // đường nối (sau khi đã biết chiều cao node)
+  MM.nodes.forEach(n=>{
+    if(!n.parent)return;
+    const p=n.parent,{d,x0,y0,x1,y1}=edgeGeom(p,n);
+    const g=svgEl('g',{class:`edg br${n.br}`,'data-c':n.id,'data-p':p.id});
+    const path=svgEl('path',{d,class:'ed',id:`p-${p.id}-${n.id}`});
+    g.append(path,svgEl('circle',{cx:x0,cy:y0,r:3,class:'ds'}),svgEl('circle',{cx:x1,cy:y1,r:2.6,class:'de'}));
+    g.style.setProperty('--ed',(90+MM.nodes.indexOf(n)*45-160)+'ms');
+    MM.edges.push({p,c:n,g,path});MM.edgeG.appendChild(g);
+  });
+  sizeViewport();drawDecor();
+  applyDefaultView();
+  MM.cur={...MM.tgt,s:MM.tgt.s*1.5}; // mở màn: zoom nhẹ vào
+  requestAnimationFrame(tick);
+  bootAnimation();
+}
+function bootAnimation(){
+  const svg=MM.svg;
+  MM.edges.forEach(E=>{
+    const L=E.path.getTotalLength();
+    E.path.style.strokeDasharray=L;E.path.style.strokeDashoffset=L;
+    E.path.style.transition=`stroke-dashoffset .55s ease ${E.g.style.getPropertyValue('--ed')||'0ms'}`;
+  });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    svg.classList.remove('pre');
+    MM.edges.forEach(E=>E.path.style.strokeDashoffset=0);
+  }));
+  setTimeout(()=>{ // dọn style tạm để tương tác mượt
+    MM.edges.forEach(E=>{E.path.style.strokeDasharray='';E.path.style.strokeDashoffset='';E.path.style.transition=''});
+    MM.nodes.forEach(n=>n.g.style.removeProperty('--bd'));
+  },3400);
+}
+function sizeViewport(){
+  const r=MM.vp.getBoundingClientRect();
+  MM.vw=r.width;MM.vh=r.height;
+  const bg=$('#mmBgR');bg.setAttribute('width',MM.vw+160);bg.setAttribute('height',MM.vh+160);
+}
+function drawDecor(){ // vòng quỹ đạo mờ ở nền (cố định theo màn hình)
+  const g=$('#mmDeco');g.innerHTML='';
+  const cx=MM.vw/2,cy=MM.vh/2,ns='http://www.w3.org/2000/svg';
+  const mk=(tag,a)=>{const e=document.createElementNS(ns,tag);for(const k in a)e.setAttribute(k,a[k]);g.appendChild(e);return e};
+  mk('circle',{cx,cy,r:Math.min(cx,cy)*.72,fill:'none',stroke:'var(--line2)','stroke-width':1});
+  mk('circle',{cx,cy,r:Math.min(cx,cy)*1.05,fill:'none',stroke:'var(--line2)','stroke-width':1,'stroke-dasharray':'2 10'});
+  mk('ellipse',{cx,cy,rx:Math.min(cx,cy)*1.35,ry:Math.min(cx,cy)*.42,fill:'none',stroke:'var(--line2)','stroke-width':1,transform:`rotate(-16 ${cx} ${cy})`});
+}
+// Vòng lặp render: nội suy mượt pan/zoom + parallax nền
+function tick(){
+  const c=MM.cur,t=MM.tgt;
+  c.x+=(t.x-c.x)*.14;c.y+=(t.y-c.y)*.14;c.s+=(t.s-c.s)*.14;
+  MM.world.setAttribute('transform',`translate(${c.x.toFixed(2)} ${c.y.toFixed(2)}) scale(${c.s.toFixed(4)})`);
+  const px=((-c.x*.03)%34).toFixed(1),py=((-c.y*.03)%34).toFixed(1);
+  $('#mmBgR').setAttribute('transform',`translate(${px} ${py})`);
+  requestAnimationFrame(tick);
+}
+function applyView(b,pad=60){
+  const s=clamp(Math.min(MM.vw/(b.w+pad*2),MM.vh/(b.h+pad*2))*.94,.14,1.4);
+  MM.tgt={x:MM.vw/2-(b.x+b.w/2)*s,y:MM.vh/2-(b.y+b.h/2)*s,s};
+}
+function applyDefaultView(){
+  const s=clamp(MM.vw/2300,.3,.66);
+  MM.tgt={x:MM.vw/2,y:MM.vh/2,s};
+}
+function zoomAt(px,py,k){
+  const s2=clamp(MM.cur.s*k,.14,2.2);
+  MM.cur.x=px-(px-MM.cur.x)*(s2/MM.cur.s);
+  MM.cur.y=py-(py-MM.cur.y)*(s2/MM.cur.s);
+  MM.cur.s=s2;MM.tgt={...MM.cur};MM.userMoved=true;
+}
+function fitAll(){applyView(bboxOf(MM.nodes.filter(isVisible)),80)}
+function focusNode(n){applyView(bboxOf(collectVis(n)),110)}
+function panTo(n){
+  const s=Math.max(MM.cur.s,.55);
+  MM.tgt={x:MM.vw/2-n.x*s,y:MM.vh/2-n.y*s,s};
+}
+
+/* ---------- chọn / highlight ---------- */
+function addFlowDot(E){
+  const c=svgEl('circle',{r:3.2,class:'fd'});
+  const am=svgEl('animateMotion',{dur:'1.5s',repeatCount:'indefinite'});
+  const mp=svgEl('mpath');mp.setAttribute('href','#'+E.path.id);mp.setAttributeNS(XL,'xlink:href','#'+E.path.id);
+  am.appendChild(mp);c.appendChild(am);E.g.appendChild(c);MM.flowDots.push(c);
+}
+function selectNode(n){
+  if(!n||!isVisible(n))return;
+  deselect(true);
+  MM.sel=n;MM.svg.classList.add('has-sel');
+  const set=relatedSet(n.id);
+  MM.nodes.forEach(m=>m.g.classList.toggle('rel',set.has(m.id)));
+  MM.edges.forEach(E=>E.g.classList.toggle('rel',set.has(E.c.id)&&set.has(E.p.id)));
+  let ch=n;while(ch.parent){addFlowDot(MM.edges.find(e=>e.c===ch));ch=ch.parent}
+  openPanel(n);
+}
+function deselect(keepPanel){
+  if(MM.flowDots.forEach(d=>d.remove()),MM.flowDots=[],MM.svg.classList.remove('has-sel'),MM.sel=null,!keepPanel)closePanel();
+  MM.nodes.forEach(m=>m.g.classList.remove('rel'));
+  MM.edges.forEach(E=>E.g.classList.remove('rel'));
+}
+function litEdges(id,on){
+  const set=relatedSet(id);
+  MM.edges.forEach(E=>E.g.classList.toggle('lit',on&&set.has(E.c.id)&&set.has(E.p.id)));
+}
+/* ---------- collapse / expand ---------- */
+function setCollapsed(n,col){
+  n.collapsed=col;n.g.classList.toggle('col',col);
+  updateVisibility();
+}
+function updateVisibility(){
+  MM.nodes.forEach(m=>{
+    if(m.level===0)return;
+    const vis=isVisible(m);
+    m.g.classList.toggle('off',!vis);
+    const E=MM.edges.find(e=>e.c===m);if(E)E.g.classList.toggle('off',!vis);
+  });
+  if(MM.sel&&!isVisible(MM.sel))deselect();
+}
+function expandAll(){MM.nodes.forEach(n=>{n.collapsed=false;n.g.classList.remove('col')});updateVisibility()}
+function collapseAll(){MM.nodes.forEach(n=>{if(n.children&&n.level>=1){n.collapsed=true;n.g.classList.add('col')}});updateVisibility()}
+
+/* ---------- sự kiện chuột / cảm ứng ---------- */
+function initMapEvents(){
+  const vp=MM.vp;
+  vp.addEventListener('wheel',e=>{
+    if(e.target.closest('#panel, .mm-zoom, #mmDown, .mm-hint, .legend'))return;
+    e.preventDefault();
+    const r=vp.getBoundingClientRect();
+    zoomAt(e.clientX-r.left,e.clientY-r.top,Math.exp(-e.deltaY*.00125));
+  },{passive:false});
+  vp.addEventListener('pointerdown',e=>{
+    if(e.target.closest('#panel, .mm-zoom, #mmDown, .mm-hint, .legend'))return;
+    MM.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(MM.pointers.size===2){
+      const[a,b]=[...MM.pointers.values()],r=vp.getBoundingClientRect();
+      MM.pinch={d0:Math.hypot(a.x-b.x,a.y-b.y),s0:MM.cur.s,t0:{...MM.cur},mid0:{x:(a.x+b.x)/2-r.left,y:(a.y+b.y)/2-r.top}};
+    }
+    MM.dragged=false;vp.classList.add('drag');
+  });
+  vp.addEventListener('pointermove',e=>{
+    if(!MM.pointers.has(e.pointerId))return;
+    const prev=MM.pointers.get(e.pointerId),p={x:e.clientX,y:e.clientY};
+    if(MM.pointers.size===1){
+      const dx=p.x-prev.x,dy=p.y-prev.y;
+      if(dx||dy){
+        MM.cur.x+=dx;MM.cur.y+=dy;MM.tgt={...MM.cur};MM.userMoved=true;
+        if(Math.abs(dx)+Math.abs(dy)>2)MM.dragged=true;
+      }
+    }else if(MM.pointers.size===2&&MM.pinch){
+      MM.pointers.set(e.pointerId,p);
+      const[a,b]=[...MM.pointers.values()],r=vp.getBoundingClientRect();
+      const d=Math.hypot(a.x-b.x,a.y-b.y),mid={x:(a.x+b.x)/2-r.left,y:(a.y+b.y)/2-r.top};
+      const s2=clamp(MM.pinch.s0*d/MM.pinch.d0,.14,2.2);
+      const wx=(MM.pinch.mid0.x-MM.pinch.t0.x)/MM.pinch.s0,wy=(MM.pinch.mid0.y-MM.pinch.t0.y)/MM.pinch.s0;
+      MM.cur.x=mid.x-wx*s2;MM.cur.y=mid.y-wy*s2;MM.cur.s=s2;MM.tgt={...MM.cur};
+      MM.userMoved=true;MM.dragged=true;return;
+    }
+    MM.pointers.set(e.pointerId,p);
+  });
+  const endPointer=e=>{
+    MM.pointers.delete(e.pointerId);
+    if(MM.pointers.size<2)MM.pinch=null;
+    if(MM.pointers.size===0)vp.classList.remove('drag');
+  };
+  vp.addEventListener('pointerup',endPointer);
+  vp.addEventListener('pointercancel',endPointer);
+  // một handler cho click: toggle / chọn node / bỏ chọn nền
+  vp.addEventListener('click',e=>{
+    if(MM.dragged){MM.dragged=false;return}
+    const tg=e.target.closest&&e.target.closest('.tg');
+    if(tg){const n=MM.byId[tg.dataset.id];if(n)setCollapsed(n,!n.collapsed);return}
+    const nd=e.target.closest&&e.target.closest('.nd');
+    if(nd){selectNode(MM.byId[nd.dataset.id]);return}
+    if(MM.sel)deselect();
+  });
+  vp.addEventListener('dblclick',e=>{
+    const nd=e.target.closest&&e.target.closest('.nd');
+    if(!nd)return;e.preventDefault();
+    const n=MM.byId[nd.dataset.id];
+    selectNode(n);focusNode(n);MM.userMoved=true;
+  });
+  vp.addEventListener('mouseover',e=>{const nd=e.target.closest&&e.target.closest('.nd');if(nd)litEdges(nd.dataset.id,true)});
+  vp.addEventListener('mouseout',e=>{const nd=e.target.closest&&e.target.closest('.nd');if(nd)litEdges(nd.dataset.id,false)});
+  // thanh công cụ
+  $('#tAll').addEventListener('click',()=>{expandAll();toast('Đã hiển thị toàn bộ sơ đồ')});
+  $('#tCol').addEventListener('click',()=>{collapseAll();toast('Đã thu gọn các nhánh')});
+  $('#tRst').addEventListener('click',()=>{expandAll();deselect();applyDefaultView();toast('Đã đặt lại sơ đồ')});
+  $('#zIn').addEventListener('click',()=>zoomAt(MM.vw/2,MM.vh/2,1.28));
+  $('#zOut').addEventListener('click',()=>zoomAt(MM.vw/2,MM.vh/2,.78));
+  $('#zFit').addEventListener('click',()=>{fitAll();MM.userMoved=true});
+  $$('.lg').forEach(b=>b.addEventListener('click',()=>{
+    const n=MM.byId[b.dataset.f];if(!n)return;
+    expandAll();selectNode(n);focusNode(n);MM.userMoved=true;
+  }));
+  $('#mmDown').addEventListener('click',()=>$('#flow').scrollIntoView({behavior:'smooth'}));
+  window.addEventListener('resize',()=>{
+    sizeViewport();drawDecor();
+    if(!MM.userMoved)applyDefaultView();
+  });
+}
+
+/* ============================================================
+   HỆ THỐNG MÔ PHỎNG VẬT LÝ TƯƠNG TÁC (SIMULATION ENGINE)
+   ============================================================ */
+function getSimTheme(){
+  const isDark=document.documentElement.getAttribute('data-theme')!=='light';
+  return {
+    isDark,
+    bg:isDark?'#060b17':'#ffffff',
+    panel:isDark?'#0d1728':'#ffffff',
+    ink:isDark?'#e9eef7':'#1b2946',
+    mut:isDark?'#8fa3c2':'#57678a',
+    faint:isDark?'#5b6d8c':'#93a0b8',
+    line:isDark?'rgba(143,167,208,.18)':'rgba(27,41,70,.14)',
+    grid:isDark?'rgba(143,167,208,.07)':'rgba(27,41,70,.05)',
+    c1:isDark?'#43d5f5':'#0b8fb5',
+    c2:isDark?'#f0b43c':'#a06a03',
+    c3:isDark?'#b78bff':'#7a53d6',
+    red:isDark?'#f87171':'#dc2626',
+    green:isDark?'#34d399':'#059669'
+  };
+}
+
+function drawSimGrid(ctx,w,h,th){
+  ctx.strokeStyle=th.grid;ctx.lineWidth=1;
+  const s=24;ctx.beginPath();
+  for(let x=0;x<w;x+=s){ctx.moveTo(x,0);ctx.lineTo(x,h);}
+  for(let y=0;y<h;y+=s){ctx.moveTo(0,y);ctx.lineTo(w,y);}
+  ctx.stroke();
+}
+
+function drawSimVector(ctx,x0,y0,vx,vy,color,label){
+  const len=Math.hypot(vx,vy);
+  if(len<2)return;
+  const angle=Math.atan2(vy,vx);
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2.2;
+  ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+vx,y0+vy);ctx.stroke();
+  const head=Math.min(8,Math.max(4,len*0.22));
+  ctx.beginPath();
+  ctx.moveTo(x0+vx,y0+vy);
+  ctx.lineTo(x0+vx-head*Math.cos(angle-Math.PI/6),y0+vy-head*Math.sin(angle-Math.PI/6));
+  ctx.lineTo(x0+vx-head*Math.cos(angle+Math.PI/6),y0+vy-head*Math.sin(angle+Math.PI/6));
+  ctx.closePath();ctx.fill();
+  if(label){
+    ctx.font='bold 10px Be Vietnam Pro, sans-serif';
+    ctx.fillText(label,x0+vx+5*Math.cos(angle),y0+vy+5*Math.sin(angle));
+  }
+}
+
+const SIM_MODELS={
+  os:{
+    name:'Con lắc đơn & Đồ thị sóng sin',
+    formula:'x(t) = A·cos(ωt)',
+    theory:'Dao động điều hòa là dao động trong đó li độ biến thiên tuần hoàn theo hàm sin hoặc cosin theo thời gian. Chu kỳ dao động của con lắc đơn: T = 2π√(l/g).',
+    origin:"Năm 1583, Galileo quan sát ngọn đèn chùm đung đưa trong giáo đường Pisa và phát hiện chu kỳ dao động không đổi dù biên độ lớn hay nhỏ (tính đẳng thời). Christian Huygens sau đó hoàn thiện công thức T = 2π√(l/g) để chế tạo chiếc đồng hồ quả lắc chính xác đầu tiên phục vụ định vị hàng hải.",
+    example:"Đồng hồ quả lắc cơ học cổ điển; con lắc giảm chấn khổng lồ nặng 660 tấn treo tại tầng 88 tháp Taipei 101 giúp triệt tiêu năng lượng rung lắc do bão gió và động đất.",
+    controls:[
+      {id:'len',name:'Chiều dài l',min:0.6,max:2.2,step:0.1,val:1.2,unit:'m'},
+      {id:'amp',name:'Biên độ góc',min:10,max:55,step:5,val:30,unit:'°'}
+    ],
+    initState(){return {t:0,hist:[]};},
+    update(st,p,dt){
+      st.t+=dt;
+      const omega=Math.sqrt(9.8/p.len);
+      const theta=(p.amp*Math.PI/180)*Math.cos(omega*st.t);
+      st.theta=theta;st.omega=omega;st.T=2*Math.PI/omega;
+      st.hist.unshift(Math.sin(theta));
+      if(st.hist.length>110)st.hist.pop();
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const pivX=Math.round(w*0.3),pivY=22;
+      const rPix=Math.min(h*0.65,p.len*50);
+      const bobX=pivX+rPix*Math.sin(st.theta||0);
+      const bobY=pivY+rPix*Math.cos(st.theta||0);
+      ctx.strokeStyle=th.line;ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(pivX-25,pivY);ctx.lineTo(pivX+25,pivY);ctx.stroke();
+      ctx.fillStyle=th.mut;ctx.beginPath();ctx.arc(pivX,pivY,3,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=th.c1;ctx.lineWidth=1.8;
+      ctx.beginPath();ctx.moveTo(pivX,pivY);ctx.lineTo(bobX,bobY);ctx.stroke();
+      const grad=ctx.createRadialGradient(bobX-3,bobY-3,1,bobX,bobY,11);
+      grad.addColorStop(0,'#ffffff');grad.addColorStop(0.5,th.c1);grad.addColorStop(1,'#0284c7');
+      ctx.fillStyle=grad;ctx.beginPath();ctx.arc(bobX,bobY,10,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=th.line;ctx.stroke();
+
+      const sx0=Math.round(w*0.52),sy0=Math.round(h*0.5),sw=w-sx0-15;
+      ctx.strokeStyle=th.line;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(sx0,sy0);ctx.lineTo(w-10,sy0);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(sx0,15);ctx.lineTo(sx0,h-15);ctx.stroke();
+
+      if(st.hist.length>1){
+        ctx.strokeStyle=th.c2;ctx.lineWidth=2.2;ctx.beginPath();
+        const ampScale=(h*0.35)*(p.amp/55);
+        for(let i=0;i<st.hist.length;i++){
+          const x=sx0+(i/110)*sw,y=sy0-st.hist[i]*ampScale;
+          if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+        const headY=sy0-st.hist[0]*ampScale;
+        ctx.fillStyle=th.c2;ctx.beginPath();ctx.arc(sx0,headY,4,0,Math.PI*2);ctx.fill();
+        ctx.setLineDash([3,3]);ctx.strokeStyle=th.mut;ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(bobX,bobY);ctx.lineTo(sx0,headY);ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    },
+    getStats(st,p){
+      return [
+        {label:'Chu kỳ T',val:(st.T?st.T.toFixed(2):'—')+' s'},
+        {label:'Tần số f',val:(st.T?(1/st.T).toFixed(2):'—')+' Hz'},
+        {label:'Li độ θ',val:((st.theta||0)*180/Math.PI).toFixed(1)+'°'}
+      ];
+    }
+  },
+
+  dy:{
+    name:'Định luật II Newton & Ma sát',
+    formula:'F - F_ms = m·a',
+    theory:'Gia tốc của một vật tỉ lệ thuận với hợp lực tác dụng lên vật và tỉ lệ nghịch với khối lượng của vật: a = (F - F_ms)/m.',
+    origin:"Thời cổ đại, Aristotle cho rằng 'phải có lực tác dụng liên tục thì vật mới chuyển động được'. Quan niệm sai lầm này kéo dài gần 2.000 năm cho đến khi Galileo và Newton chứng minh: vật tự bảo toàn vận tốc nhờ quán tính, lực chỉ là nguyên nhân làm biến đổi vận tốc (tạo ra gia tốc a = F/m). Ma sát là lực cản vô hình làm vật dừng lại.",
+    example:"Hệ thống phanh chống bó cứng ABS trên ô tô tự động điều chỉnh lực ma sát giữa lốp xe và mặt đường 15 lần/giây để xe hãm tốc nhanh nhất mà không bị trượt lết mất lái.",
+    controls:[
+      {id:'F',name:'Lực kéo F',min:0,max:40,step:2,val:24,unit:'N'},
+      {id:'m',name:'Khối lượng m',min:1,max:8,step:0.5,val:2.5,unit:'kg'},
+      {id:'mu',name:'Hệ số ma sát',min:0,max:0.4,step:0.05,val:0.15,unit:''}
+    ],
+    initState(){return {x:50,v:0,a:0};},
+    update(st,p,dt,w){
+      const Fms=p.mu*p.m*9.8;
+      st.Fms=Fms;
+      if(st.v>0.001){
+        st.a=(p.F-Fms)/p.m;
+        st.v=Math.max(0,st.v+st.a*dt);
+      } else {
+        if(p.F>Fms){
+          st.a=(p.F-Fms)/p.m;
+          st.v+=st.a*dt;
+        } else {
+          st.a=0;
+          st.v=0;
+        }
+      }
+      st.v=Math.min(18,st.v);
+      st.Fnet=p.m*st.a;
+      st.x+=st.v*dt*30;
+      const wrapW=(w||320)+80;
+      if(st.x>wrapW*2)st.x=st.x%wrapW;
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const floorY=h-35;
+      ctx.strokeStyle=th.line;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(0,floorY);ctx.lineTo(w,floorY);ctx.stroke();
+      const offset=(st.x%30);
+      ctx.strokeStyle=th.grid;ctx.lineWidth=1.5;
+      for(let x=-offset;x<w;x+=30){
+        ctx.beginPath();ctx.moveTo(x,floorY);ctx.lineTo(x-8,floorY+12);ctx.stroke();
+      }
+      const bx=((st.x%(w+80))+w+80)%(w+80)-40;
+      const bw=54,bh=36,by=floorY-bh;
+      ctx.fillStyle=th.isDark?'#1e293b':'#e2e8f0';
+      ctx.strokeStyle=th.c1;ctx.lineWidth=2;
+      ctx.beginPath();
+      ctx.roundRect?ctx.roundRect(bx,by,bw,bh,6):ctx.rect(bx,by,bw,bh);
+      ctx.fill();ctx.stroke();
+      ctx.fillStyle=th.ink;ctx.font='bold 11px Be Vietnam Pro, sans-serif';
+      ctx.textAlign='center';ctx.fillText(`${p.m}kg`,bx+bw/2,by+bh/2+4);ctx.textAlign='start';
+      const cx=bx+bw/2,cy=by+bh/2;
+      if(p.F>0)drawSimVector(ctx,bx+bw,cy,p.F*1.8,0,th.c1,`F=${p.F}N`);
+      if(st.Fms>0&&p.F>0)drawSimVector(ctx,bx,floorY-2,-st.Fms*1.8,0,th.red,'Fms');
+      drawSimVector(ctx,cx,by,0,-p.m*4,th.green,'N');
+      drawSimVector(ctx,cx,by+bh,0,p.m*4,th.c2,'P');
+    },
+    getStats(st,p){
+      return [
+        {label:'Gia tốc a',val:(st.a||0).toFixed(2)+' m/s²'},
+        {label:'Vận tốc v',val:(st.v||0).toFixed(2)+' m/s'},
+        {label:'Ma sát F_ms',val:(st.Fms||0).toFixed(1)+' N'}
+      ];
+    }
+  },
+
+  gr:{
+    name:'Định luật vạn vật hấp dẫn & Quỹ đạo',
+    formula:'F = G·(m₁m₂)/r²',
+    theory:'Mọi vật trong vũ trụ đều hút nhau với một lực tỉ lệ thuận với tích khối lượng và tỉ lệ nghịch với bình phương khoảng cách giữa chúng.',
+    origin:"Quan sát quả táo rơi năm 1666, Newton tự hỏi lực hút của Trái Đất có vươn xa tới tận Mặt Trăng hay không. Bằng phép tính vi tích phân và định luật Kepler, ông chứng minh lực giữ Mặt Trăng bay quanh Trái Đất và lực kéo quả táo rơi xuống đất đều là một lực hấp dẫn duy nhất.",
+    example:"Quỹ đạo của trạm không gian quốc tế ISS bay quanh Trái Đất ở độ cao 408 km với vận tốc 7,66 km/s; hiện tượng thủy triều lên xuống 2 lần mỗi ngày do lực hấp dẫn của Mặt Trăng kéo khối nước biển.",
+    controls:[
+      {id:'v0',name:'Vận tốc quỹ đạo',min:0.7,max:1.4,step:0.05,val:1.0,unit:'x'},
+      {id:'r0',name:'Bán kính r₀',min:40,max:80,step:5,val:55,unit:'px'}
+    ],
+    initState(){return {x:55,y:0,vx:0,vy:2.2,trail:[]};},
+    update(st,p,dt){
+      if(!st.inited||st.curR0!==p.r0||st.curV0!==p.v0){
+        st.x=p.r0;st.y=0;st.vx=0;
+        const vCir=Math.sqrt(350/p.r0);
+        st.vy=vCir*p.v0;st.trail=[];st.inited=true;
+        st.curR0=p.r0;st.curV0=p.v0;
+      }
+      const r=Math.max(16,Math.hypot(st.x,st.y));st.r=r;
+      const a=350/(r*r);
+      const ax=-a*(st.x/r),ay=-a*(st.y/r);
+      st.vx+=ax*dt*6;st.vy+=ay*dt*6;
+      st.x+=st.vx*dt*6;st.y+=st.vy*dt*6;
+      st.v=Math.hypot(st.vx,st.vy);
+      st.trail.unshift({x:st.x,y:st.y});
+      if(st.trail.length>130)st.trail.pop();
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const cx=w/2,cy=h/2;
+      if(st.trail.length>1){
+        ctx.strokeStyle=th.c3;ctx.lineWidth=1.6;ctx.beginPath();
+        for(let i=0;i<st.trail.length;i++){
+          const pt=st.trail[i];
+          if(i===0)ctx.moveTo(cx+pt.x,cy+pt.y);else ctx.lineTo(cx+pt.x,cy+pt.y);
+        }
+        ctx.stroke();
+      }
+      const sunGrad=ctx.createRadialGradient(cx,cy,2,cx,cy,18);
+      sunGrad.addColorStop(0,'#ffffff');sunGrad.addColorStop(0.4,th.c2);sunGrad.addColorStop(1,'rgba(240,180,60,0)');
+      ctx.fillStyle=sunGrad;ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=th.c2;ctx.beginPath();ctx.arc(cx,cy,8,0,Math.PI*2);ctx.fill();
+
+      const px=cx+st.x,py=cy+st.y;
+      ctx.fillStyle=th.c1;ctx.beginPath();ctx.arc(px,py,6,0,Math.PI*2);ctx.fill();
+      const r=st.r||1;
+      drawSimVector(ctx,px,py,-22*(st.x/r),-22*(st.y/r),th.red,'Fhd');
+      const v=st.v||1;
+      drawSimVector(ctx,px,py,18*(st.vx/v),18*(st.vy/v),th.green,'v');
+    },
+    getStats(st,p){
+      return [
+        {label:'Khoảng cách r',val:(st.r||0).toFixed(1)+' đv'},
+        {label:'Vận tốc v',val:(st.v||0).toFixed(2)+' km/s'}
+      ];
+    }
+  },
+
+  l3:{
+    name:'Định luật III Newton: Lực & Phản lực',
+    formula:'F₁₂ = -F₂₁',
+    theory:'Khi một vật tác dụng lực lên vật thứ hai, vật thứ hai cũng tác dụng trở lại vật thứ nhất một lực cùng độ lớn nhưng ngược chiều.',
+    origin:"Newton nhận ra lực trong tự nhiên luôn xuất hiện theo cặp tương hỗ chứ không bao giờ có lực đơn độc. Định luật này là nguồn gốc trực tiếp dẫn tới định luật bảo toàn động lượng của hệ kín trong vật lý hiện đại.",
+    example:"Động cơ tên lửa vũ trụ SpaceX đẩy phụt luồng khí cháy áp suất cao về phía sau với vận tốc 3.000 m/s để thân tên lửa nhận phản lực cực lớn bay vút lên quỹ đạo không gian.",
+    controls:[
+      {id:'m1',name:'Khối lượng m₁',min:1,max:5,step:0.5,val:1.5,unit:'kg'},
+      {id:'m2',name:'Khối lượng m₂',min:1,max:5,step:0.5,val:3.5,unit:'kg'}
+    ],
+    initState(){return {x1:40,x2:220,v1:2.0,v2:-1.5,flash:0};},
+    update(st,p,dt,w){
+      const maxW=(w||320)-55;
+      st.x1+=st.v1*dt*30;st.x2+=st.v2*dt*30;
+      if(st.flash>0)st.flash-=dt*2.5;
+      if(st.x2-st.x1<=46&&st.v1>st.v2){
+        const v1_=((p.m1-p.m2)*st.v1+2*p.m2*st.v2)/(p.m1+p.m2);
+        const v2_=((p.m2-p.m1)*st.v2+2*p.m1*st.v1)/(p.m1+p.m2);
+        st.v1=v1_;st.v2=v2_;st.flash=1.0;
+      }
+      if(st.x1<20){st.x1=20;st.v1=Math.abs(st.v1);}
+      if(st.x2>maxW){st.x2=maxW;st.v2=-Math.abs(st.v2);}
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const floorY=h-35;
+      ctx.strokeStyle=th.line;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(10,floorY);ctx.lineTo(w-10,floorY);ctx.stroke();
+
+      const w1=44,h1=26;
+      ctx.fillStyle=th.c1;ctx.beginPath();
+      ctx.roundRect?ctx.roundRect(st.x1,floorY-h1,w1,h1,4):ctx.rect(st.x1,floorY-h1,w1,h1);
+      ctx.fill();
+      ctx.fillStyle=th.bg;ctx.font='bold 10px Be Vietnam Pro, sans-serif';
+      ctx.textAlign='center';ctx.fillText(`m₁=${p.m1}`,st.x1+w1/2,floorY-h1/2+3);
+
+      const w2=44,h2=26;
+      ctx.fillStyle=th.c2;ctx.beginPath();
+      ctx.roundRect?ctx.roundRect(st.x2,floorY-h2,w2,h2,4):ctx.rect(st.x2,floorY-h2,w2,h2);
+      ctx.fill();
+      ctx.fillStyle=th.bg;ctx.fillText(`m₂=${p.m2}`,st.x2+w2/2,floorY-h2/2+3);
+      ctx.textAlign='start';
+
+      if(st.flash>0){
+        const midX=(st.x1+w1+st.x2)/2;
+        ctx.fillStyle=`rgba(248,113,113,${st.flash*0.4})`;
+        ctx.beginPath();ctx.arc(midX,floorY-h1/2,22,0,Math.PI*2);ctx.fill();
+        drawSimVector(ctx,st.x1+w1/2,floorY-h1-12,-35,0,th.red,'F₂₁');
+        drawSimVector(ctx,st.x2+w2/2,floorY-h2-12,35,0,th.c1,'F₁₂');
+      }
+    },
+    getStats(st,p){
+      const pTot=(p.m1*st.v1+p.m2*st.v2);
+      return [
+        {label:'v₁',val:st.v1.toFixed(2)+' m/s'},
+        {label:'v₂',val:st.v2.toFixed(2)+' m/s'},
+        {label:'Động lượng tổng P',val:pTot.toFixed(2)+' kg·m/s'}
+      ];
+    }
+  },
+
+  sr:{
+    name:'Thuyết tương đối hẹp & Đồng hồ ánh sáng',
+    formula:'Δt = γ·Δt₀  (γ = 1/√(1 - v²/c²))',
+    theory:'Vận tốc ánh sáng trong chân không là bất biến đối với mọi hệ quy chiếu quán tính. Khi một con tàu di chuyển ở tốc độ cao gần bằng ánh sáng, thời gian trên tàu trôi chậm hơn đối với người quan sát tĩnh.',
+    origin:"Thí nghiệm Michelson–Morley (1887) chứng minh tốc độ ánh sáng không đổi trong mọi hệ quy chiếu, phủ nhận môi trường giả định ether. Einstein năm 1905 tuyên bố để tốc độ ánh sáng là bất biến thì thời gian và không gian không thể tuyệt đối, bắt buộc thời gian của vật chuyển động phải trôi chậm lại.",
+    example:"Hệ thống định vị GPS trên điện thoại phải hiệu chỉnh đồng hồ nguyên tử trên vệ tinh chạy chậm khoảng 7 microgiây mỗi ngày do hiệu ứng tương đối hẹp, nếu không vị trí bản đồ sẽ sai lệch hơn 2 km mỗi ngày.",
+    controls:[
+      {id:'v',name:'Vận tốc tàu v',min:0.1,max:0.95,step:0.05,val:0.75,unit:'c'}
+    ],
+    initState(){return {t0:0,tShip:0,p0Y:0.5,p0Dir:1,pShipY:0.5,pShipX:0.1,pShipDir:1,ziczac:[]};},
+    update(st,p,dt){
+      const gamma=1/Math.sqrt(Math.max(0.01,1-p.v*p.v));
+      st.gamma=gamma;st.t0+=dt*2.5;st.tShip+=(dt*2.5)/gamma;
+      st.p0Y+=st.p0Dir*dt*2.5;
+      if(st.p0Y>1){st.p0Y=1;st.p0Dir=-1;}
+      if(st.p0Y<0){st.p0Y=0;st.p0Dir=1;}
+      st.pShipY+=st.pShipDir*((dt*2.5)/gamma);
+      if(st.pShipY>1){st.pShipY=1;st.pShipDir=-1;}
+      if(st.pShipY<0){st.pShipY=0;st.pShipDir=1;}
+      st.pShipX=(st.pShipX+p.v*dt*0.4)%1;
+      st.ziczac.unshift({x:st.pShipX,y:st.pShipY});
+      if(st.ziczac.length>50)st.ziczac.pop();
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const splitX=Math.round(w*0.36);
+      ctx.strokeStyle=th.line;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(splitX,0);ctx.lineTo(splitX,h);ctx.stroke();
+
+      ctx.fillStyle=th.mut;ctx.font='bold 10px Be Vietnam Pro, sans-serif';
+      ctx.fillText('ĐỒNG HỒ TĨNH (t₀)',14,18);
+      const mirrorY1=35,mirrorY2=h-25,mX=splitX/2;
+      ctx.strokeStyle=th.ink;ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(mX-25,mirrorY1);ctx.lineTo(mX+25,mirrorY1);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(mX-25,mirrorY2);ctx.lineTo(mX+25,mirrorY2);ctx.stroke();
+      const photonY=mirrorY1+st.p0Y*(mirrorY2-mirrorY1);
+      ctx.fillStyle=th.c1;ctx.beginPath();ctx.arc(mX,photonY,5,0,Math.PI*2);ctx.fill();
+
+      ctx.fillStyle=th.c2;
+      ctx.fillText(`TÀU BAY (v = ${p.v}c · γ = ${st.gamma.toFixed(2)})`,splitX+16,18);
+      const shipW=w-splitX-30;
+      ctx.strokeStyle=th.line;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(splitX+15,mirrorY1);ctx.lineTo(w-15,mirrorY1);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(splitX+15,mirrorY2);ctx.lineTo(w-15,mirrorY2);ctx.stroke();
+
+      if(st.ziczac.length>1){
+        ctx.strokeStyle=th.c2;ctx.lineWidth=1.8;ctx.beginPath();
+        for(let i=0;i<st.ziczac.length;i++){
+          const pt=st.ziczac[i];
+          const px=splitX+15+pt.x*shipW,py=mirrorY1+pt.y*(mirrorY2-mirrorY1);
+          if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+        }
+        ctx.stroke();
+      }
+      const curShipX=splitX+15+st.pShipX*shipW;
+      const curShipY=mirrorY1+st.pShipY*(mirrorY2-mirrorY1);
+      ctx.fillStyle=th.c2;ctx.beginPath();ctx.arc(curShipX,curShipY,6,0,Math.PI*2);ctx.fill();
+    },
+    getStats(st,p){
+      return [
+        {label:'Hệ số Lorentz γ',val:(st.gamma||1).toFixed(2)},
+        {label:'Thời gian trôi t/t₀',val:(1/(st.gamma||1)).toFixed(2)+'x'},
+        {label:'Vận tốc v',val:(p.v*300000).toLocaleString()+' km/s'}
+      ];
+    }
+  },
+
+  ei:{
+    name:'Hiệu ứng quang điện tấm kim loại',
+    formula:'E = hν = hc/λ ≥ A',
+    theory:'Khi chiếu ánh sáng có bước sóng thích hợp (λ ≤ λ₀) vào bề mặt kim loại, từng photon truyền toàn bộ năng lượng để giải phóng electron bứt ra khỏi bề mặt.',
+    origin:"Năm 1887, Heinrich Hertz phát hiện ánh sáng chiếu vào kim loại làm bứt electron, nhưng vật lý sóng cổ điển bất lực không thể giải thích vì sao ánh sáng đỏ cường độ cực mạnh không bứt được electron trong khi ánh sáng tím yếu lại bứt được ngay. Einstein năm 1905 đưa ra thuyết hạt ánh sáng photon E = hν, đoạt giải Nobel Vật lý 1921.",
+    example:"Cảm biến máy ảnh số CMOS/CCD trên điện thoại biến đổi từng hạt photon ánh sáng đi vào ống kính thành các điểm ảnh pixel kỹ thuật số; pin mặt trời cung cấp năng lượng sạch.",
+    controls:[
+      {id:'lambda',name:'Bước sóng λ',min:200,max:700,step:20,val:320,unit:'nm'}
+    ],
+    initState(){return {photons:[],electrons:[]};},
+    update(st,p,dt,w){
+      const maxW=(w||320);
+      const catotX=Math.round(maxW*0.4);
+      const lambda0=380;
+      const E=1240/p.lambda,A=1240/lambda0;
+      st.E=E;st.A=A;st.canEmit=p.lambda<=lambda0;
+      st.Wd=Math.max(0,E-A);
+      if(Math.random()<0.35){
+        st.photons.push({x:20,y:30+Math.random()*50,vx:3.5,vy:1.5});
+      }
+      for(let i=st.photons.length-1;i>=0;i--){
+        const ph=st.photons[i];
+        ph.x+=ph.vx*dt*40;ph.y+=ph.vy*dt*40;
+        if(ph.x>=catotX){
+          if(st.canEmit){
+            st.electrons.push({x:catotX,y:ph.y,vx:2.2+st.Wd*0.8,vy:(Math.random()-0.5)*1.5});
+          }
+          st.photons.splice(i,1);
+        }
+      }
+      for(let i=st.electrons.length-1;i>=0;i--){
+        const el=st.electrons[i];
+        el.x+=el.vx*dt*45;el.y+=el.vy*dt*45;
+        if(el.x>maxW-15)st.electrons.splice(i,1);
+      }
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      let phColor='#f87171';
+      if(p.lambda<300)phColor='#ffffff';
+      else if(p.lambda<400)phColor='#c084fc';
+      else if(p.lambda<500)phColor='#38bdf8';
+      else if(p.lambda<580)phColor='#4ade80';
+      else if(p.lambda<640)phColor='#facc15';
+
+      ctx.fillStyle=th.panel||'#1e293b';ctx.strokeStyle=th.line;
+      ctx.beginPath();ctx.arc(18,50,16,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle=phColor;ctx.beginPath();ctx.arc(18,50,7,0,Math.PI*2);ctx.fill();
+
+      const catotX=Math.round(w*0.4);
+      ctx.fillStyle='#64748b';ctx.fillRect(catotX,25,12,h-50);
+      ctx.fillStyle=th.ink;ctx.font='10px Be Vietnam Pro, sans-serif';
+      ctx.fillText('Catot (Kẽm)',catotX-15,h-12);
+
+      const ax=Math.round(w*0.86);
+      ctx.fillStyle='#94a3b8';ctx.fillRect(ax,25,8,h-50);
+      ctx.fillText('Anot (+)',ax-10,h-12);
+
+      ctx.fillStyle=phColor;
+      st.photons.forEach(ph=>{
+        ctx.beginPath();ctx.arc(ph.x,ph.y,4,0,Math.PI*2);ctx.fill();
+      });
+      ctx.fillStyle=th.c1;
+      st.electrons.forEach(el=>{
+        ctx.beginPath();ctx.arc(el.x,el.y,3.5,0,Math.PI*2);ctx.fill();
+      });
+    },
+    getStats(st,p){
+      return [
+        {label:'Năng lượng photon E',val:(st.E||0).toFixed(2)+' eV'},
+        {label:'Công thoát A',val:(st.A||0).toFixed(2)+' eV'},
+        {label:'Quang điện',val:st.canEmit?'CÓ (Bứt e⁻)':'KHÔNG (λ > λ₀)'}
+      ];
+    }
+  },
+
+  fl:{
+    name:'Cơ học chất lưu & Hiệu ứng Venturi',
+    formula:'P₁ + ½ρv₁² = P₂ + ½ρv₂²',
+    theory:'Khi dòng chất lưu không nén được chảy qua đoạn ống thu hẹp, lưu lượng bảo toàn làm vận tốc tăng lên và áp suất tĩnh giảm xuống.',
+    origin:"Năm 1738, Daniel Bernoulli nghiên cứu dòng chảy chất lỏng trong đường ống và tim mạch. Dựa trên định luật bảo toàn cơ năng, ông chứng minh dòng chảy tăng tốc qua chỗ hẹp thì áp suất tĩnh trong lòng chất lưu bắt buộc phải giảm xuống để tổng năng lượng bảo toàn.",
+    example:"Hình dạng khí động học của cánh máy bay uốn cong mặt trên làm luồng khí trên mặt cánh chảy nhanh hơn bên dưới, tạo độ chênh lệch áp suất nâng cả chiếc máy bay nặng 400 tấn bay lên trời; bình xịt nước hoa và bộ chế hòa khí xe máy.",
+    controls:[
+      {id:'flow',name:'Lưu lượng dòng',min:0.8,max:2.0,step:0.2,val:1.2,unit:'x'}
+    ],
+    initState(){
+      const pts=[];
+      for(let i=0;i<45;i++)pts.push({x:Math.random()*320,yNorm:(Math.random()-0.5)*0.75});
+      return {pts};
+    },
+    update(st,p,dt,w){
+      const maxW=(w||320);
+      st.v1=p.flow*1.5;st.v2=st.v1*2.8;
+      const n1=maxW*0.35, n2=maxW*0.65;
+      st.pts.forEach(pt=>{
+        const inNarrow=pt.x>n1&&pt.x<n2;
+        const curV=inNarrow?st.v2:st.v1;
+        pt.x+=curV*dt*45;
+        if(pt.x>maxW)pt.x=0;
+      });
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const midY=h*0.5;
+      const n1=w*0.35, nMid=w*0.5, n2=w*0.65;
+      ctx.strokeStyle=th.line;ctx.lineWidth=2.5;ctx.beginPath();
+      ctx.moveTo(0,midY-45);
+      ctx.bezierCurveTo(w*0.18,midY-45,n1,midY-18,nMid,midY-18);
+      ctx.bezierCurveTo(n2,midY-18,w*0.82,midY-45,w,midY-45);
+      ctx.moveTo(0,midY+45);
+      ctx.bezierCurveTo(w*0.18,midY+45,n1,midY+18,nMid,midY+18);
+      ctx.bezierCurveTo(n2,midY+18,w*0.82,midY+45,w,midY+45);
+      ctx.stroke();
+
+      const hCol1=40*p.flow;
+      const c1X=w*0.16;
+      ctx.fillStyle='rgba(67,213,245,0.25)';
+      ctx.fillRect(c1X-5,midY-45-hCol1,10,hCol1);
+      ctx.strokeStyle=th.mut;ctx.strokeRect(c1X-5,midY-45-55,10,55);
+
+      const hCol2=Math.max(10,15*p.flow);
+      ctx.fillRect(nMid-5,midY-18-hCol2,10,hCol2);
+      ctx.strokeRect(nMid-5,midY-18-55,10,55);
+
+      ctx.fillStyle=th.c1;
+      st.pts.forEach(pt=>{
+        const inNarrow=pt.x>n1&&pt.x<n2;
+        const curHalfH=inNarrow?18:45;
+        const py=midY+pt.yNorm*(curHalfH-4);
+        ctx.beginPath();ctx.arc(pt.x,py,2.5,0,Math.PI*2);ctx.fill();
+      });
+    },
+    getStats(st,p){
+      return [
+        {label:'Vận tốc rộng v₁',val:(st.v1||0).toFixed(1)+' m/s'},
+        {label:'Vận tốc hẹp v₂',val:(st.v2||0).toFixed(1)+' m/s'},
+        {label:'Áp suất',val:'P₁ > P₂ (Giảm ở chỗ hẹp)'}
+      ];
+    }
+  },
+
+  th:{
+    name:'Chuyển động Brown & Khí lý tưởng',
+    formula:'v_rms = √(3kT/m)  ·  P ∝ T',
+    theory:'Nhiệt độ là thước đo động năng chuyển động nhiệt hỗn loạn trung bình của các phân tử. Sự va đập liên tục của các phân tử tạo nên áp suất lên thành bình.',
+    origin:"Năm 1827, Robert Brown nhìn qua kính hiển vi thấy hạt phấn hoa trong nước chuyển động ziczac hỗn loạn không ngừng. Đến năm 1905, Einstein dùng toán học thống kê chứng minh chuyển động đó do hàng tỷ phân tử nước vô hình va đập vào, trở thành bằng chứng thực nghiệm thép đầu tiên chứng minh nguyên tử và phân tử thực sự tồn tại.",
+    example:"Vệt khói thuốc lá hay hạt bụi lơ lửng trong vệt nắng qua khe cửa; một giọt mực tím tan dần và tự khuếch tán đều khắp cốc nước tĩnh lặng sau vài phút.",
+    controls:[
+      {id:'T',name:'Nhiệt độ T',min:150,max:700,step:50,val:350,unit:'K'}
+    ],
+    initState(){
+      const gas=[];
+      for(let i=0;i<28;i++){
+        gas.push({x:20+Math.random()*240,y:20+Math.random()*100,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2});
+      }
+      return {gas,bx:140,by:70,bvx:0,bvy:0,btrail:[]};
+    },
+    update(st,p,dt,w,h){
+      const bw=(w||300)-20;
+      const bh=(h||160)-20;
+      const speedScale=Math.sqrt(p.T/350);
+      st.gas.forEach(g=>{
+        g.x+=g.vx*speedScale*dt*45;g.y+=g.vy*speedScale*dt*45;
+        if(g.x<15){g.x=15;g.vx=Math.abs(g.vx);}
+        if(g.x>bw){g.x=bw;g.vx=-Math.abs(g.vx);}
+        if(g.y<15){g.y=15;g.vy=Math.abs(g.vy);}
+        if(g.y>bh){g.y=bh;g.vy=-Math.abs(g.vy);}
+        const d=Math.hypot(g.x-st.bx,g.y-st.by);
+        if(d<16){
+          st.bvx+=g.vx*0.15;st.bvy+=g.vy*0.15;
+          g.vx=-g.vx;g.vy=-g.vy;
+        }
+      });
+      st.bx+=st.bvx*dt*30;st.by+=st.bvy*dt*30;
+      st.bvx*=0.94;st.bvy*=0.94;
+      if(st.bx<22){st.bx=22;st.bvx=Math.abs(st.bvx);}
+      if(st.bx>bw-10){st.bx=bw-10;st.bvx=-Math.abs(st.bvx);}
+      if(st.by<22){st.by=22;st.bvy=Math.abs(st.bvy);}
+      if(st.by>bh-10){st.by=bh-10;st.bvy=-Math.abs(st.bvy);}
+      st.btrail.unshift({x:st.bx,y:st.by});
+      if(st.btrail.length>50)st.btrail.pop();
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      ctx.strokeStyle=th.line;ctx.lineWidth=2;
+      ctx.strokeRect(8,8,w-16,h-16);
+      if(st.btrail.length>1){
+        ctx.strokeStyle=th.c2;ctx.lineWidth=1.4;ctx.beginPath();
+        for(let i=0;i<st.btrail.length;i++){
+          const pt=st.btrail[i];
+          if(i===0)ctx.moveTo(pt.x,pt.y);else ctx.lineTo(pt.x,pt.y);
+        }
+        ctx.stroke();
+      }
+      ctx.fillStyle=th.c2;ctx.beginPath();ctx.arc(st.bx,st.by,9,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#ffffff';ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle=th.c1;
+      st.gas.forEach(g=>{
+        ctx.beginPath();ctx.arc(g.x,g.y,2.8,0,Math.PI*2);ctx.fill();
+      });
+    },
+    getStats(st,p){
+      return [
+        {label:'Nhiệt độ T',val:p.T+' K'},
+        {label:'Vận tốc v_rms',val:(Math.sqrt(p.T/350)*480).toFixed(0)+' m/s'},
+        {label:'Áp suất P',val:(p.T/350*1.0).toFixed(2)+' atm'}
+      ];
+    }
+  },
+
+  st:{
+    name:'Tĩnh học & Cân bằng mômen lực',
+    formula:'ΣF = 0  ·  ΣM = M₁ - M₂ = 0',
+    theory:'Để một vật có trục quay cố định ở trạng thái cân bằng, tổng các mômen lực làm vật quay theo chiều này phải bằng tổng các mômen lực làm vật quay theo chiều ngược lại.',
+    origin:"Thế kỷ III TCN, Archimedes phát biểu: 'Hãy cho tôi một điểm tựa, tôi sẽ nhấc bổng cả Trái Đất'. Ông tìm ra quy tắc đòn bẩy và điều kiện cân bằng mômen lực để chế tạo máy móc nâng vật nặng cho công trình xây dựng và máy bắn đá phòng thủ thành Syracuse.",
+    example:"Cần cẩu tháp xây dựng nâng khối bê tông 15 tấn nhờ cánh tay đòn dài và khối đối trọng phía sau; kéo cắt sắt có cán cầm dài và lưỡi ngắn để khuếch đại lực tay người lên gấp 10 lần.",
+    controls:[
+      {id:'m1',name:'Quả cân m₁',min:1,max:5,step:1,val:2,unit:'kg'},
+      {id:'d1',name:'Khoảng cách d₁',min:1,max:4,step:1,val:3,unit:'m'},
+      {id:'m2',name:'Quả cân m₂',min:1,max:5,step:1,val:3,unit:'kg'},
+      {id:'d2',name:'Khoảng cách d₂',min:1,max:4,step:1,val:2,unit:'m'}
+    ],
+    initState(){return {curAngle:0};},
+    update(st,p,dt){
+      const M1=p.m1*p.d1,M2=p.m2*p.d2;
+      st.M1=M1;st.M2=M2;
+      const diff=M2-M1;
+      const targetAngle=clamp(diff*0.04,-0.22,0.22);
+      st.curAngle+=(targetAngle-st.curAngle)*dt*4;
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const cx=w/2,cy=h*0.62;
+      ctx.fillStyle=th.mut;ctx.beginPath();
+      ctx.moveTo(cx,cy);ctx.lineTo(cx-16,cy+28);ctx.lineTo(cx+16,cy+28);ctx.closePath();ctx.fill();
+
+      ctx.save();
+      ctx.translate(cx,cy);ctx.rotate(st.curAngle||0);
+      const armLen=Math.min(w*0.42,240);
+      ctx.strokeStyle=th.c1;ctx.lineWidth=6;
+      ctx.beginPath();ctx.moveTo(-armLen,0);ctx.lineTo(armLen,0);ctx.stroke();
+
+      ctx.strokeStyle=th.bg;ctx.lineWidth=2;
+      for(let i=1;i<=4;i++){
+        const px=(i/4)*armLen;
+        ctx.beginPath();ctx.moveTo(px,-4);ctx.lineTo(px,4);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(-px,-4);ctx.lineTo(-px,4);ctx.stroke();
+      }
+      const p1X=-(p.d1/4)*armLen;
+      ctx.fillStyle=th.c2;ctx.fillRect(p1X-10,-18,20,15);
+      ctx.fillStyle=th.bg;ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+      ctx.fillText(`${p.m1}kg`,p1X,-8);
+
+      const p2X=(p.d2/4)*armLen;
+      ctx.fillStyle=th.c3;ctx.fillRect(p2X-10,-18,20,15);
+      ctx.fillStyle=th.bg;ctx.fillText(`${p.m2}kg`,p2X,-8);
+      ctx.restore();
+    },
+    getStats(st,p){
+      const isBal=st.M1===st.M2;
+      return [
+        {label:'Mômen M₁',val:(st.M1||0)+' kg·m'},
+        {label:'Mômen M₂',val:(st.M2||0)+' kg·m'},
+        {label:'Trạng thái',val:isBal?'CÂN BẰNG (ΣM=0)':(st.M1>st.M2?'Nghiêng Trái':'Nghiêng Phải')}
+      ];
+    }
+  },
+
+  km:{
+    name:'Động học & Chuyển động ném xiên',
+    formula:'y(x) = x·tanα - g·x² / (2v₀²·cos²α)',
+    theory:'Chuyển động ném xiên được phân tích thành chuyển động thẳng đều trên trục Ox và rơi tự do / biến đổi đều trên trục Oy. Quỹ đạo bay là một đường parabol.',
+    origin:"Các pháo thủ thời Phục Hưng cần tính toán chính xác góc bắn đại bác để đạn rơi trúng công sự đối phương. Trước đó người ta tin đạn bay thẳng rồi rơi đứng xuống. Galileo là người đầu tiên phân tích chuyển động thành 2 thành phần vuông góc độc lập (ngang thẳng đều, đứng rơi tự do) và chứng minh quỹ đạo là một đường parabol hoàn hảo.",
+    example:"Cú sút phạt bóng đá đưa bóng bay vòng cung qua hàng rào vào góc chết khung thành; quỹ đạo phóng tên lửa đẩy đưa tàu thăm dò thám hiểm Sao Hỏa rời Trái Đất.",
+    controls:[
+      {id:'v0',name:'Vận tốc v₀',min:14,max:34,step:2,val:22,unit:'m/s'},
+      {id:'ang',name:'Góc ném α',min:20,max:75,step:5,val:45,unit:'°'}
+    ],
+    initState(){return {t:0};},
+    update(st,p,dt){
+      const rad=p.ang*Math.PI/180;
+      const tFlight=(2*p.v0*Math.sin(rad))/9.8;
+      st.tFlight=tFlight;
+      st.L=(p.v0*p.v0*Math.sin(2*rad))/9.8;
+      st.H=(p.v0*p.v0*Math.sin(rad)*Math.sin(rad))/(2*9.8);
+      st.t+=dt*1.2;
+      if(st.t>tFlight+0.6)st.t=0;
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const groundY=h-24,rad=p.ang*Math.PI/180;
+      const x0=22;
+
+      // Thang đo vật lý cố định theo tầm bắn tối đa (v0_max = 34m/s, L_max ≈ 118m, H_max ≈ 55m)
+      const maxDist=120; // mét
+      const maxHeight=52; // mét
+      const scaleX=(w-x0-18)/maxDist;
+      const scaleY=(h-46)/maxHeight;
+
+      // Mặt đất
+      ctx.strokeStyle=th.line;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(10,groundY);ctx.lineTo(w-10,groundY);ctx.stroke();
+
+      // Các vạch mốc khoảng cách (25m, 50m, 75m, 100m)
+      ctx.fillStyle=th.faint;
+      ctx.font='9px sans-serif';
+      ctx.textAlign='center';
+      [25, 50, 75, 100].forEach(d=>{
+        const mx=x0+d*scaleX;
+        if(mx < w-12){
+          ctx.strokeStyle=th.line;ctx.lineWidth=1;
+          ctx.beginPath();ctx.moveTo(mx,groundY);ctx.lineTo(mx,groundY+4);ctx.stroke();
+          ctx.fillText(d+'m',mx,groundY+14);
+        }
+      });
+      ctx.textAlign='start';
+
+      // Toàn bộ đường parabol quỹ đạo
+      ctx.strokeStyle=th.c2;
+      ctx.setLineDash([3,3]);ctx.lineWidth=1.8;
+      ctx.beginPath();
+      const steps=60;
+      for(let i=0;i<=steps;i++){
+        const ti=(i/steps)*st.tFlight;
+        const xm=p.v0*Math.cos(rad)*ti;
+        const ym=p.v0*Math.sin(rad)*ti-0.5*9.8*ti*ti;
+        const xi=x0+xm*scaleX;
+        const yi=groundY-Math.max(0,ym)*scaleY;
+        if(i===0)ctx.moveTo(xi,yi);else ctx.lineTo(xi,yi);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Cột mốc điểm rơi L
+      const landX=x0+st.L*scaleX;
+      ctx.fillStyle=th.c2;
+      ctx.beginPath();ctx.arc(landX,groundY,3.5,0,Math.PI*2);ctx.fill();
+
+      // Vị trí vật hiện tại
+      const curT=Math.min(st.t,st.tFlight);
+      const curXm=p.v0*Math.cos(rad)*curT;
+      const curYm=p.v0*Math.sin(rad)*curT-0.5*9.8*curT*curT;
+      const curX=x0+curXm*scaleX;
+      const curY=groundY-Math.max(0,curYm)*scaleY;
+
+      // Quả bóng ném
+      ctx.fillStyle=th.c1;
+      ctx.beginPath();ctx.arc(curX,curY,6,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#ffffff';ctx.lineWidth=1;ctx.stroke();
+
+      // Vector vận tốc v
+      const vx=p.v0*Math.cos(rad);
+      const vy=p.v0*Math.sin(rad)-9.8*curT;
+      const vNorm=Math.hypot(vx,vy);
+      const arrowLen=Math.min(32,Math.max(12,vNorm*1.1));
+      drawSimVector(ctx,curX,curY,arrowLen*(vx/vNorm),-arrowLen*(vy/vNorm),th.green,'v');
+    },
+    getStats(st,p){
+      return [
+        {label:'Tầm xa L',val:(st.L||0).toFixed(1)+' m'},
+        {label:'Tầm cao H_max',val:(st.H||0).toFixed(1)+' m'},
+        {label:'Thời gian bay',val:(st.tFlight||0).toFixed(2)+' s'}
+      ];
+    }
+  },
+
+  bo:{
+    name:'Mô hình nguyên tử Bohr & Mức năng lượng',
+    formula:'E_n = -13.6/n² (eV)  ·  hν = E_m - E_n',
+    theory:'Electron chỉ chuyển động trên những quỹ đạo dừng có bán kính xác định r_n = n²·r₀. Khi chuyển từ mức cao xuống thấp, nguyên tử phát xạ photon có năng lượng đúng bằng độ chênh lệch năng lượng giữa hai mức.',
+    origin:"Mô hình nguyên tử của Rutherford gặp bế tắc chí mạng: theo điện từ học Maxwell, electron quay quanh hạt nhân mang gia tốc sẽ liên tục bức xạ sóng điện từ, mất năng lượng và rơi sầm vào hạt nhân trong 10⁻¹¹ giây (vật chất không thể tồn tại!). Năm 1913, Niels Bohr lượng tử hóa quỹ đạo electron, giải thích hoàn hảo sự tồn tại bền vững của nguyên tử và các vạch quang phổ hidro.",
+    example:"Đèn neon biển quảng cáo phát ra ánh sáng đỏ đặc trưng và đèn hơi natri phát ánh sáng vàng trên đường cao tốc; dựa vào quang phổ phát xạ vạch đặc trưng, các nhà thiên văn học có thể biết chính xác thành phần hóa học của những ngôi sao cách Trái Đất hàng triệu năm ánh sáng.",
+    controls:[
+      {id:'level',name:'Mức năng lượng n',min:1,max:4,step:1,val:3,unit:''}
+    ],
+    initState(){return {angle:0,curR:45,photonWave:null};},
+    update(st,p,dt){
+      st.angle+=dt*(4.5/p.level);
+      const targetR=18+p.level*16;
+      if(Math.abs(st.curR-targetR)>1.5&&!st.photonWave){
+        st.photonWave={r:st.curR,color:p.level<3?'#f87171':'#38bdf8'};
+      }
+      st.curR+=(targetR-st.curR)*dt*4;
+      if(st.photonWave){
+        st.photonWave.r+=dt*50;
+        if(st.photonWave.r>160)st.photonWave=null;
+      }
+      st.En=-13.6/(p.level*p.level);
+    },
+    render(ctx,w,h,st,p,th){
+      drawSimGrid(ctx,w,h,th);
+      const cx=w/2,cy=h/2;
+      ctx.fillStyle=th.c2;ctx.beginPath();ctx.arc(cx,cy,7,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=th.bg;ctx.font='bold 8px sans-serif';ctx.textAlign='center';
+      ctx.fillText('+',cx,cy+3);
+
+      for(let n=1;n<=4;n++){
+        const r=18+n*16;
+        ctx.strokeStyle=n===p.level?th.c1:th.line;
+        ctx.lineWidth=n===p.level?1.8:1;
+        ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+      }
+
+      if(st.photonWave){
+        ctx.strokeStyle=st.photonWave.color;ctx.lineWidth=2;
+        ctx.setLineDash([4,4]);
+        ctx.beginPath();ctx.arc(cx,cy,st.photonWave.r,0,Math.PI*2);ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      const ex=cx+st.curR*Math.cos(st.angle);
+      const ey=cy+st.curR*Math.sin(st.angle);
+      ctx.fillStyle=th.c1;ctx.beginPath();ctx.arc(ex,ey,4.5,0,Math.PI*2);ctx.fill();
+    },
+    getStats(st,p){
+      return [
+        {label:'Mức n',val:p.level},
+        {label:'Năng lượng E_n',val:(st.En||0).toFixed(2)+' eV'},
+        {label:'Bán kính r_n',val:(p.level*p.level)+'·r₀'}
+      ];
+    }
+  }
+};
+
+const SimEngine={
+  panelRunner:null,
+  modalRunner:null,
+
+  getSimIdForNode(id){
+    if(id==='os')return 'os';
+    if(id==='dy'||id==='l1'||id==='l2')return 'dy';
+    if(id==='gr'||id==='gr2')return 'gr';
+    if(id==='l3')return 'l3';
+    if(id==='sr'||id==='rel'||id==='v1')return 'sr';
+    if(id==='ei'||id==='pl'||id==='v2'||id==='qm')return 'ei';
+    if(id==='fl')return 'fl';
+    if(id==='th')return 'th';
+    if(id==='st')return 'st';
+    if(id==='km')return 'km';
+    if(id==='bo'||id==='ru')return 'bo';
+    return null;
+  },
+
+  createRunner(simId,canvasId,ctrlsId,statsId,isModal=false){
+    const model=SIM_MODELS[simId];
+    if(!model)return null;
+    const canvas=document.getElementById(canvasId);
+    if(!canvas)return null;
+
+    const runner={
+      id:simId,
+      model,
+      canvas,
+      ctrlsEl:document.getElementById(ctrlsId),
+      statsEl:document.getElementById(statsId),
+      state:model.initState(),
+      params:{},
+      paused:false,
+      animId:null,
+      lastT:performance.now(),
+      isModal
+    };
+
+    model.controls.forEach(c=>{runner.params[c.id]=c.val;});
+
+    if(runner.ctrlsEl){
+      let h='';
+      model.controls.forEach(c=>{
+        h+=`<div class="sim-row">
+          <label>${c.name}:</label>
+          <input type="range" class="sim-slider" data-pid="${c.id}" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.val}">
+          <span class="sim-val" id="val_${canvasId}_${c.id}">${c.val}${c.unit}</span>
+        </div>`;
+      });
+      h+=`<div class="sim-btn-row">
+        <button class="sim-btn" id="btnPause_${canvasId}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Tạm dừng
+        </button>
+        <button class="sim-btn" id="btnReset_${canvasId}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> Đặt lại
+        </button>
+      </div>`;
+      runner.ctrlsEl.innerHTML=h;
+
+      runner.ctrlsEl.querySelectorAll('.sim-slider').forEach(sl=>{
+        sl.addEventListener('input',e=>{
+          const pid=e.target.dataset.pid;
+          const num=parseFloat(e.target.value);
+          runner.params[pid]=num;
+          const ctrlDef=model.controls.find(c=>c.id===pid);
+          const lbl=document.getElementById(`val_${canvasId}_${pid}`);
+          if(lbl)lbl.textContent=`${num}${ctrlDef?ctrlDef.unit:''}`;
+        });
+      });
+
+      const btnP=document.getElementById(`btnPause_${canvasId}`);
+      if(btnP){
+        btnP.addEventListener('click',()=>{
+          runner.paused=!runner.paused;
+          btnP.innerHTML=runner.paused
+            ?`<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Tiếp tục`
+            :`<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Tạm dừng`;
+        });
+      }
+
+      const btnR=document.getElementById(`btnReset_${canvasId}`);
+      if(btnR){
+        btnR.addEventListener('click',()=>{
+          runner.state=model.initState();
+        });
+      }
+    }
+
+    const loop=now=>{
+      const dt=Math.min(0.08,(now-runner.lastT)/1000);
+      runner.lastT=now;
+
+      const dpr=window.devicePixelRatio||1;
+      const rect=runner.canvas.getBoundingClientRect();
+      const w=Math.floor(rect.width);
+      const h=Math.floor(rect.height);
+
+      if(!runner.paused){
+        model.update(runner.state,runner.params,dt,w,h);
+      }
+
+      if(runner.statsEl&&model.getStats){
+        const stats=model.getStats(runner.state,runner.params);
+        runner.statsEl.innerHTML=stats.map(s=>`<span class="sim-pill">${s.label}: <b>${s.val}</b></span>`).join('');
+      }
+
+      if(w>0&&h>0){
+        if(runner.canvas.width!==w*dpr||runner.canvas.height!==h*dpr){
+          runner.canvas.width=w*dpr;
+          runner.canvas.height=h*dpr;
+        }
+        const ctx=runner.canvas.getContext('2d');
+        ctx.save();
+        ctx.scale(dpr,dpr);
+        const th=getSimTheme();
+        ctx.fillStyle=th.bg;
+        ctx.fillRect(0,0,w,h);
+        model.render(ctx,w,h,runner.state,runner.params,th);
+        ctx.restore();
+      }
+
+      runner.animId=requestAnimationFrame(loop);
+    };
+
+    runner.animId=requestAnimationFrame(loop);
+    return runner;
+  },
+
+  mountPanel(simId){
+    this.stopPanel();
+    this.panelRunner=this.createRunner(simId,'panelSimCv','panelSimCtrls','panelSimStats',false);
+  },
+
+  stopPanel(){
+    if(this.panelRunner){
+      if(this.panelRunner.animId)cancelAnimationFrame(this.panelRunner.animId);
+      this.panelRunner=null;
+    }
+  },
+
+  openModal(simId='os'){
+    const modal=document.getElementById('simModal');
+    if(!modal)return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+
+    const tabsEl=document.getElementById('smTabs');
+    if(tabsEl){
+      tabsEl.innerHTML=Object.entries(SIM_MODELS).map(([k,m])=>`
+        <button class="sm-tab ${k===simId?'active':''}" data-sid="${k}">
+          ${m.name}
+        </button>
+      `).join('');
+
+      tabsEl.querySelectorAll('.sm-tab').forEach(b=>{
+        b.addEventListener('click',()=>{
+          if(this.isDraggingTabs)return;
+          tabsEl.querySelectorAll('.sm-tab').forEach(t=>t.classList.remove('active'));
+          b.classList.add('active');
+          b.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+          this.mountModal(b.dataset.sid);
+          if(this.updateTabsNav)setTimeout(this.updateTabsNav,220);
+        });
+      });
+
+      const activeTab=tabsEl.querySelector('.sm-tab.active');
+      if(activeTab){
+        setTimeout(()=>{
+          activeTab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+          if(this.updateTabsNav)this.updateTabsNav();
+        },80);
+      }
+    }
+
+    this.mountModal(simId);
+  },
+
+  mountModal(simId){
+    if(this.modalRunner){
+      if(this.modalRunner.animId)cancelAnimationFrame(this.modalRunner.animId);
+      this.modalRunner=null;
+    }
+    const model=SIM_MODELS[simId];
+    if(!model)return;
+
+    const tEl=document.getElementById('smTitle');
+    if(tEl)tEl.textContent=model.name;
+    const fEl=document.getElementById('smFormula');
+    if(fEl)fEl.textContent=model.formula;
+    const thEl=document.getElementById('smTheory');
+    if(thEl)thEl.textContent=model.theory;
+    const origEl=document.getElementById('smOrigin');
+    if(origEl)origEl.textContent=model.origin||'Công thức bắt nguồn từ thực nghiệm và các định luật bảo toàn cơ bản của vật lý.';
+    const exEl=document.getElementById('smExample');
+    if(exEl)exEl.textContent=model.example||'Ứng dụng rộng rãi trong đời sống kỹ thuật, chế tạo máy móc và nghiên cứu vũ trụ.';
+
+    this.modalRunner=this.createRunner(simId,'modalSimCanvas','smCtrls','smStats',true);
+  },
+
+  closeModal(){
+    if(this.modalRunner){
+      if(this.modalRunner.animId)cancelAnimationFrame(this.modalRunner.animId);
+      this.modalRunner=null;
+    }
+    const modal=document.getElementById('simModal');
+    if(modal){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+  },
+
+  initModalEvents(){
+    const btnExit=document.getElementById('smExit');
+    if(btnExit)btnExit.addEventListener('click',()=>this.closeModal());
+    const modal=document.getElementById('simModal');
+    if(modal){
+      modal.addEventListener('click',e=>{
+        if(e.target===modal)this.closeModal();
+      });
+    }
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&modal&&modal.classList.contains('open')){
+        this.closeModal();
+      }
+    });
+
+    const tabsEl=document.getElementById('smTabs');
+    const prevBtn=document.getElementById('smTabsPrev');
+    const nextBtn=document.getElementById('smTabsNext');
+
+    const updateNavBtns=()=>{
+      if(!tabsEl)return;
+      const maxScroll=Math.max(0,tabsEl.scrollWidth-tabsEl.clientWidth);
+      if(prevBtn)prevBtn.disabled=(tabsEl.scrollLeft<=3);
+      if(nextBtn)nextBtn.disabled=(tabsEl.scrollLeft>=maxScroll-3);
+    };
+    this.updateTabsNav=updateNavBtns;
+
+    if(tabsEl){
+      let isDown=false,startX=0,lastX=0,lastTime=0,velocity=0,hasMoved=false;
+      let wheelAnimId=null,inertiaAnimId=null;
+      let targetWheelScroll=tabsEl.scrollLeft;
+      this.isDraggingTabs=false;
+
+      const stopAllMotion=()=>{
+        if(wheelAnimId){cancelAnimationFrame(wheelAnimId);wheelAnimId=null;}
+        if(inertiaAnimId){cancelAnimationFrame(inertiaAnimId);inertiaAnimId=null;}
+      };
+
+      // Pointer Drag with Momentum Inertia
+      tabsEl.addEventListener('pointerdown',e=>{
+        if(e.button!==0&&e.pointerType==='mouse')return;
+        stopAllMotion();
+        isDown=true;
+        hasMoved=false;
+        this.isDraggingTabs=false;
+        startX=e.clientX;
+        lastX=e.clientX;
+        lastTime=performance.now();
+        velocity=0;
+        targetWheelScroll=tabsEl.scrollLeft;
+      });
+
+      window.addEventListener('pointermove',e=>{
+        if(!isDown)return;
+        const now=performance.now();
+        const dt=Math.max(1,now-lastTime);
+        const dx=e.clientX-lastX;
+        const totalDist=Math.abs(e.clientX-startX);
+
+        if(!hasMoved&&totalDist>4){
+          hasMoved=true;
+          this.isDraggingTabs=true;
+          tabsEl.classList.add('drag');
+        }
+
+        if(hasMoved){
+          tabsEl.scrollLeft-=dx;
+          const instantV=dx/dt;
+          velocity=0.65*instantV+0.35*velocity;
+          lastX=e.clientX;
+          lastTime=now;
+          targetWheelScroll=tabsEl.scrollLeft;
+          updateNavBtns();
+        }
+      });
+
+      const stopDrag=()=>{
+        if(!isDown)return;
+        isDown=false;
+        tabsEl.classList.remove('drag');
+        if(hasMoved){
+          setTimeout(()=>{this.isDraggingTabs=false;},160);
+          if(Math.abs(velocity)>0.08){
+            let currentV=velocity*15;
+            const decay=0.92;
+            const runInertia=()=>{
+              if(Math.abs(currentV)>0.3){
+                tabsEl.scrollLeft-=currentV;
+                currentV*=decay;
+                targetWheelScroll=tabsEl.scrollLeft;
+                updateNavBtns();
+                inertiaAnimId=requestAnimationFrame(runInertia);
+              }else{
+                inertiaAnimId=null;
+                targetWheelScroll=tabsEl.scrollLeft;
+                updateNavBtns();
+              }
+            };
+            inertiaAnimId=requestAnimationFrame(runInertia);
+          }
+        }
+      };
+
+      window.addEventListener('pointerup',stopDrag);
+      window.addEventListener('pointercancel',stopDrag);
+
+      // Silky Smooth Mouse Wheel with Kinetic Easing
+      const smoothWheelStep=()=>{
+        const maxScroll=Math.max(0,tabsEl.scrollWidth-tabsEl.clientWidth);
+        targetWheelScroll=Math.max(0,Math.min(maxScroll,targetWheelScroll));
+        const cur=tabsEl.scrollLeft;
+        const diff=targetWheelScroll-cur;
+        if(Math.abs(diff)>0.5){
+          tabsEl.scrollLeft=cur+diff*0.24;
+          updateNavBtns();
+          wheelAnimId=requestAnimationFrame(smoothWheelStep);
+        }else{
+          tabsEl.scrollLeft=targetWheelScroll;
+          updateNavBtns();
+          wheelAnimId=null;
+        }
+      };
+
+      tabsEl.addEventListener('wheel',e=>{
+        e.preventDefault();
+        stopAllMotion();
+        const delta=(Math.abs(e.deltaY)>Math.abs(e.deltaX)?e.deltaY:e.deltaX);
+        const maxScroll=Math.max(0,tabsEl.scrollWidth-tabsEl.clientWidth);
+        const step=Math.sign(delta)*Math.min(Math.abs(delta)*1.2,140);
+        targetWheelScroll=Math.max(0,Math.min(maxScroll,targetWheelScroll+step));
+        wheelAnimId=requestAnimationFrame(smoothWheelStep);
+      },{passive:false});
+
+      tabsEl.addEventListener('scroll',()=>{
+        if(!isDown&&!wheelAnimId&&!inertiaAnimId){
+          targetWheelScroll=tabsEl.scrollLeft;
+          requestAnimationFrame(updateNavBtns);
+        }
+      });
+
+      if(prevBtn){
+        prevBtn.addEventListener('click',()=>{
+          stopAllMotion();
+          tabsEl.scrollBy({left:-280,behavior:'smooth'});
+          setTimeout(updateNavBtns,320);
+        });
+      }
+      if(nextBtn){
+        nextBtn.addEventListener('click',()=>{
+          stopAllMotion();
+          tabsEl.scrollBy({left:280,behavior:'smooth'});
+          setTimeout(updateNavBtns,320);
+        });
+      }
+    }
+  }
+};
+
+/* ============================================================
+   PANEL CHI TIẾT
+   ============================================================ */
+function openPanel(n){
+  const d=n.detail||{},pn=$('#panel');
+  pn.className=`pn open br${n.br}`;pn.setAttribute('aria-hidden','false');
+  $('#pnK').textContent=BRANCH_LABEL[n.br||0];
+  $('#pnT').innerHTML=n.title;
+  let h='';
+  if(d.def)h+=`<p class="pn-def">${d.def}</p>`;
+
+  // Tích hợp Mô phỏng trực quan tương tác
+  const simId=SimEngine.getSimIdForNode(n.id);
+  if(simId&&SIM_MODELS[simId]){
+    const m=SIM_MODELS[simId];
+    h+=`<div class="pn-sec" style="display:flex;justify-content:space-between;align-items:center">
+      <span>MÔ PHỎNG TRỰC QUAN</span>
+      <span class="sim-live-tag">LIVE</span>
+    </div>
+    <div class="pn-sim">
+      <div class="pn-sim-h">
+        <span class="pn-sim-title">${m.name}</span>
+      </div>
+      <div class="sim-cv-wrap">
+        <canvas id="panelSimCv" class="sim-cv"></canvas>
+        <button class="sim-expand-btn" id="panelSimExp" title="Mở rộng rạp chiếu" aria-label="Mở rộng mô phỏng">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </button>
+      </div>
+      <div class="sim-ctrls" id="panelSimCtrls"></div>
+      <div class="sim-stats" id="panelSimStats"></div>
+    </div>`;
+  }
+
+  if(d.formula){
+    h+=`<div class="pn-sec">CÔNG THỨC</div><div class="pn-f"><div class="pn-fe">${d.formula}</div>${d.fnote?`<div class="pn-fn">${d.fnote}</div>`:''}</div>`;
+    if(d.fvars)h+=`<dl class="pn-vars">${d.fvars.map(v=>`<div><dt>${v[0]}</dt><dd>${v[1]}</dd></div>`).join('')}</dl>`;
+  }
+  if(d.origin){
+    h+=`<div class="pn-sec">💡 LÝ DO RA ĐỜI CÔNG THỨC</div><div class="pn-card-box"><p style="font-size:12.5px;color:var(--mut);line-height:1.55">${d.origin}</p></div>`;
+  }
+  if(d.examples&&d.examples.length){
+    h+=`<div class="pn-sec">📌 VÍ DỤ MINH HỌA THỰC TIỄN</div><ul class="pn-list">${d.examples.map(ex=>`<li>${ex}</li>`).join('')}</ul>`;
+  }
+  if(d.items)h+=`<div class="pn-sec">NỘI DUNG CHÍNH</div><ul class="pn-list">${d.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  if(d.apps&&d.apps.length)h+=`<div class="pn-sec">ỨNG DỤNG</div><div class="pn-chips">${d.apps.map(a=>`<span>${a}</span>`).join('')}</div>`;
+  if(d.people||d.year){
+    h+=`<div class="pn-sec">BỐI CẢNH</div><dl class="pn-meta">`;
+    if(d.people)h+=`<dt>Nhân vật</dt><dd>${d.people}</dd>`;
+    if(d.year)h+=`<dt>Mốc thời gian</dt><dd>${d.year}</dd>`;
+    h+=`</dl>`;
+  }
+  if(n.children)h+=`<div class="pn-sec">MẸO</div><p style="font-size:12px;color:var(--faint)">Nhấp đúp node để tập trung · dùng nút tròn cạnh node để thu gọn nhánh (${countDesc(n)} node con).</p>`;
+  $('#pnB').innerHTML=h;
+
+  if(simId&&SIM_MODELS[simId]){
+    SimEngine.mountPanel(simId);
+    const exp=$('#panelSimExp');
+    if(exp)exp.addEventListener('click',()=>SimEngine.openModal(simId));
+  } else {
+    SimEngine.stopPanel();
+  }
+
+  const rel=[];
+  if(n.parent)rel.push({id:n.parent.id,t:'↩ '+n.parent.title});
+  (n.children||[]).forEach(c=>rel.push({id:c.id,t:c.title}));
+  $('#pnR').innerHTML=rel.map(r=>`<button data-id="${r.id}">${r.t}</button>`).join('')||'<span style="font-size:11.5px;color:var(--faint)">—</span>';
+  $('#pnB').scrollTop=0;
+}
+function closePanel(){
+  SimEngine.stopPanel();
+  const p=$('#panel');p.classList.remove('open');p.setAttribute('aria-hidden','true');
+}
+function initPanel(){
+  $('#pnX').addEventListener('click',()=>deselect());
+  $('#pnR').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-id]');if(!b)return;
+    const n=MM.byId[b.dataset.id];if(!n)return;
+    expandAllIfNeeded(n);selectNode(n);panTo(n);
+  });
+
+  const pn=$('#panel'),pnB=$('#pnB');
+  if(pn){
+    pn.addEventListener('wheel',e=>{
+      e.stopPropagation();
+      if(pnB&&e.target!==pnB&&!pnB.contains(e.target)){
+        pnB.scrollTop+=e.deltaY;
+      }
+    },{passive:true});
+    pn.addEventListener('pointerdown',e=>e.stopPropagation());
+  }
+
+  SimEngine.initModalEvents();
+}
+function expandAllIfNeeded(n){let p=n.parent;while(p){if(p.collapsed){expandAll();return}p=p.parent}}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+function buildTimeline(){
+  const tr=$('#tlTrack');
+  tr.insertAdjacentHTML('beforeend',TL.map((t,i)=>`
+    <div class="tl-it ${i%2?'under':''} ${t.e}" style="transition-delay:${i*80}ms">
+      <div class="tl-card"><div class="tl-y">${t.y}</div><div class="tl-n">${t.n}</div><p>${t.d}</p></div>
+      <div class="dot-cell"><span class="tl-dot"></span></div>
+    </div>`).join(''));
+  const sc=$('#tlScroll');
+  const upd=()=>{const max=sc.scrollWidth-sc.clientWidth;$('#tlFill').style.width=(max>0?sc.scrollLeft/max*100:100)+'%'};
+  sc.addEventListener('scroll',()=>requestAnimationFrame(upd));
+  $('#tlPrev').addEventListener('click',()=>sc.scrollBy({left:-340,behavior:'smooth'}));
+  $('#tlNext').addEventListener('click',()=>sc.scrollBy({left:340,behavior:'smooth'}));
+  let tlWheelAnim=null,tlTarget=sc.scrollLeft;
+  const smoothTlWheel=()=>{
+    const max=sc.scrollWidth-sc.clientWidth;
+    tlTarget=Math.max(0,Math.min(max,tlTarget));
+    const cur=sc.scrollLeft;
+    const diff=tlTarget-cur;
+    if(Math.abs(diff)>0.5){
+      sc.scrollLeft=cur+diff*0.24;
+      tlWheelAnim=requestAnimationFrame(smoothTlWheel);
+    }else{
+      sc.scrollLeft=tlTarget;
+      tlWheelAnim=null;
+    }
+  };
+  sc.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)||Math.abs(e.deltaX)>0){
+      e.preventDefault();
+      if(tlWheelAnim)cancelAnimationFrame(tlWheelAnim);
+      const delta=(Math.abs(e.deltaY)>Math.abs(e.deltaX)?e.deltaY:e.deltaX);
+      const max=sc.scrollWidth-sc.clientWidth;
+      const step=Math.sign(delta)*Math.min(Math.abs(delta)*1.2,160);
+      tlTarget=Math.max(0,Math.min(max,tlTarget+step));
+      tlWheelAnim=requestAnimationFrame(smoothTlWheel);
+    }
+  },{passive:false});
+
+  let sx=0,lastTlX=0,lastTlTime=0,tlVelocity=0,drag=false,tlInertiaAnim=null;
+  sc.addEventListener('pointerdown',e=>{
+    if(tlWheelAnim)cancelAnimationFrame(tlWheelAnim);
+    if(tlInertiaAnim)cancelAnimationFrame(tlInertiaAnim);
+    sx=e.clientX;lastTlX=e.clientX;lastTlTime=performance.now();tlVelocity=0;
+    drag=true;sc.classList.add('drag');tlTarget=sc.scrollLeft;
+  });
+  window.addEventListener('pointermove',e=>{
+    if(drag){
+      const now=performance.now();
+      const dt=Math.max(1,now-lastTlTime);
+      const dx=e.clientX-lastTlX;
+      sc.scrollLeft-=dx;
+      tlVelocity=0.65*(dx/dt)+0.35*tlVelocity;
+      lastTlX=e.clientX;lastTlTime=now;
+      tlTarget=sc.scrollLeft;
+    }
+  });
+  window.addEventListener('pointerup',()=>{
+    if(!drag)return;
+    drag=false;sc.classList.remove('drag');
+    if(Math.abs(tlVelocity)>0.08){
+      let v=tlVelocity*15;
+      const decay=0.92;
+      const runTlInertia=()=>{
+        if(Math.abs(v)>0.3){
+          sc.scrollLeft-=v;
+          v*=decay;
+          tlTarget=sc.scrollLeft;
+          tlInertiaAnim=requestAnimationFrame(runTlInertia);
+        }else{
+          tlInertiaAnim=null;
+          tlTarget=sc.scrollLeft;
+        }
+      };
+      tlInertiaAnim=requestAnimationFrame(runTlInertia);
+    }
+  });
+  setTimeout(upd,400);window.addEventListener('resize',upd);
+}
+
+/* ============================================================
+   CÔNG THỨC
+   ============================================================ */
+function buildFormulas(){
+  $('#fmList').innerHTML=FORMULAS.map((f,i)=>{
+    const num=(i+1<10?'0':'')+(i+1);
+    return `
+    <div class="fm">
+      <button class="fm-h" aria-expanded="false">
+        <span class="fm-i">${num}</span>
+        <span class="fm-f">${f.f}</span>
+        <span class="fm-n"><b>${f.name}</b><small>${f.note}</small></span>
+        <span class="fm-c">Chi tiết <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="fm-b">
+        <div class="fm-bi">
+          ${(f.origin||f.example)?`
+          <div class="fm-meta-grid">
+            ${f.origin?`
+            <div class="fm-box">
+              <div class="fm-box-h">💡 LÝ DO RA ĐỜI CÔNG THỨC</div>
+              <p class="fm-box-p">${f.origin}</p>
+            </div>`:''}
+            ${f.example?`
+            <div class="fm-box">
+              <div class="fm-box-h">📌 VÍ DỤ MINH HỌA THỰC TIỄN</div>
+              <p class="fm-box-p">${f.example}</p>
+            </div>`:''}
+          </div>`:''}
+          <div class="fm-vars-title">CÁC ĐẠI LƯỢNG & ĐƠN VỊ ĐO (HỆ SI)</div>
+          <dl>${f.v.map(v=>`<div><dt>${v[0]}</dt><dd>${v[1]}</dd></div>`).join('')}</dl>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  $$('.fm-h').forEach(b=>b.addEventListener('click',()=>{
+    const fm=b.closest('.fm'),open=fm.classList.toggle('open');
+    b.setAttribute('aria-expanded',open);
+  }));
+}
+
+/* ============================================================
+   PRESENTATION MODE
+   ============================================================ */
+function miniMapSVG(){
+  const N=(x,y,w,h,cls,ls,ss,d)=>`
+    <g class="mn ${cls}" style="--d:${d}">
+      <rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="14"/>
+      ${ss?`<text x="${x}" y="${y-6}">${ls}</text><text class="sub" x="${x}" y="${y+20}">${ss}</text>`:`<text x="${x}" y="${y+6}">${ls}</text>`}
+    </g>`;
+  const E=(d,cls,delay)=>`<path class="me" pathLength="1" d="${d}" style="--d:${delay}" fill="none" stroke="var(--${cls})" stroke-opacity=".55" stroke-width="2.4"/>`;
+  return `<svg viewBox="-590 -280 1480 660" role="img" aria-label="Sơ đồ tổng quan">
+    ${E('M -170 0 L -268 0','c1-70','')}
+    ${E('M 170 -20 C 220 -40 185 -150 218 -150','c2-70','')}
+    ${E('M 170 25 C 220 50 175 178 208 178','c3-70','')}
+    ${E('M 453 -150 L 622 -150','c2-70','')}
+    ${E('M 463 166 C 540 166 540 85 630 85','c3-70','')}
+    ${E('M 463 190 C 540 190 540 300 630 300','c3-70','')}
+    ${N(0,0,340,86,'br1','Cơ học cổ điển &amp; Vật lý hiện đại','Từ Newton đến cơ học lượng tử','.05s')}
+    ${N(-395,0,255,72,'br1','Cơ học cổ điển','9 nhánh nghiên cứu','.3s')}
+    ${N(335,-150,235,72,'br2','Isaac Newton','1642–1727','.45s')}
+    ${N(335,178,255,72,'br3','Giới hạn của Vật lý cổ điển','Sự ra đời của vật lý hiện đại','.6s')}
+    ${N(755,-150,265,72,'br2','3 định luật &amp; Vạn vật hấp dẫn','F = ma · F = G·m₁m₂/r²','.75s')}
+    ${N(750,85,240,72,'br3','Thuyết tương đối','Einstein · E = mc²','.9s')}
+    ${N(750,300,240,72,'br3','Cơ học lượng tử','E = hν','1.05s')}
+  </svg>`;
+}
+const SLIDES=[
+  {k:'VẬT LÝ 10 · SƠ ĐỒ TƯ DUY TƯƠNG TÁC',h:()=>`
+    <div class="ps ps-title">
+      <div data-st style="--d:.05s"><span class="ps-k">SƠ ĐỒ TƯ DUY TƯƠNG TÁC</span></div>
+      <h1 data-st style="--d:.15s">CƠ HỌC CỔ ĐIỂN <span class="ar">→</span> NEWTON <span class="ar">→</span> VẬT LÝ HIỆN ĐẠI</h1>
+      <p data-st style="--d:.35s">Từ Newton đến Einstein và Cơ học lượng tử</p>
+      <div class="ps-hint" data-st style="--d:.55s">Dùng ← → để chuyển slide · Esc để thoát chế độ trình chiếu</div>
+    </div>`},
+  {k:'01 · TỔNG QUAN',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">01 · TỔNG QUAN BẢN ĐỒ</span></div>
+      <h2 data-st style="--d:.1s">Ba nhánh của một hành trình</h2>
+      <div class="ps-map" data-st style="--d:.2s">${miniMapSVG()}</div>
+      <div class="ps-legend" data-st style="--d:.5s">
+        <span class="br1"><i></i>Cơ học cổ điển — 9 nhánh nghiên cứu</span>
+        <span class="br2"><i></i>Ảnh hưởng của cơ học Newton</span>
+        <span class="br3"><i></i>Sự ra đời của vật lý hiện đại</span>
+      </div>
+    </div>`},
+  {k:'02 · CƠ HỌC CỔ ĐIỂN',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">02 · CƠ HỌC CỔ ĐIỂN</span></div>
+      <h2 data-st style="--d:.1s">Chín nhánh nghiên cứu</h2>
+      <p class="ps-l" data-st style="--d:.18s">Từ cân bằng kết cấu đến nhiệt động lực học — cơ học cổ điển phủ khắp chuyển động của thế giới vĩ mô.</p>
+      <ol class="ps-nine">
+        <li data-st style="--d:.25s"><i>01</i><div><b>Tĩnh học</b><small>ΣF = 0 · ΣM = 0 — cầu, nhà, kết cấu</small></div></li>
+        <li data-st style="--d:.3s"><i>02</i><div><b>Động học</b><small>vị trí · vận tốc · gia tốc · quỹ đạo</small></div></li>
+        <li data-st style="--d:.35s"><i>03</i><div><b>Động lực học</b><small>F = ma — nền tảng cơ học Newton</small></div></li>
+        <li data-st style="--d:.4s"><i>04</i><div><b>Cơ học Lagrange</b><small>L = T − V · tọa độ tổng quát · 1788</small></div></li>
+        <li data-st style="--d:.45s"><i>05</i><div><b>Cơ học Hamilton</b><small>H = T + V · không gian pha · 1833</small></div></li>
+        <li data-st style="--d:.5s"><i>06</i><div><b>Cơ học chất lưu</b><small>Euler · Navier–Stokes — máy bay, động cơ</small></div></li>
+        <li data-st style="--d:.55s"><i>07</i><div><b>Cơ học chất rắn</b><small>định luật Hooke — xây dựng, vật liệu</small></div></li>
+        <li data-st style="--d:.6s"><i>08</i><div><b>Dao động và sóng</b><small>con lắc · cộng hưởng · sóng cơ học</small></div></li>
+        <li data-st style="--d:.65s"><i>09</i><div><b>Nhiệt động lực học &amp; thống kê</b><small>entropy · phân bố Maxwell–Boltzmann</small></div></li>
+      </ol>
+    </div>`},
+  {k:'03 · NEWTON',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">03 · ẢNH HƯỞNG CỦA CƠ HỌC NEWTON</span></div>
+      <div class="ps-grid">
+        <div class="ps-card" data-st style="--d:.1s">
+          <span class="who">NHÀ VẬT LÝ · TOÁN HỌC</span>
+          <h3>Isaac Newton</h3>
+          <span class="yr">1642 – 1727</span>
+          <p><i>Philosophiæ Naturalis Principia Mathematica</i> (1687) trình bày ba định luật chuyển động và định luật vạn vật hấp dẫn.</p>
+          <div class="ps-em">NEWTON ĐẶT NỀN MÓNG CHO CƠ HỌC CỔ ĐIỂN</div>
+        </div>
+        <div>
+          <div class="ps-law">
+            <div data-st style="--d:.2s"><i>I</i><div><b>Định luật I — Quán tính</b><small>Vật giữ nguyên trạng thái đứng yên hoặc chuyển động thẳng đều nếu hợp lực bằng 0.</small></div></div>
+            <div data-st style="--d:.3s"><i>II</i><div><b>Định luật II — F = ma</b><small>Lực làm thay đổi chuyển động — cơ sở của động lực học.</small></div></div>
+            <div data-st style="--d:.4s"><i>III</i><div><b>Định luật III — Lực và phản lực</b><small>Hai vật tương tác bằng hai lực cùng độ lớn, ngược chiều.</small></div></div>
+            <div data-st style="--d:.5s"><i>∅</i><div><b>Định luật vạn vật hấp dẫn</b><small>F = G·m₁m₂/r² — giải thích chuyển động hành tinh.</small></div></div>
+          </div>
+          <div class="ps-chips" data-st style="--d:.65s">
+            <span>Cơ học</span><span>Thiên văn học</span><span>Kỹ thuật</span><span>Cơ khí</span><span>Kiến trúc</span><span>Khoa học thực nghiệm</span><span>Tư duy định lượng</span>
+          </div>
+        </div>
+      </div>
+    </div>`},
+  {k:'04 · GIỚI HẠN → THUYẾT TƯƠNG ĐỐI',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">04 · SỰ RA ĐỜI CỦA VẬT LÝ HIỆN ĐẠI</span></div>
+      <h2 data-st style="--d:.1s">Vấn đề 1 — Tốc độ rất lớn</h2>
+      <p class="ps-l" data-st style="--d:.18s">Khi <b>v ≈ c</b>, cơ học Newton không còn chính xác — dẫn tới <b>Thuyết tương đối</b> của Albert Einstein.</p>
+      <div class="ps-two">
+        <div data-st style="--d:.3s">
+          <span class="yr">1905</span><h4>Thuyết tương đối hẹp</h4>
+          <ul><li>Không gian và thời gian không tuyệt đối</li><li>Tốc độ ánh sáng là giới hạn</li><li>E = mc²</li></ul>
+        </div>
+        <div data-st style="--d:.45s">
+          <span class="yr">1915</span><h4>Thuyết tương đối rộng</h4>
+          <ul><li>Hấp dẫn = hình học không-thời gian</li><li>Vũ trụ học · thiên văn · GPS · hố đen</li></ul>
+        </div>
+      </div>
+      <div class="ps-bigf" data-st style="--d:.6s">E = mc²</div>
+    </div>`},
+  {k:'05 · CƠ HỌC LƯỢNG TỬ',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">05 · VẤN ĐỀ 2 — THẾ GIỚI VI MÔ</span></div>
+      <h2 data-st style="--d:.1s">Cơ học lượng tử</h2>
+      <p class="ps-l" data-st style="--d:.18s">Bức xạ vật đen, hiệu ứng quang điện, phổ nguyên tử… cơ học cổ điển không giải thích tốt thế giới vi mô.</p>
+      <div class="ps-people">
+        <div data-st style="--d:.25s"><span class="yr">1900</span><b>Max Planck</b><small>Lượng tử hóa năng lượng</small></div>
+        <div data-st style="--d:.33s"><span class="yr">1905</span><b>Albert Einstein</b><small>Photon · hiệu ứng quang điện</small></div>
+        <div data-st style="--d:.41s"><span class="yr">1911</span><b>Ernest Rutherford</b><small>Khám phá hạt nhân nguyên tử</small></div>
+        <div data-st style="--d:.49s"><span class="yr">1913</span><b>Niels Bohr</b><small>Mức năng lượng lượng tử · phổ hydro</small></div>
+        <div data-st style="--d:.57s"><span class="yr">—</span><b>Werner Heisenberg</b><small>Nguyên lý bất định</small></div>
+        <div data-st style="--d:.65s"><span class="yr">—</span><b>Erwin Schrödinger</b><small>Phương trình Schrödinger · hàm sóng</small></div>
+      </div>
+      <div class="ps-bigf" data-st style="--d:.8s">E = hν</div>
+    </div>`},
+  {k:'KẾT LUẬN',h:()=>`
+    <div class="ps">
+      <div data-st><span class="ps-k">KẾT LUẬN</span></div>
+      <p class="ps-quote" style="margin-top:22px" data-st>“Vật lý hiện đại <em>không xóa bỏ</em> cơ học cổ điển mà <em>mở rộng</em> nó trong những điều kiện mà cơ học cổ điển không còn đủ chính xác.”</p>
+      <div class="ps-hint" data-st style="--d:.5s">Cảm ơn thầy cô và các bạn đã theo dõi · Nhấp “Hoàn tất” hoặc nhấn Esc để thoát</div>
+    </div>`}
+];
+const PRES={idx:0};
+function renderSlide(){
+  const s=SLIDES[PRES.idx];
+  $('#prStage').innerHTML=s.h();
+  $('#prCount').textContent=`${PRES.idx+1} / ${SLIDES.length}`;
+  $('#prBar').style.width=((PRES.idx+1)/SLIDES.length*100)+'%';
+  $('#prPrev').style.visibility=PRES.idx===0?'hidden':'visible';
+  if(PRES.idx===SLIDES.length-1){
+    $('#prNext').innerHTML='Hoàn tất <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>';
+  }else{
+    $('#prNext').innerHTML='Tiếp theo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>';
+  }
+}
+function presGo(d){PRES.idx=clamp(PRES.idx+d,0,SLIDES.length-1);renderSlide()}
+function openPres(){
+  $('#pres').classList.add('open');$('#pres').setAttribute('aria-hidden','false');
+  document.body.classList.add('noscroll');
+  PRES.idx=0;renderSlide();
+  try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>toast('Trình duyệt chặn toàn màn hình — vẫn trình chiếu bình thường'))}catch(e){toast('Không bật được toàn màn hình')}
+}
+function closePres(){
+  $('#pres').classList.remove('open');$('#pres').setAttribute('aria-hidden','true');
+  document.body.classList.remove('noscroll');
+  try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}
+}
+function initPres(){
+  $('#tPres').addEventListener('click',openPres);
+  $('#prExit').addEventListener('click',closePres);
+  $('#prPrev').addEventListener('click',()=>presGo(-1));
+  $('#prNext').addEventListener('click',()=>{
+    if(PRES.idx===SLIDES.length-1){
+      closePres();
+      toast('Đã hoàn tất bài trình chiếu');
+    }else{
+      presGo(1);
+    }
+  });
+  document.addEventListener('keydown',e=>{
+    if(!$('#pres').classList.contains('open'))return;
+    if(e.key==='ArrowRight'||e.key===' '){
+      if(PRES.idx===SLIDES.length-1){
+        closePres();
+        toast('Đã hoàn tất bài trình chiếu');
+      }else{
+        presGo(1);
+      }
+    }
+    else if(e.key==='ArrowLeft')presGo(-1);
+    else if(e.key==='Escape')closePres();
+  });
+}
+
+/* ============================================================
+   THEME / NAV / REVEAL
+   ============================================================ */
+function initTheme(){
+  let saved=null;try{saved=localStorage.getItem('pm-theme')}catch(e){}
+  if(saved)document.documentElement.setAttribute('data-theme',saved);
+  $('#themeBtn').addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme');
+    const next=cur==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('pm-theme',next)}catch(e){}
+  });
+}
+function goToBranch(id){
+  $('#mindmap').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{const n=MM.byId[id];if(n){expandAll();selectNode(n);focusNode(n);MM.userMoved=true}},450);
+}
+function initNav(){
+  $('#menuBtn').addEventListener('click',()=>document.querySelector('header.top').classList.toggle('menu-open'));
+  $$('#nav a[href^="#"]').forEach(a=>a.addEventListener('click',()=>document.querySelector('header.top').classList.remove('menu-open')));
+  $$('.navbtn').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelector('header.top').classList.remove('menu-open');
+    const act=b.dataset.act;
+    if(act==='pres')openPres();
+    else if(act==='sims')SimEngine.openModal('os');
+    else if(act==='newton')goToBranch('nw');
+    else if(act==='modern')goToBranch('b3');
+  }));
+}
+function initReveal(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}
+  }),{threshold:.18});
+  $$('.rv').forEach(el=>io.observe(el));
+  const io2=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('on');io2.unobserve(e.target)}
+  }),{threshold:.3});
+  $$('[data-draw]').forEach(el=>io2.observe(el));
+  const io3=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('on');io3.unobserve(e.target)}
+  }),{threshold:.25});
+  io3.observe($('#tlTrack'));
+}
+
+/* ============================================================
+   KHỞI ĐỘNG
+   ============================================================ */
+buildTimeline();
+buildFormulas();
+initReveal();
+initNav();
+initTheme();
+initPres();
+initPanel();
+// Đợi font tải xong rồi mới đo & dựng sơ đồ (tránh sai kích thước node)
+const boot=()=>{try{buildMap();initMapEvents()}catch(err){console.error(err)}};
+if(document.fonts&&document.fonts.ready){
+  let done=false;const once=()=>{if(!done){done=true;boot()}};
+  document.fonts.ready.then(once);setTimeout(once,1600);
+}else boot();
+</script>
+</body>
+</html>
